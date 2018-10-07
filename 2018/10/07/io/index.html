@@ -115,18 +115,25 @@
   };
 </script>
 
-  <meta name="description" content="题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。   ####### 题目的要点在于判定数组从何处旋转，即array[start]&amp;gt;array[star">
-<meta name="keywords" content="array,search">
+  <meta name="description" content="IO模式探究  一、五种I/O模型 &amp;nbsp;&amp;nbsp;为什么IO操作要发起系统调用？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;进程无法直接获取硬盘的数据，硬盘的数据只能通过内核获取。所谓的系统调用即是进程通知内核说我要磁盘中的数据，你帮我把数据读写了。     IO具体过程如下：&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    ①进程向内核发起一个系统调用">
+<meta name="keywords" content="io">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【剑指offer】 旋转数组的最小数字">
-<meta property="og:url" content="http://kangtian.coding.me/2018/08/19/minNumberInRotateArray/index.html">
+<meta property="og:title" content="IO模式探究">
+<meta property="og:url" content="http://kangtian.coding.me/2018/10/07/io/index.html">
 <meta property="og:site_name" content="FIRE Blog">
-<meta property="og:description" content="题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。   ####### 题目的要点在于判定数组从何处旋转，即array[start]&amp;gt;array[star">
+<meta property="og:description" content="IO模式探究  一、五种I/O模型 &amp;nbsp;&amp;nbsp;为什么IO操作要发起系统调用？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;进程无法直接获取硬盘的数据，硬盘的数据只能通过内核获取。所谓的系统调用即是进程通知内核说我要磁盘中的数据，你帮我把数据读写了。     IO具体过程如下：&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    ①进程向内核发起一个系统调用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-07T08:55:38.596Z">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201309/205126317.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201309/205500239.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201309/205605819.png">
+<meta property="og:image" content="http://ossi4.51cto.com/attachment/201309/205635176.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201309/210003879.png">
+<meta property="og:image" content="http://blog.51cto.com/attachment/201309/210054915.png">
+<meta property="og:updated_time" content="2018-10-07T08:24:12.449Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【剑指offer】 旋转数组的最小数字">
-<meta name="twitter:description" content="题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。   ####### 题目的要点在于判定数组从何处旋转，即array[start]&amp;gt;array[star">
+<meta name="twitter:title" content="IO模式探究">
+<meta name="twitter:description" content="IO模式探究  一、五种I/O模型 &amp;nbsp;&amp;nbsp;为什么IO操作要发起系统调用？&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;进程无法直接获取硬盘的数据，硬盘的数据只能通过内核获取。所谓的系统调用即是进程通知内核说我要磁盘中的数据，你帮我把数据读写了。     IO具体过程如下：&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;    ①进程向内核发起一个系统调用">
+<meta name="twitter:image" content="http://blog.51cto.com/attachment/201309/205126317.png">
 
 
 
@@ -135,7 +142,7 @@
 
 
 
-  <link rel="canonical" href="http://kangtian.coding.me/2018/08/19/minNumberInRotateArray/"/>
+  <link rel="canonical" href="http://kangtian.coding.me/2018/10/07/io/"/>
 
 
 
@@ -145,7 +152,7 @@
   };
 </script>
 
-  <title>【剑指offer】 旋转数组的最小数字 | FIRE Blog</title>
+  <title>IO模式探究 | FIRE Blog</title>
   
 
 
@@ -373,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/19/minNumberInRotateArray/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/10/07/io/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -390,7 +397,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">【剑指offer】 旋转数组的最小数字
+          <h2 class="post-title" itemprop="name headline">IO模式探究
               
             
           </h2>
@@ -415,24 +422,12 @@
                 
               
 
-              <time title="创建于：2018-08-19 16:25:55" itemprop="dateCreated datePublished" datetime="2018-08-19T16:25:55+08:00">2018-08-19</time>
+              <time title="创建于：2018-10-07 16:22:17 / 更新于：16:24:12" itemprop="dateCreated datePublished" datetime="2018-10-07T16:22:17+08:00">2018-10-07</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
               
             
           </span>
@@ -449,7 +444,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java基础/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a></span>
 
                 
                 
@@ -464,8 +459,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/19/minNumberInRotateArray/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/19/minNumberInRotateArray/" itemprop="commentCount"></span>
+                <a href="/2018/10/07/io/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/10/07/io/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -473,7 +468,7 @@
 
           
           
-             <span id="/2018/08/19/minNumberInRotateArray/" class="leancloud_visitors" data-flag-title="【剑指offer】 旋转数组的最小数字">
+             <span id="/2018/10/07/io/" class="leancloud_visitors" data-flag-title="IO模式探究">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -504,29 +499,26 @@
       
 
       
-        <blockquote>
-<p> 题目描述</p>
-<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</p>
+        <h3 id="IO模式探究"><a href="#IO模式探究" class="headerlink" title="IO模式探究"></a>IO模式探究</h3><hr>
+<p> 一、五种I/O模型 <br><br>&nbsp;&nbsp;为什么IO操作要发起系统调用？<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;进程无法直接获取硬盘的数据，硬盘的数据只能通过内核获取。所谓的系统调用即是进程通知内核说我要磁盘中的数据，你帮我把数据读写了。   </p>
+<blockquote>
+<p>IO具体过程如下：<br>&nbsp;&nbsp;&nbsp;&nbsp;    ①进程向内核发起一个系统调用，<br>&nbsp;&nbsp;&nbsp;&nbsp; ②内核接收到系统调用，知道是对文件的请求，于是告诉磁盘，把文件读取出来<br>&nbsp;&nbsp;&nbsp;&nbsp;    ③磁盘接收到来着内核的命令后，把文件载入到内核的内存空间里面<br>&nbsp;&nbsp;&nbsp;&nbsp; ④内核的内存空间接收到数据之后，把数据copy到用户进程的内存空间(此过程是I/O发生的地方)<br>&nbsp;&nbsp;&nbsp;&nbsp;  ⑤进程内存空间得到数据后，给内核发送通知<br> &nbsp;&nbsp;&nbsp;&nbsp; ⑥内核把接收到的通知回复给进程，此过程为唤醒进程，然后进程得到数据，进行下一步操作<br><img src="http://blog.51cto.com/attachment/201309/205126317.png" alt="image">         </p>
 </blockquote>
-<hr>
-<p>####### 题目的要点在于判定数组从何处旋转，即array[start]&gt;array[start+1]处。只需循环到符合条件，便可认为其为最小值。该题目还需注意两个边界值，一是最大索引处即start+1要小于等于数组长度，一是为0时，直接返回0，1时直接返回1。</p>
-<pre><code> public int minNumberInRotateArray(int [] array) {
-       int start=0;
-    int end=array.length-1;
-    int mid;
-    if (end&lt;0)//长度为零直接返回0
-        return 0;
-    if (end==0)//长度为1直接返回array[0]处数值
-        return array[0];
-    while (start&lt;end){//循环数组
-        //当array[start]&gt;array[start+1] 由有序旋转数组定义可知，array[start+1]即为最小值。array[start]为最大值
-        if (array[start]&gt;array[start+1])
-            return array[start+1];
-        start++;
-    }
-    return 0;
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
+<h4 id="一、-IO五模型"><a href="#一、-IO五模型" class="headerlink" title="一、 IO五模型"></a>一、 IO五模型</h4><ol>
+<li>阻塞I/0   <br><br>当进程调用阻塞型IO时，进程必须等待系统完成所有调用才能进行自己的工作。在系统进行调用期间，进程只能让出cpu时间片，处于睡眠状态，直到系统通知进程唤醒。<br>其图解如下：<br><img src="http://blog.51cto.com/attachment/201309/205500239.png" alt="阻塞I/O的图解">      </li>
+<li>非阻塞I/O <br><br>系统知道自己需要一定时间完成IO操作，所以就让进程发起调用后，先去做自己的事情，而不是阻塞等待。进程每隔一段时间后需要询问系统调用是否完成，如果未完成，系统会立即返回错误，如EWOULDBLOCK，直至系统调用完成，进程获取数据（忙等待）<br><img src="http://blog.51cto.com/attachment/201309/205605819.png" alt="非阻塞I/O的图解"></li>
+<li>I/O复用  <br><br>I/O复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态，比如调用select和poll函数，传入多个文件描述符（FileDescription，简称FD），如果有一个或多个文件描述符就绪，则返回，否则阻塞直到超时。得到就绪状态后，进行真正的操作可以在同一个线程里执行，也可以启动线程执行（比如使用线程池）。<br><img src="http://ossi4.51cto.com/attachment/201309/205635176.png" alt="I/O复用的图解"> </li>
+<li>事件(信号)驱动I/O  <br><br>(1)水平触发的事件驱动机制；内核通知进程来读取数据，进程没来读取数据，内核需要一次一次的通知进程；<br><br>(2)边缘触发的事件驱动机制；内核只通知一次让进程来读取数据，进程可以在超时时间之内随时来读取数据。<br><img src="http://blog.51cto.com/attachment/201309/210003879.png" alt="事件(信号)驱动I/O的图解"></li>
+<li>异步I/O  <br><br>当现线程遇到IO操作时，线程不去处理IO而是交由工作线程处理，不会处于阻塞状态，转而继续处理自己的事情，当IO操作完成后，工作线程会通知当前线程，由当前线程做出相应处理。<br><img src="http://blog.51cto.com/attachment/201309/210054915.png" alt="image"></li>
+</ol>
+<p>二、同步与异步，阻塞与非阻塞</p>
+<p>同步阻塞IO：<br>设备IO忙时，内核对发起IO请求的进程说：“现在设备忙，你别走开，在这里等吧，你看IO什么时候做完，做完了你把数据拿走就是了”<br>发起IO请求的进程说：“好，那我在这等你” </p>
+<p>同步非阻塞IO：<br>设备IO忙时，内核对发起IO请求的进程说：“我已经知道你要IO了，但设备现在有点忙，你回家吧，我会记住你这个事的，我有记录呢，只要设备一空闲我就给你做IO的，做完了给你打电话让你过来拿数据”<br>发起IO请求的进程说：“IO还没做完呢，我不走，我要不断的问我的IO什么时候完成，知道你把我的IO做完为止” </p>
+<p>异步阻塞IO：<br>设备IO忙时，内核对发起IO请求的进程说：“现在设备忙，你别走开，在这里等吧，你看IO什么时候做完，做完了你把数据拿走就是了”<br>发起IO请求的进程说：“哦，您忙吧，我在这里排队等着呢，不过我排队时也无聊，就做做其他的事情吧，我会时不时就看看我的IO做完没有的” </p>
+<p>异步非阻塞IO：<br>设备IO忙时，内核对发起IO请求的进程说：“我已经知道你要IO了，但设备现在有点忙，你回家吧，我会记住你这个事的，我有记录呢，只要设备一空闲我就给你做IO的，做完了给你打电话让你过来拿数据”<br>发起IO请求的进程说：“好吧，您看我事也挺多的，既然现在IO一时半会也完成不了，那我先回家去做做其他的事吧，谢谢啊” </p>
+<p>总结：<br>阻塞/非阻塞是内核级的，同步/异步是进程级的，同步非阻塞和异步阻塞一般不会采用，异步非阻塞一般效率比较高，他能够把cpu和io并行处理，当然，如果没有cpu和io并行的这种情况，那就用同步阻塞比较好，这样编程比较简单，且不用多次在内核空间和用户空间进行切换</p>
+<p>[1] <a href="http://blog.51cto.com/litaotao/1289790" target="_blank" rel="noopener">Partially Reproduced</a></p>
+
       
     </div>
 
@@ -546,9 +538,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/array/" rel="tag"># array</a>
-          
-            <a href="/tags/search/" rel="tag"># search</a>
+            <a href="/tags/io/" rel="tag"># io</a>
           
         </div>
       
@@ -561,8 +551,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/19/StackToQueue/" rel="next" title="【剑指offer】 用两个栈实现队列">
-                <i class="fa fa-chevron-left"></i> 【剑指offer】 用两个栈实现队列
+              <a href="/2018/09/18/listclone/" rel="next" title="【剑指offer】 复杂链表的赋值">
+                <i class="fa fa-chevron-left"></i> 【剑指offer】 复杂链表的赋值
               </a>
             
           </div>
@@ -570,10 +560,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/21/treeutil/" rel="prev" title="【剑指offer】  树问题">
-                【剑指offer】  树问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -623,8 +609,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -774,6 +769,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#IO模式探究"><span class="nav-number">1.</span> <span class="nav-text">IO模式探究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、-IO五模型"><span class="nav-number">1.1.</span> <span class="nav-text">一、 IO五模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

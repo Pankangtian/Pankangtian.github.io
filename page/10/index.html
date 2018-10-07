@@ -373,6 +373,255 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/JumpFloor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/21/JumpFloor/" itemprop="url">
+                  【剑指offer】 斐波那契数列问题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/21/JumpFloor/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/JumpFloor/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/21/JumpFloor/" class="leancloud_visitors" data-flag-title="【剑指offer】 斐波那契数列问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、<a href="https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/99145?fr=aladdin" title="斐波那契数列" target="_blank" rel="noopener">斐波那契数列 （Fibonacci sequence）</a>，又称黄金分割数列、因数学家列昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列以如下被以递推的方法定义：F(1)=1，F(2)=1, F(n)=F(n-1)+F(n-2)（n&gt;=2，n∈N*）</p>
+<p>代码实现如下：</p>
+<pre><code>// 斐波那契数列的java实现 
+public static int Fibonacci(int n) {
+    int last=1,latter=1,result=0; //用于缓存f(n-1) f(n-2)
+    if (0==n)
+        return 0;
+    else if (1==n||2==n)
+        return 1;
+    else {
+        for (int i=3;i&lt;=n;i++){
+            result=last+latter;  //计算f(n)
+            last=latter;//更新f(n-2)
+            latter=result;  //更新f(n-1)
+        }
+        return result;
+    }
+}
+</code></pre><p>2、一只青蛙一次可以跳上1级台阶，也可以跳上2级。 求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。 </p>
+<p>  用递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2)</p>
+<pre><code>public int JumpFloor(int n) {
+int last=1,latter=2,result=0; //用于缓存f(n-1) f(n-2)
+    if (0==n)
+        return 0;
+    else if (1==n)
+        return 1;  
+    else if(2==n)
+        return 2;
+    else {
+        for (int i=3;i&lt;=n;i++){
+            result=last+latter;  //计算f(n)
+            last=latter;//更新f(n-2)
+            latter=result;  //更新f(n-1)
+        }
+        return result;
+    }
+}
+</code></pre><p>3、附加：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。</p>
+<pre><code>   static int jumpFloorII(int number) {//罗列各项，寻找规律，可知f(n)=2的n-1次方
+    int result=1;
+    return result&lt;&lt;(number-1);//将乘法优化为位运算
+}
+</code></pre><p>4、我们可以用2<em>1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2</em>1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？罗列各项，寻找规律，递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2)</p>
+<pre><code> int rectCover(int target) {
+    int last=1,latter=2,result=0; //用于缓存f(n)=f(n-1)+f(n-2)
+    if (1==target)
+        return 1;
+    else if (2==target)
+        return 2;
+    else {
+        for (int i=3;i&lt;=target;i++){
+            result=last+latter; //计算f(n)
+            last=latter; //更新f(n-2)
+            latter=result; //更新f(n-1)
+        }
+        return result;
+    }
+
+}
+</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/math/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -574,249 +823,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/treeTraver/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/21/treeTraver/" itemprop="url">
-                  【剑指offer】  树的遍历
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/21/treeTraver/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/treeTraver/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/21/treeTraver/" class="leancloud_visitors" data-flag-title="【剑指offer】  树的遍历">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、利用递归的方式获取树的前序遍历结果</p>
-<pre><code> //获取树的前序遍历
-public static String preTraver(TreeNode root){
-    if (root!=null) {
-        re += root.val;
-        if (root.left != null)
-            preTraver(root.left);
-        if (root.right != null)
-            preTraver(root.right);
-    }
-    return re;
-}
-</code></pre><p>2、 利用递归的方式获取树的中序遍历结果</p>
-<pre><code>    //获取树的中序遍历
-public static String medTraver(TreeNode root){
-    if (root!=null) {
-        if (root.left != null)
-            medTraver(root.left);
-        re += root.val;
-        if (root.right != null)
-            medTraver(root.right);
-    }
-    return re;
-}
-</code></pre><p>3、利用递归的方式获取树的后序遍历结果</p>
-<pre><code>//获取树的后序遍历
-public static String aftTraver(TreeNode root){
-    if (root!=null) {
-        if (root.left != null)
-            preTraver(root.left);
-        if (root.right != null)
-            preTraver(root.right);
-        re += root.val;
-    }
-    return re;
-}
-</code></pre><p>4、利用队列实现层次遍历</p>
-<pre><code>//获取树的层次遍历
-public static String levelTraver(TreeNode root){
-    Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;TreeNode&gt;();
-    TreeNode node;
- if (root!=null)
-     queue.offer(root);
- while (!queue.isEmpty()){
-     node=queue.poll();
-     re+=node.val;
-     if (node.left!=null)
-         queue.offer(node.left);
-     if (node.right!=null)
-         queue.offer(node.right);
- }
-    return re;
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -870,7 +876,7 @@ public static String levelTraver(TreeNode root){
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -891,7 +897,9 @@ public static String levelTraver(TreeNode root){
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -938,7 +946,9 @@ public static String levelTraver(TreeNode root){
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

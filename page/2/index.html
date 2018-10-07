@@ -373,6 +373,233 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/18/treetarget/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/18/treetarget/" itemprop="url">
+                  【剑指offer】 二叉树中和为某值的路径
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-09-18 17:18:02" itemprop="dateCreated datePublished" datetime="2018-09-18T17:18:02+08:00">2018-09-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/18/treetarget/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/18/treetarget/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/18/treetarget/" class="leancloud_visitors" data-flag-title="【剑指offer】 二叉树中和为某值的路径">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####题目描述：<br>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)<br>利用前序遍历，遍历所有节点，利用target减为零和子节点是否都空判断是不是叶子节点</p>
+<pre><code>private ArrayList&lt;ArrayList&lt;Integer&gt;&gt; arrayLists;
+
+   /**
+    * 题目描述
+    * 输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+    * 路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+    * (注意: 在返回值的list中，数组长度大的数组靠前)
+    * @param root
+    * @param target
+    * @return
+    */
+   public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; FindPath(TreeNode root, int target) {
+       arrayLists=new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
+       FindPath(root,target,&quot;&quot;);
+       return arrayLists;
+   }
+   //递归遍历各节点，并利用String 统计路径，当满足target==0 &amp;root.left==null&amp;root.right==null，路径和为target，且为叶子节点
+   public void   FindPath(TreeNode root, int target,String path) {
+       if (root!=null) {
+           path += root.val+&quot;,&quot;;//记录路径
+           target=target-root.val;//和为target，即target减其为0
+           if (target==0 &amp;root.left==null&amp;root.right==null){//root.left==null&amp;root.right==null为判断其是否叶子节点
+               ArrayList&lt;Integer&gt; arrayList=new ArrayList&lt;&gt;();
+               String[] st = path.split(&quot;,&quot;);
+               for (int i=0;i&lt;st.length;i++)//将路径添加到list中
+                   arrayList.add(Integer.valueOf(st[i]));
+               arrayLists.add(arrayList);
+           }
+           if (target&lt;0)//当小于零时，则其以下节点不用考虑
+               return ;
+           if (root.left != null)
+               FindPath(root.left,target,path);
+           if (root.right != null)
+               FindPath(root.right,target,path);
+       }
+   }
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/18/stackpushpop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -572,230 +799,6 @@ public static boolean IsPopOrder(int[] pushA, int[] popA) {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/18/minstack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/18/minstack/" itemprop="url">
-                  【剑指offer】 构建含有min函数的栈
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-09-18 15:56:20" itemprop="dateCreated datePublished" datetime="2018-09-18T15:56:20+08:00">2018-09-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/18/minstack/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/18/minstack/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/09/18/minstack/" class="leancloud_visitors" data-flag-title="【剑指offer】 构建含有min函数的栈">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>####题目描述：<br>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。</p>
-<pre><code>import java.util.ArrayList;
-/**采用两个链表，一个链表存储数据，另一个链表存储用于存储最小值
- * 比如dataList为5 4 7 3 2  ，则minList为5 4 4  3 2 。
- * 当执行pop操作时，再同步删除两个链表的值，维护数据
- * 5 4 7 3               5  4 4  3
- * @param node
- */
-public class MinStack {
-    ArrayList&lt;Integer&gt; dataList=new ArrayList&lt;Integer&gt;();
-    ArrayList&lt;Integer&gt; minList=new ArrayList&lt;Integer&gt;();
-    private int min=Integer.MAX_VALUE;
-    public void push(int node) {//对于最小栈，始终保持同步存入最小的数
-        dataList.add(node);
-        if (min&gt;node){//如果最小值大于node，存储node
-            minList.add(node);
-            min=node;
-        }else {
-            minList.add(min);//否则存储min
-        }
-    }
-    public int pop() {//同时出栈，维护栈的数据
-        int size=dataList.size();
-        minList.remove(size-1);
-        return  dataList.remove(size-1);
-    }
-    public int top() {
-        return dataList.get(dataList.size()-1);
-    }
-
-    public int min() {
-    return minList.get(minList.size()-1);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -849,7 +852,7 @@ public class MinStack {
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -870,7 +873,9 @@ public class MinStack {
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -917,7 +922,9 @@ public class MinStack {
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

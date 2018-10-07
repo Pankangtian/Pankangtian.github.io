@@ -373,6 +373,232 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/17/sortinsertshell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/17/sortinsertshell/" itemprop="url">
+                  JAVA排序算法--直接插入排序和希尔排序
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-09-17 10:39:31" itemprop="dateCreated datePublished" datetime="2018-09-17T10:39:31+08:00">2018-09-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/排序算法/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/17/sortinsertshell/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/17/sortinsertshell/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/17/sortinsertshell/" class="leancloud_visitors" data-flag-title="JAVA排序算法--直接插入排序和希尔排序">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.直接插入排序算法<br>&nbsp;&nbsp;&nbsp;&nbsp;原理：<br>   插入排序就是将无序数列的第一个元素与有序数列的元素从后往前逐个进行比较，找出插入位置，将该元素插入到有序数列的合适位置中。<br>&nbsp;&nbsp;&nbsp;&nbsp;具体算法实现：<br>因此其具体算法实现即找到未排序的第一个数据（哨兵）。然后将其与前面的已排序值比较，找到插入的位置j,将j到哨兵间的元素后移一位，再将哨兵值赋给j处。<br>其实现如下：   </p>
+<pre><code> public static void sort(int[] arr){
+    int len=arr.length,tem=0,j=0;
+    for (int i=0;i&lt;len;i++){
+        tem=arr[i];
+        for ( j=i;j&gt;0&amp;&amp;arr[j-1]&gt;tem;j--){//查找i插入的位置j，即j-1处大tem
+                arr[j]=arr[j-1];//将j到i-1处的所有元素向后挪一位
+        }
+        arr[j]=tem;//将原来i处的值赋给j处
+    }
+}
+</code></pre><p>2.希尔排序<br>&nbsp;&nbsp;&nbsp;&nbsp;希尔排序就是将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序， 待整个序列中的记录“基本有序”时，再对全体记录进行依次直接插入排序。从而减少挪位次数。<br>&nbsp;&nbsp;&nbsp;&nbsp;其算法实现是利用增量思想，逐渐增加排序范围。</p>
+<pre><code> public static void sort(int[] data) {
+    int j = 0;
+    int temp = 0;
+    for (int inc = data.length / 2; inc &gt; 0; inc /= 2)//每次讲增量变为原来一半
+        for (int i = inc; i &lt; data.length; i++) {//对每个小序列进行插入排序，当inc变为1时，对整体进行插入排序
+            temp = data[i];
+            for (j = i; j &gt;= inc&amp;&amp;temp &lt;data[j - inc]; j -= inc) {//查找插入位置i
+                data[j] = data[j - inc];//将元素后挪
+            }
+                data[j] = temp; //交换值
+        }
+}
+</code></pre><blockquote>
+<p>希尔排序算法的优劣：<br>&nbsp;&nbsp;&nbsp;&nbsp;不需要大量的辅助空间，和归并排序一样容易实现。希尔排序是基于插入排序的一种算法， 在此算法基础之上增加了一个新的特性，提高了效率。希尔排序的时间复杂度与增量序列的选取有关，例如希尔增量时间复杂度为O(n²)，而Hibbard增量的希尔排序的时间复杂度为O( n <sup>3/2</sup>)，希尔排序时间复杂度的下界是n*log2n。希尔排序没有快速排序算法快 O(n(logn))，因此中等大小规模表现良好，对规模非常大的数据排序不是最优选择。但是比O(  )复杂度的算法快得多。并且希尔排序非常容易实现，算法代码短而简单。 此外，希尔算法在最坏的情况下和平均情况下执行效率相差不是很多，与此同时快速排序在最坏的情况下执行的效率会非常差。专家们提倡，几乎任何排序工作在开始时都可以用希尔排序，若在实际使用中证明它不够快，再改成快速排序这样更高级的排序算法. 本质上讲，希尔排序算法是直接插入排序算法的一种改进，减少了其复制的次数，速度要快很多。 原因是，当n值很大时数据项每一趟排序需要移动的个数很少，但数据项的距离很长。当n值减小时每一趟需要移动的数据增多，此时已经接近于它们排序后的最终位置。 正是这两种情况的结合才使希尔排序效率比插入排序高很多。Shell算法的性能与所选取的分组长度序列有很大关系。只对特定的待排序记录序列，可以准确地估算关键词的比较次数和对象移动次数。想要弄清关键词比较次数和记录移动次数与增量选择之间的关系，并给出完整的数学分析，至今仍然是数学难题。</p>
+</blockquote>
+<p>附:常见算法复杂度表     </p>
+<center><img src="/images/timg.jpg"> </center>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/14/sortsb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -638,605 +864,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/29/httpclient/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/29/httpclient/" itemprop="url">
-                  httpclient
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-29 16:13:14" itemprop="dateCreated datePublished" datetime="2018-08-29T16:13:14+08:00">2018-08-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/29/httpclient/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/29/httpclient/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/29/httpclient/" class="leancloud_visitors" data-flag-title="httpclient">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>为了应付在web项目中调用其他http或https接口的需求，本文根据 <a href="https://blog.csdn.net/tianya3530/article/details/77337124" target="_blank" rel="noopener">此文章</a> 部分内容改写为以下两个发起http以及https请求的工具类</p>
-<hr>
-<p>引用工具前须导入依赖</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
-    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;
-    &lt;version&gt;4.5.5&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
-    &lt;artifactId&gt;httpmime&lt;/artifactId&gt;
-    &lt;version&gt;4.5.5&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><p>Http工具：</p>
-<pre><code>    public class HttpUtils {
-    private static final CloseableHttpClient httpclient = HttpClients.createDefault();
-    private static String  charset=&quot;utf-8&quot;;
-    private static  String userAgent = &quot;Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36&quot;;
-    private static int socketTimeout=2000;
-    private static int connectTimeout=2000;
-
-
-    /**参数直接附在url上
-     * @param url
-     * @return String
-     */
-    public static String sendGet(String url) {
-        return excuteHttpGet(url);
-    }
-
-    /**
-     * map参数形式
-     * @param url
-     * @param params
-     * @return String
-     */
-    public static String sendGet(String url,Map&lt;String,String&gt; params){
-        url+=&quot;?&quot;;
-        for (String key:params.keySet()) {
-            url+=key+&quot;=&quot;+params.get(key)+&quot;&amp;&quot;;
-        }
-        return excuteHttpGet(url);
-    }
-
-    /**
-     * 发送HttpPost请求
-     * @param url
-     * @param map 参数
-     * @return String
-     */
-    public static String sendPost(String url, Map&lt;String, String&gt; map) {
-        // 设置参数
-        List&lt;NameValuePair&gt; formparams = new ArrayList&lt;NameValuePair&gt;();
-        for (Map.Entry&lt;String, String&gt; entry : map.entrySet()) {
-            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-        }
-        // 编码
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
-        // 取得HttpPost对象
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        // 参数放入Entity
-        httpPost.setEntity(formEntity);
-        return excuteHttpPost(httpPost);
-    }
-
-    /**发送HttpPost请求
-     * @param url
-     * @param file 参数为文件
-     * @return String
-     */
-    public static String sendPost(String url, File file) {
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
-        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        multipartEntity.addPart(&quot;media&quot;, new FileBody(file));
-        httpPost.setEntity(multipartEntity.build());
-        return excuteHttpPost(httpPost);
-    }
-    /**
-     * 发送HttpPost请求
-     * @param url
-     * @param jsonStr 参数为json字符串
-     * @return String
-     */
-    public static String sendPost(String url, String jsonStr) {
-        // 字符串编码
-        StringEntity entity = new StringEntity(jsonStr, Consts.UTF_8);
-        // 设置content-type
-        entity.setContentType(&quot;application/json&quot;);
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        // 接收参数设置
-        httpPost.setHeader(&quot;Accept&quot;, &quot;application/json&quot;);
-        httpPost.setEntity(entity);
-        return excuteHttpPost(httpPost);
-    }
-    /**
-     * 发送不带参数的HttpPost请求
-     * @param url
-     * @return String
-     */
-    public static String sendPost(String url) {
-        // 得到一个HttpPost对象
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        return excuteHttpPost(httpPost);
-    }
-
-    /**
-     * httpPost公用方法
-     * @param httpPost
-     * @return
-     */
-    private static  String excuteHttpPost(HttpPost httpPost){
-        CloseableHttpResponse response = null;
-        String result = null;
-        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
-        httpPost.setConfig(requestConfig);
-        try {
-            // 执行post请求
-            response = httpclient.execute(httpPost);
-            // 得到entity
-            HttpEntity entity = response.getEntity();
-            // 得到字符串
-            if (entity != null) {
-                result = EntityUtils.toString(entity,charset);
-            }
-        } catch (IOException e) {
-            System.out.println(&quot;IO异常：&quot;+e.getMessage());
-        } finally {
-            if (response != null) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
-                }
-            }
-        }
-        return result;
-    }
-    private static String excuteHttpGet(String url){
-        String result=null;
-        CloseableHttpResponse response = null;
-        try {
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader(&quot;User-Agent&quot;, userAgent);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
-            httpGet.setConfig(requestConfig);
-            response = httpclient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity,charset);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (response != null) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 默认utf-8
-     * @param charset
-     */
-    public static void setCharset(String charset) {
-        HttpUtils.charset = charset;
-    }
-    public static void setUserAgent(String userAgent) {
-        HttpUtils.userAgent = userAgent;
-    }
-
-    /**
-     * 默认2秒
-     * @param socketTimeout
-     */
-    public static void setSocketTimeout(int socketTimeout) {
-        HttpUtils.socketTimeout = socketTimeout;
-    }
-
-    /**
-     * 默认2秒
-     * @param connectTimeout
-     */
-    public static void setConnectTimeout(int connectTimeout) {
-        HttpUtils.connectTimeout = connectTimeout;
-    }
-}    
-</code></pre><p>Https工具类:</p>
-<pre><code>    public class HttpsUtils {
-    private static final CloseableHttpClient httpsclient = createSSLClientDefault();
-    private static String  charset=&quot;utf-8&quot;;
-    private static  String userAgent = &quot;Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36&quot;;
-    private static int socketTimeout=2000;//超时时间
-    private static int connectTimeout=2000; //超时时间
-
-    public static CloseableHttpClient createSSLClientDefault(){
-        try {
-            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy(){
-                //信任所有
-                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                    return true;
-                }
-            }).build();
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
-            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
-        return HttpClients.createDefault();
-    }
-
-
-
-    /**参数直接附在url上
-     * @param url
-     * @return String
-     */
-    public static String sendGet(String url) {
-        return excuteHttpGet(url);
-    }
-
-    /**
-     * map参数形式
-     * @param url
-     * @param params
-     * @return String
-     */
-    public static String sendGet(String url,Map&lt;String,String&gt; params){
-        url+=&quot;?&quot;;
-        for (String key:params.keySet()) {
-            url+=key+&quot;=&quot;+params.get(key)+&quot;&amp;&quot;;
-        }
-        return excuteHttpGet(url);
-    }
-
-    /**
-     * 发送HttpPost请求
-     * @param url
-     * @param map 参数
-     * @return String
-     */
-    public static String sendPost(String url, Map&lt;String, String&gt; map) {
-        // 设置参数
-        List&lt;NameValuePair&gt; formparams = new ArrayList&lt;NameValuePair&gt;();
-        for (Map.Entry&lt;String, String&gt; entry : map.entrySet()) {
-            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-        }
-        // 编码
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
-        // 取得HttpPost对象
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        // 参数放入Entity
-        httpPost.setEntity(formEntity);
-        return excuteHttpPost(httpPost);
-    }
-
-    /**发送HttpPost请求
-     * @param url
-     * @param file 参数为文件
-     * @return String
-     */
-    public static String sendPost(String url, File file) {
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
-        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        multipartEntity.addPart(&quot;media&quot;, new FileBody(file));
-        httpPost.setEntity(multipartEntity.build());
-        return excuteHttpPost(httpPost);
-    }
-    /**
-     * 发送HttpPost请求
-     * @param url
-     * @param jsonStr 参数为json字符串
-     * @return String
-     */
-    public static String sendPost(String url, String jsonStr) {
-        // 字符串编码
-        StringEntity entity = new StringEntity(jsonStr, Consts.UTF_8);
-        // 设置content-type
-        entity.setContentType(&quot;application/json&quot;);
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        // 接收参数设置
-        httpPost.setHeader(&quot;Accept&quot;, &quot;application/json&quot;);
-        httpPost.setEntity(entity);
-        return excuteHttpPost(httpPost);
-    }
-    /**
-     * 发送不带参数的HttpPost请求
-     * @param url
-     * @return String
-     */
-    public static String sendPost(String url) {
-        // 得到一个HttpPost对象
-        HttpPost httpPost = new HttpPost(url);
-        // 防止被当成攻击添加的
-        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
-        return excuteHttpPost(httpPost);
-    }
-
-    /**
-     * httpPost公用方法
-     * @param httpPost
-     * @return
-     */
-    private static  String excuteHttpPost(HttpPost httpPost){
-        CloseableHttpResponse response = null;
-        String result = null;
-        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
-        httpPost.setConfig(requestConfig);
-        try {
-            // 执行post请求
-            response = httpsclient.execute(httpPost);
-            // 得到entity
-            HttpEntity entity = response.getEntity();
-            // 得到字符串
-            if (entity != null) {
-                result = EntityUtils.toString(entity,charset);
-            }
-        } catch (IOException e) {
-            System.out.println(&quot;IO异常：&quot;+e.getMessage());
-        } finally {
-            if (response != null) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
-                }
-            }
-        }
-        return result;
-    }
-    private static String excuteHttpGet(String url){
-        String result=null;
-        CloseableHttpResponse response = null;
-        try {
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader(&quot;User-Agent&quot;, userAgent);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
-            httpGet.setConfig(requestConfig);
-            response = httpsclient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity,charset);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (response != null) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 默认utf-8
-     * @param charset
-     */
-    public static void setCharset(String charset) {
-        HttpsUtils.charset = charset;
-    }
-    public static void setUserAgent(String userAgent) {
-        HttpsUtils.userAgent = userAgent;
-    }
-
-    /**
-     * 默认2秒
-     * @param socketTimeout
-     */
-    public static void setSocketTimeout(int socketTimeout) {
-        HttpsUtils.socketTimeout = socketTimeout;
-    }
-
-    /**
-     * 默认2秒
-     * @param connectTimeout
-     */
-    public static void setConnectTimeout(int connectTimeout) {
-        HttpsUtils.connectTimeout = connectTimeout;
-    }
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1290,7 +917,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -1311,7 +938,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1358,7 +987,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

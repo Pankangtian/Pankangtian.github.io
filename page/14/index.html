@@ -373,6 +373,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/17/stringreplace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/17/stringreplace/" itemprop="url">
+                  【剑指offer】 字符串替换
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-08-17 19:29:47" itemprop="dateCreated datePublished" datetime="2018-08-17T19:29:47+08:00">2018-08-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/17/stringreplace/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/17/stringreplace/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/17/stringreplace/" class="leancloud_visitors" data-flag-title="【剑指offer】 字符串替换">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h4><blockquote>
+<h4 id="请实现一个函数，将一个字符串中的每个空格替换成“-20”。例如，当字符串为We-Are-Happy-则经过替换之后的字符串为We-20Are-20Happy。"><a href="#请实现一个函数，将一个字符串中的每个空格替换成“-20”。例如，当字符串为We-Are-Happy-则经过替换之后的字符串为We-20Are-20Happy。" class="headerlink" title="请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。"></a>请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</h4></blockquote>
+<hr>
+<p>1、<br>     为了减少插入时字符串的移位消耗，可生成一个对象去进行append操作，而不是在原来字符串进行插入操作；<br>      为了减少不必要的append，可以通过start和end确定要进行append的子串，通过判断是否为空格进行append的时机；</p>
+<pre><code>public static String replaceSpace(StringBuffer str) {
+    StringBuffer stringBuffer=new StringBuffer();
+    int start=0;
+    int end=0;
+    int lenght=str.length();
+    while (end&lt;lenght){
+        //计算从何处开始append，减少append次数
+        if (str.charAt(end)!=&apos; &apos;){
+            end++;
+        }else {//当char 等于空格时开始替换
+            stringBuffer.append(str.substring(start,end)).append(&quot;%20&quot;);
+            end++;
+            start=end;
+        }
+    }
+    stringBuffer.append(str.substring(start,end));//最后一次，将末尾start,end的子串插入
+    return stringBuffer.toString();
+}
+</code></pre><p>2、 不新生成对象，采用统计空格数，重新赋值字符串长度，然后采用从尾部赋值的操作方式，减少移位，提升效率。</p>
+<pre><code> public static String replaceSpace2(StringBuffer str) {
+    int count=0;
+    int oldlen=str.length();
+   for (int i=0;i&lt;oldlen;i++){//计算空格数
+       if (str.charAt(i)==&apos; &apos;)
+           count++;
+   }
+   int newlen=oldlen+count*2; //计算新字符串长度
+   str.setLength(newlen);
+    for (int i=oldlen-1;i&gt;=0;i--){//从尾开始进行赋值操作，避免从头部操作时的char的移位
+        char data=str.charAt(i);
+        if (data!=&apos; &apos;){//如果不等于空格则直接赋值
+            str.setCharAt(--newlen,data);
+        }
+        else {//如果等于空格，则赋值%20
+            str.setCharAt(--newlen,&apos;0&apos;);
+            str.setCharAt(--newlen,&apos;2&apos;);
+            str.setCharAt(--newlen,&apos;%&apos;);
+        }
+    }
+    return str.toString();
+}
+
+
+&lt;center&gt;[Coding Blog](http://kangtian.coding.me)     &amp;nbsp;&amp;nbsp;&amp;nbsp;    [Github Blog  ](http://pankangtian.github.io/) &lt;/center&gt;
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/16/arrayfind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -643,7 +881,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -664,7 +902,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -711,7 +951,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

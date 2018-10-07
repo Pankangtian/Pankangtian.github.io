@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/md5/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/29/httpclient/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -392,8 +392,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/28/md5/" itemprop="url">
-                  MD5加密工具
+                <a class="post-title-link" href="/2018/08/29/httpclient/" itemprop="url">
+                  httpclient
                 </a>
               
             
@@ -419,7 +419,7 @@
                 
               
 
-              <time title="创建于：2018-08-28 20:56:00" itemprop="dateCreated datePublished" datetime="2018-08-28T20:56:00+08:00">2018-08-28</time>
+              <time title="创建于：2018-08-29 16:13:14" itemprop="dateCreated datePublished" datetime="2018-08-29T16:13:14+08:00">2018-08-29</time>
             
 
             
@@ -468,8 +468,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/28/md5/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/md5/" itemprop="commentCount"></span>
+                <a href="/2018/08/29/httpclient/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/29/httpclient/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -477,7 +477,7 @@
 
           
           
-             <span id="/2018/08/28/md5/" class="leancloud_visitors" data-flag-title="MD5加密工具">
+             <span id="/2018/08/29/httpclient/" class="leancloud_visitors" data-flag-title="httpclient">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -510,25 +510,415 @@
       
         
           
-            <pre><code>public static  String getMd5(String str) throws NoSuchAlgorithmException {
-       char hex[] = { //用于混淆 可自定义
-           &apos;1&apos;, &apos;2&apos;, &apos;o&apos;, &apos;3&apos;, &apos;h&apos;, &apos;w&apos;, &apos;s&apos;, &apos;2&apos;, &apos;2&apos;, &apos;q&apos;
-               , &apos;1&apos;, &apos;j&apos;, &apos;5&apos;, &apos;3&apos;, &apos;2&apos;, &apos;w&apos;, &apos;s&apos;, &apos;2&apos;, &apos;2&apos;, &apos;q&apos;,
-           &apos;b&apos;, &apos;l&apos;, &apos;e&apos;, &apos;j&apos;, &apos;s&apos;,&apos;a&apos;
-       };
-       MessageDigest messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);//获取MD5实例
-       messageDigest.update(str.getBytes());//利用str 的char数组 更新 MD5
-       byte []  digest= messageDigest.digest();//获取str 摘要
-       int len = digest.length;
-       char[]  chars = new char[len];
-       int k = 0;
-       for (int i = 0; i &lt; len; i++)
-       {
-           byte  num = digest[i];
-           chars[k++] = hex[ num&amp; 25]; //num &amp; 25 将 num压缩到25（小于hex的长度）以内，并以hex中的char替换混淆
-       }
-       return new String(chars);
-   }
+            <p>为了应付在web项目中调用其他http或https接口的需求，本文根据 <a href="https://blog.csdn.net/tianya3530/article/details/77337124" target="_blank" rel="noopener">此文章</a> 部分内容改写为以下两个发起http以及https请求的工具类</p>
+<hr>
+<p>引用工具前须导入依赖</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
+    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;
+    &lt;version&gt;4.5.5&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
+    &lt;artifactId&gt;httpmime&lt;/artifactId&gt;
+    &lt;version&gt;4.5.5&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>Http工具：</p>
+<pre><code>    public class HttpUtils {
+    private static final CloseableHttpClient httpclient = HttpClients.createDefault();
+    private static String  charset=&quot;utf-8&quot;;
+    private static  String userAgent = &quot;Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36&quot;;
+    private static int socketTimeout=2000;
+    private static int connectTimeout=2000;
+
+
+    /**参数直接附在url上
+     * @param url
+     * @return String
+     */
+    public static String sendGet(String url) {
+        return excuteHttpGet(url);
+    }
+
+    /**
+     * map参数形式
+     * @param url
+     * @param params
+     * @return String
+     */
+    public static String sendGet(String url,Map&lt;String,String&gt; params){
+        url+=&quot;?&quot;;
+        for (String key:params.keySet()) {
+            url+=key+&quot;=&quot;+params.get(key)+&quot;&amp;&quot;;
+        }
+        return excuteHttpGet(url);
+    }
+
+    /**
+     * 发送HttpPost请求
+     * @param url
+     * @param map 参数
+     * @return String
+     */
+    public static String sendPost(String url, Map&lt;String, String&gt; map) {
+        // 设置参数
+        List&lt;NameValuePair&gt; formparams = new ArrayList&lt;NameValuePair&gt;();
+        for (Map.Entry&lt;String, String&gt; entry : map.entrySet()) {
+            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        // 编码
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+        // 取得HttpPost对象
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        // 参数放入Entity
+        httpPost.setEntity(formEntity);
+        return excuteHttpPost(httpPost);
+    }
+
+    /**发送HttpPost请求
+     * @param url
+     * @param file 参数为文件
+     * @return String
+     */
+    public static String sendPost(String url, File file) {
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        multipartEntity.addPart(&quot;media&quot;, new FileBody(file));
+        httpPost.setEntity(multipartEntity.build());
+        return excuteHttpPost(httpPost);
+    }
+    /**
+     * 发送HttpPost请求
+     * @param url
+     * @param jsonStr 参数为json字符串
+     * @return String
+     */
+    public static String sendPost(String url, String jsonStr) {
+        // 字符串编码
+        StringEntity entity = new StringEntity(jsonStr, Consts.UTF_8);
+        // 设置content-type
+        entity.setContentType(&quot;application/json&quot;);
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        // 接收参数设置
+        httpPost.setHeader(&quot;Accept&quot;, &quot;application/json&quot;);
+        httpPost.setEntity(entity);
+        return excuteHttpPost(httpPost);
+    }
+    /**
+     * 发送不带参数的HttpPost请求
+     * @param url
+     * @return String
+     */
+    public static String sendPost(String url) {
+        // 得到一个HttpPost对象
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        return excuteHttpPost(httpPost);
+    }
+
+    /**
+     * httpPost公用方法
+     * @param httpPost
+     * @return
+     */
+    private static  String excuteHttpPost(HttpPost httpPost){
+        CloseableHttpResponse response = null;
+        String result = null;
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
+        httpPost.setConfig(requestConfig);
+        try {
+            // 执行post请求
+            response = httpclient.execute(httpPost);
+            // 得到entity
+            HttpEntity entity = response.getEntity();
+            // 得到字符串
+            if (entity != null) {
+                result = EntityUtils.toString(entity,charset);
+            }
+        } catch (IOException e) {
+            System.out.println(&quot;IO异常：&quot;+e.getMessage());
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
+                }
+            }
+        }
+        return result;
+    }
+    private static String excuteHttpGet(String url){
+        String result=null;
+        CloseableHttpResponse response = null;
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader(&quot;User-Agent&quot;, userAgent);
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
+            httpGet.setConfig(requestConfig);
+            response = httpclient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                result = EntityUtils.toString(entity,charset);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 默认utf-8
+     * @param charset
+     */
+    public static void setCharset(String charset) {
+        HttpUtils.charset = charset;
+    }
+    public static void setUserAgent(String userAgent) {
+        HttpUtils.userAgent = userAgent;
+    }
+
+    /**
+     * 默认2秒
+     * @param socketTimeout
+     */
+    public static void setSocketTimeout(int socketTimeout) {
+        HttpUtils.socketTimeout = socketTimeout;
+    }
+
+    /**
+     * 默认2秒
+     * @param connectTimeout
+     */
+    public static void setConnectTimeout(int connectTimeout) {
+        HttpUtils.connectTimeout = connectTimeout;
+    }
+}    
+</code></pre><p>Https工具类:</p>
+<pre><code>    public class HttpsUtils {
+    private static final CloseableHttpClient httpsclient = createSSLClientDefault();
+    private static String  charset=&quot;utf-8&quot;;
+    private static  String userAgent = &quot;Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36&quot;;
+    private static int socketTimeout=2000;//超时时间
+    private static int connectTimeout=2000; //超时时间
+
+    public static CloseableHttpClient createSSLClientDefault(){
+        try {
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy(){
+                //信任所有
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
+            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+        return HttpClients.createDefault();
+    }
+
+
+
+    /**参数直接附在url上
+     * @param url
+     * @return String
+     */
+    public static String sendGet(String url) {
+        return excuteHttpGet(url);
+    }
+
+    /**
+     * map参数形式
+     * @param url
+     * @param params
+     * @return String
+     */
+    public static String sendGet(String url,Map&lt;String,String&gt; params){
+        url+=&quot;?&quot;;
+        for (String key:params.keySet()) {
+            url+=key+&quot;=&quot;+params.get(key)+&quot;&amp;&quot;;
+        }
+        return excuteHttpGet(url);
+    }
+
+    /**
+     * 发送HttpPost请求
+     * @param url
+     * @param map 参数
+     * @return String
+     */
+    public static String sendPost(String url, Map&lt;String, String&gt; map) {
+        // 设置参数
+        List&lt;NameValuePair&gt; formparams = new ArrayList&lt;NameValuePair&gt;();
+        for (Map.Entry&lt;String, String&gt; entry : map.entrySet()) {
+            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        // 编码
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+        // 取得HttpPost对象
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        // 参数放入Entity
+        httpPost.setEntity(formEntity);
+        return excuteHttpPost(httpPost);
+    }
+
+    /**发送HttpPost请求
+     * @param url
+     * @param file 参数为文件
+     * @return String
+     */
+    public static String sendPost(String url, File file) {
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        multipartEntity.addPart(&quot;media&quot;, new FileBody(file));
+        httpPost.setEntity(multipartEntity.build());
+        return excuteHttpPost(httpPost);
+    }
+    /**
+     * 发送HttpPost请求
+     * @param url
+     * @param jsonStr 参数为json字符串
+     * @return String
+     */
+    public static String sendPost(String url, String jsonStr) {
+        // 字符串编码
+        StringEntity entity = new StringEntity(jsonStr, Consts.UTF_8);
+        // 设置content-type
+        entity.setContentType(&quot;application/json&quot;);
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        // 接收参数设置
+        httpPost.setHeader(&quot;Accept&quot;, &quot;application/json&quot;);
+        httpPost.setEntity(entity);
+        return excuteHttpPost(httpPost);
+    }
+    /**
+     * 发送不带参数的HttpPost请求
+     * @param url
+     * @return String
+     */
+    public static String sendPost(String url) {
+        // 得到一个HttpPost对象
+        HttpPost httpPost = new HttpPost(url);
+        // 防止被当成攻击添加的
+        httpPost.setHeader(&quot;User-Agent&quot;, userAgent);
+        return excuteHttpPost(httpPost);
+    }
+
+    /**
+     * httpPost公用方法
+     * @param httpPost
+     * @return
+     */
+    private static  String excuteHttpPost(HttpPost httpPost){
+        CloseableHttpResponse response = null;
+        String result = null;
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
+        httpPost.setConfig(requestConfig);
+        try {
+            // 执行post请求
+            response = httpsclient.execute(httpPost);
+            // 得到entity
+            HttpEntity entity = response.getEntity();
+            // 得到字符串
+            if (entity != null) {
+                result = EntityUtils.toString(entity,charset);
+            }
+        } catch (IOException e) {
+            System.out.println(&quot;IO异常：&quot;+e.getMessage());
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
+                }
+            }
+        }
+        return result;
+    }
+    private static String excuteHttpGet(String url){
+        String result=null;
+        CloseableHttpResponse response = null;
+        try {
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader(&quot;User-Agent&quot;, userAgent);
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();//设置请求和传输超时时间
+            httpGet.setConfig(requestConfig);
+            response = httpsclient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                result = EntityUtils.toString(entity,charset);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    System.out.println(&quot;关闭Response对象出现异常：&quot;+e.getMessage());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 默认utf-8
+     * @param charset
+     */
+    public static void setCharset(String charset) {
+        HttpsUtils.charset = charset;
+    }
+    public static void setUserAgent(String userAgent) {
+        HttpsUtils.userAgent = userAgent;
+    }
+
+    /**
+     * 默认2秒
+     * @param socketTimeout
+     */
+    public static void setSocketTimeout(int socketTimeout) {
+        HttpsUtils.socketTimeout = socketTimeout;
+    }
+
+    /**
+     * 默认2秒
+     * @param connectTimeout
+     */
+    public static void setConnectTimeout(int connectTimeout) {
+        HttpsUtils.connectTimeout = connectTimeout;
+    }
+}
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
         
@@ -582,7 +972,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/codeutil/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/fileutil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -601,8 +991,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/28/codeutil/" itemprop="url">
-                  验证码生成工具
+                <a class="post-title-link" href="/2018/08/28/fileutil/" itemprop="url">
+                  文件处理类
                 </a>
               
             
@@ -677,8 +1067,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/28/codeutil/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/codeutil/" itemprop="commentCount"></span>
+                <a href="/2018/08/28/fileutil/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/fileutil/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -686,7 +1076,7 @@
 
           
           
-             <span id="/2018/08/28/codeutil/" class="leancloud_visitors" data-flag-title="验证码生成工具">
+             <span id="/2018/08/28/fileutil/" class="leancloud_visitors" data-flag-title="文件处理类">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -719,85 +1109,65 @@
       
         
           
-            <p>本验证码生成采用的是Google提供的第三方KAPTCHA服务，使用及其方便，使用步骤分为以下三步：<br>1.添加依赖  在pom.xml文件中添加</p>
-<pre><code>&lt;dependency&gt;
-       &lt;groupId&gt;com.google.code.kaptcha&lt;/groupId&gt;
-       &lt;artifactId&gt;kaptcha&lt;/artifactId&gt;
-       &lt;version&gt;2.3&lt;/version&gt;
-   &lt;/dependency&gt;
-</code></pre><p>2.在web.xml中配置servlet,可根据注释酌情配置</p>
-<pre><code>    &lt;servlet&gt;
-    &lt;!-- 生成图片的Servlet --&gt;
-    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.google.code.kaptcha.servlet.KaptchaServlet&lt;/servlet-class&gt;
-
-    &lt;!-- 是否有边框 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.border&lt;/param-name&gt;
-        &lt;param-value&gt;no&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字体颜色 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.color&lt;/param-name&gt;
-        &lt;param-value&gt;red&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 图片宽度 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.image.width&lt;/param-name&gt;
-        &lt;param-value&gt;135&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 使用哪些字符生成验证码 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.char.string&lt;/param-name&gt;
-        &lt;param-value&gt;ACDEFHKPRSTWX345679&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 图片高度 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.image.height&lt;/param-name&gt;
-        &lt;param-value&gt;50&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字体大小 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.size&lt;/param-name&gt;
-        &lt;param-value&gt;43&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 干扰线的颜色 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.noise.color&lt;/param-name&gt;
-        &lt;param-value&gt;black&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字符个数 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.char.length&lt;/param-name&gt;
-        &lt;param-value&gt;4&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 使用哪些字体 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.names&lt;/param-name&gt;
-        &lt;param-value&gt;Arial&lt;/param-value&gt;
-    &lt;/init-param&gt;
-&lt;/servlet&gt;
-
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/Kaptcha&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-</code></pre><p>3.为了方便使用，此处已经将判断验证码写成了方法。前端传进来的参数验证码key必须为verifyCodeActual</p>
-<pre><code>public static boolean checkVerifyCode(HttpServletRequest request) {
-    String verifyCodeExpected = (String) request.getSession().getAttribute(
-            com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-    String verifyCodeActual = request.getParameter(&quot;verifyCodeActual&quot;);
-    if (verifyCodeActual == null
-            || !verifyCodeActual.equalsIgnoreCase(verifyCodeExpected)) {
-        return false;
-    }
-    return true;
+            <p>1.生成文件名，避免文件重复</p>
+<pre><code>public static String getRandomFileName() {
+    // 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
+    int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; // 获取随机数
+    String nowTimeStr = sDateFormat.format(new Date()); // 当前时间
+    return nowTimeStr + rannum;
 }
-</code></pre><p>4.前端部分代码如下 (仍需自定义填写验证码的输入框，并将其参数以verifyCodeActual为key传给后端：  </p>
-<pre><code>&lt;img sr=&quot;/Kaptcha&quot;  /&gt; &lt;!-- src 为web.xml配置的拦截路径 --&gt;
-
-function changeVerifyCode(img) {
-img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
+</code></pre><p>2.删除文件或目录</p>
+<pre><code>public static void deleteFile(String storePath) {
+    File file = new File( storePath);
+    if (file.exists()) {
+        if (file.isDirectory()) {
+            File files[] = file.listFiles();
+            for (int i = 0; i &lt; files.length; i++) {
+                files[i].delete();
+            }
+        }
+        file.delete();
+    }
+}
+</code></pre><p>3.读取文件内容到string中</p>
+<pre><code>public static String readFileToStr(String path){
+    StringBuffer stringBuffer=new StringBuffer();
+    try {
+        BufferedReader in = new BufferedReader(new FileReader(path));
+    String line=    in.readLine();
+    while (line!=null){
+        stringBuffer.append(line);
+        line=in.readLine();
+    }
+    in.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return stringBuffer.toString();
+}
+</code></pre><p>4.读取配置文件内容到map，可通过map读取对应配置</p>
+<pre><code> public static HashMap&lt;String, String&gt; readFiletoMap(String path) {
+    HashMap&lt;String, String&gt; propeMap = new HashMap&lt;String, String&gt;();
+    String[] tem;
+    String line=&quot;&quot;;
+    try {
+        BufferedReader in = new BufferedReader(new FileReader(path));
+        line = in.readLine();
+        while (line != null) {
+           tem=line.split(&quot;=&quot;);
+           if (tem.length&gt;1)
+            propeMap.put(tem[0],tem[1]);
+            line = in.readLine();
+        }
+        in.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return propeMap;
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
@@ -890,7 +1260,7 @@ img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -911,7 +1281,9 @@ img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -958,7 +1330,9 @@ img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

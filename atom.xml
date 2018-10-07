@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kangtian.coding.me/"/>
-  <updated>2018-10-07T08:55:38.540Z</updated>
+  <updated>2018-10-07T08:24:12.449Z</updated>
   <id>http://kangtian.coding.me/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IO模式探究</title>
+    <link href="http://kangtian.coding.me/2018/10/07/io/"/>
+    <id>http://kangtian.coding.me/2018/10/07/io/</id>
+    <published>2018-10-07T08:22:17.000Z</published>
+    <updated>2018-10-07T08:24:12.449Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;IO模式探究&quot;&gt;&lt;a href=&quot;#IO模式探究&quot; class=&quot;headerlink&quot; title=&quot;IO模式探究&quot;&gt;&lt;/a&gt;IO模式探究&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt; 一、五种I/O模型
+        
+      
+    
+    </summary>
+    
+      <category term="java基础" scheme="http://kangtian.coding.me/categories/java%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="io" scheme="http://kangtian.coding.me/tags/io/"/>
+    
+  </entry>
   
   <entry>
     <title>【剑指offer】 复杂链表的赋值</title>
@@ -148,11 +175,11 @@
   </entry>
   
   <entry>
-    <title>JAVA排序算法--快速排序和归并排序</title>
-    <link href="http://kangtian.coding.me/2018/09/17/sortqm/"/>
-    <id>http://kangtian.coding.me/2018/09/17/sortqm/</id>
+    <title>JAVA排序算法--堆排序</title>
+    <link href="http://kangtian.coding.me/2018/09/17/sortheap/"/>
+    <id>http://kangtian.coding.me/2018/09/17/sortheap/</id>
     <published>2018-09-17T06:50:08.000Z</published>
-    <updated>2018-10-07T08:55:38.673Z</updated>
+    <updated>2018-10-07T08:55:38.656Z</updated>
     
     <summary type="html">
     
@@ -160,9 +187,9 @@
       
         
         
-          &lt;p&gt;1.快速排序算法    &lt;/p&gt;
+          &lt;p&gt;堆排序算法：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;原理：  快速排序由C. A. R.
+&lt;p&gt;堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能
         
       
     
@@ -180,11 +207,11 @@
   </entry>
   
   <entry>
-    <title>JAVA排序算法--堆排序</title>
-    <link href="http://kangtian.coding.me/2018/09/17/sortheap/"/>
-    <id>http://kangtian.coding.me/2018/09/17/sortheap/</id>
+    <title>JAVA排序算法--快速排序和归并排序</title>
+    <link href="http://kangtian.coding.me/2018/09/17/sortqm/"/>
+    <id>http://kangtian.coding.me/2018/09/17/sortqm/</id>
     <published>2018-09-17T06:50:08.000Z</published>
-    <updated>2018-10-07T08:55:38.656Z</updated>
+    <updated>2018-10-07T08:55:38.673Z</updated>
     
     <summary type="html">
     
@@ -192,9 +219,9 @@
       
         
         
-          &lt;p&gt;堆排序算法：&lt;/p&gt;
+          &lt;p&gt;1.快速排序算法    &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能
+&lt;p&gt;原理：  快速排序由C. A. R.
         
       
     
@@ -298,66 +325,6 @@
   </entry>
   
   <entry>
-    <title>MD5加密工具</title>
-    <link href="http://kangtian.coding.me/2018/08/28/md5/"/>
-    <id>http://kangtian.coding.me/2018/08/28/md5/</id>
-    <published>2018-08-28T12:56:00.000Z</published>
-    <updated>2018-10-07T08:55:38.584Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;pre&gt;&lt;code&gt;public static  String getMd5(String str) throws NoSuchAlgorithmException {
-       char hex[] = { //用于混淆 可自定义
-          
-        
-      
-    
-    </summary>
-    
-      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="加密" scheme="http://kangtian.coding.me/tags/%E5%8A%A0%E5%AF%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>验证码生成工具</title>
-    <link href="http://kangtian.coding.me/2018/08/28/codeutil/"/>
-    <id>http://kangtian.coding.me/2018/08/28/codeutil/</id>
-    <published>2018-08-28T12:56:00.000Z</published>
-    <updated>2018-10-07T08:55:38.494Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;本验证码生成采用的是Google提供的第三方KAPTCHA服务，使用及其方便，使用步骤分为以下三步：&lt;br&gt;1.添加依赖  在pom.xml文件中添加&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
-      
-        
-      
-    
-    </summary>
-    
-      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="验证码" scheme="http://kangtian.coding.me/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
     <title>文件处理类</title>
     <link href="http://kangtian.coding.me/2018/08/28/fileutil/"/>
     <id>http://kangtian.coding.me/2018/08/28/fileutil/</id>
@@ -447,11 +414,11 @@ import
   </entry>
   
   <entry>
-    <title>【剑指offer】  输出倒数第k个结点以及逆转指针</title>
-    <link href="http://kangtian.coding.me/2018/08/21/listNode/"/>
-    <id>http://kangtian.coding.me/2018/08/21/listNode/</id>
-    <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.530Z</updated>
+    <title>验证码生成工具</title>
+    <link href="http://kangtian.coding.me/2018/08/28/codeutil/"/>
+    <id>http://kangtian.coding.me/2018/08/28/codeutil/</id>
+    <published>2018-08-28T12:56:00.000Z</published>
+    <updated>2018-10-07T08:55:38.494Z</updated>
     
     <summary type="html">
     
@@ -459,19 +426,80 @@ import
       
         
         
-          &lt;p&gt;1、输入一个链表，输出该链表中倒数第k个结点。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public ListNode FindKthToTail(ListNode head,int k) {
-    ListNode tem=head;//缓根节点
-    while
+          &lt;p&gt;本验证码生成采用的是Google提供的第三方KAPTCHA服务，使用及其方便，使用步骤分为以下三步：&lt;br&gt;1.添加依赖  在pom.xml文件中添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;dependency&amp;gt;
+      
         
       
     
     </summary>
     
-      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
+      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="array" scheme="http://kangtian.coding.me/tags/array/"/>
+      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="验证码" scheme="http://kangtian.coding.me/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MD5加密工具</title>
+    <link href="http://kangtian.coding.me/2018/08/28/md5/"/>
+    <id>http://kangtian.coding.me/2018/08/28/md5/</id>
+    <published>2018-08-28T12:56:00.000Z</published>
+    <updated>2018-10-07T08:55:38.584Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;pre&gt;&lt;code&gt;public static  String getMd5(String str) throws NoSuchAlgorithmException {
+       char hex[] = { //用于混淆 可自定义
+          
+        
+      
+    
+    </summary>
+    
+      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="加密" scheme="http://kangtian.coding.me/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【剑指offer】  树的遍历</title>
+    <link href="http://kangtian.coding.me/2018/08/21/treeTraver/"/>
+    <id>http://kangtian.coding.me/2018/08/21/treeTraver/</id>
+    <published>2018-08-21T11:16:15.000Z</published>
+    <updated>2018-10-07T08:55:38.710Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1、利用递归的方式获取树的前序遍历结果&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; //获取树的前序遍历
+public static String preTraver(TreeNode root){
+    if (root!=null) {
+        re +=
+        
+      
+    
+    </summary>
+    
+      <category term="数据结构" scheme="http://kangtian.coding.me/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+      <category term="tree" scheme="http://kangtian.coding.me/tags/tree/"/>
     
   </entry>
   
@@ -555,36 +583,6 @@ import
     
     
       <category term="math" scheme="http://kangtian.coding.me/tags/math/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【剑指offer】  树的遍历</title>
-    <link href="http://kangtian.coding.me/2018/08/21/treeTraver/"/>
-    <id>http://kangtian.coding.me/2018/08/21/treeTraver/</id>
-    <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.710Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;1、利用递归的方式获取树的前序遍历结果&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; //获取树的前序遍历
-public static String preTraver(TreeNode root){
-    if (root!=null) {
-        re +=
-        
-      
-    
-    </summary>
-    
-      <category term="数据结构" scheme="http://kangtian.coding.me/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-      <category term="tree" scheme="http://kangtian.coding.me/tags/tree/"/>
     
   </entry>
   

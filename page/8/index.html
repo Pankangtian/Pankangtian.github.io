@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/sitemaputil/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/codeutil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -392,8 +392,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/28/sitemaputil/" itemprop="url">
-                  seo工具
+                <a class="post-title-link" href="/2018/08/28/codeutil/" itemprop="url">
+                  验证码生成工具
                 </a>
               
             
@@ -468,8 +468,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/28/sitemaputil/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/sitemaputil/" itemprop="commentCount"></span>
+                <a href="/2018/08/28/codeutil/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/codeutil/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -477,7 +477,7 @@
 
           
           
-             <span id="/2018/08/28/sitemaputil/" class="leancloud_visitors" data-flag-title="seo工具">
+             <span id="/2018/08/28/codeutil/" class="leancloud_visitors" data-flag-title="验证码生成工具">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -510,159 +510,85 @@
       
         
           
-            <h3 id="Sitemaps定义："><a href="#Sitemaps定义：" class="headerlink" title="Sitemaps定义："></a><a href="https://baike.baidu.com/item/sitemap/6241567" target="_blank" rel="noopener">Sitemaps</a>定义：</h3><p>Google、雅虎、和微软都支持一个被称为xml网站地图（xml Sitemaps）的协议，而百度Sitemap是指百度支持的收录标准，在原有协议上做出了扩展。百度sitemap的作用是通过Sitemap告诉百度蜘蛛全面的站点链接，优化自己的网站。百度Sitemap分为三种格式：txt文本格式、xml格式、Sitemap索引格式。</p>
-<hr>
-<p>具体实现，请查看代码注释：</p>
-<pre><code>        /**使用本工具请加载jar包org.dom4j
-         * 使用方法请看main方法
-         * sitemap文件例子可看：
-         * https://www.zulily.com/sitemap.xml
-         */
-        public  class SitemapUtil {
+            <p>本验证码生成采用的是Google提供的第三方KAPTCHA服务，使用及其方便，使用步骤分为以下三步：<br>1.添加依赖  在pom.xml文件中添加</p>
+<pre><code>&lt;dependency&gt;
+       &lt;groupId&gt;com.google.code.kaptcha&lt;/groupId&gt;
+       &lt;artifactId&gt;kaptcha&lt;/artifactId&gt;
+       &lt;version&gt;2.3&lt;/version&gt;
+   &lt;/dependency&gt;
+</code></pre><p>2.在web.xml中配置servlet,可根据注释酌情配置</p>
+<pre><code>    &lt;servlet&gt;
+    &lt;!-- 生成图片的Servlet --&gt;
+    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.google.code.kaptcha.servlet.KaptchaServlet&lt;/servlet-class&gt;
 
-        //xml文件头xmlns属性值：例&lt;sitemapindex xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;&gt;
-        private static String xmlns =&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;;
-        //存放文件路径：可为/aaa/bbb/等，最后位必须带/符号
-        private static final String filePath=&quot;E:/aa/&quot;;
-        //private static final String filePath=System.getenv(&quot;SITE_MAP_PATH&quot;);//可通过环境变量拿
-        //生成xml文件的编码
-        private static final String encode=&quot;gbk&quot;;
+    &lt;!-- 是否有边框 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.border&lt;/param-name&gt;
+        &lt;param-value&gt;no&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 字体颜色 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.textproducer.font.color&lt;/param-name&gt;
+        &lt;param-value&gt;red&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 图片宽度 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.image.width&lt;/param-name&gt;
+        &lt;param-value&gt;135&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 使用哪些字符生成验证码 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.textproducer.char.string&lt;/param-name&gt;
+        &lt;param-value&gt;ACDEFHKPRSTWX345679&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 图片高度 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.image.height&lt;/param-name&gt;
+        &lt;param-value&gt;50&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 字体大小 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.textproducer.font.size&lt;/param-name&gt;
+        &lt;param-value&gt;43&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 干扰线的颜色 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.noise.color&lt;/param-name&gt;
+        &lt;param-value&gt;black&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 字符个数 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.textproducer.char.length&lt;/param-name&gt;
+        &lt;param-value&gt;4&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;!-- 使用哪些字体 --&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;kaptcha.textproducer.font.names&lt;/param-name&gt;
+        &lt;param-value&gt;Arial&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
 
-        //以上值可按情况修改
-
-        //用于记录子sitemap文件名，最后用于生成主sitemap文件
-        private static ArrayList&lt;String&gt; childSitemaps=new ArrayList&lt;String&gt;();
-        //先声明节点
-           private static Element urlElement;
-           private static Element locElement;
-           private static Element freqElement;
-           private static Element priElement;
-
-        /**
-         * 使用示例
-         * @param args
-         */
-        public static void main(String[] args){
-
-        //初始化document，并赋予带namespace的根节点
-        Document document=new DefaultDocument();
-        //xmlns即命名空间
-        Element root=document.addElement(&quot;urlset&quot;,xmlns);
-        document.setRootElement(root);
-
-        //写入n个子sitemap文件的示例========================
-        boolean isOk=false;
-        for (int i=1;i&lt;20;i++) {
-            //构建document
-            for (int j = 0; j &lt; 50000; j++) {
-                createChildDom(root, &quot;https://www.scut.edu.cn/new/gasdvgaswcsfes&quot; + j, &quot;weekly&quot;, &quot;0.9&quot;);
-            }
-            //写入文件
-             isOk =   SitemapUtil.createChoildSitemap(document, &quot;sitemap-child-&quot;+i+&quot;.xml&quot;);
-            if (!isOk){
-                //生成出错
-            }
-        }
-        //=====================================================
-
-       //写入主sitemap
-        isOk= SitemapUtil.createMainSitemap();
-        if (!isOk){
-            //生成出错
-        }
-
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/Kaptcha&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre><p>3.为了方便使用，此处已经将判断验证码写成了方法。前端传进来的参数验证码key必须为verifyCodeActual</p>
+<pre><code>public static boolean checkVerifyCode(HttpServletRequest request) {
+    String verifyCodeExpected = (String) request.getSession().getAttribute(
+            com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+    String verifyCodeActual = request.getParameter(&quot;verifyCodeActual&quot;);
+    if (verifyCodeActual == null
+            || !verifyCodeActual.equalsIgnoreCase(verifyCodeExpected)) {
+        return false;
     }
+    return true;
+}
+</code></pre><p>4.前端部分代码如下 (仍需自定义填写验证码的输入框，并将其参数以verifyCodeActual为key传给后端：  </p>
+<pre><code>&lt;img sr=&quot;/Kaptcha&quot;  /&gt; &lt;!-- src 为web.xml配置的拦截路径 --&gt;
 
-
-    /**
-     * 创建主sitemap文件，该方法应该在生成所有子sitemap文件调用。
-     */
-    public static   boolean  createMainSitemap(){
-       Document document=new DefaultDocument();
-        Element root=document.addElement(&quot;sitemapindex&quot;,xmlns);
-       for (int i=0;i&lt;childSitemaps.size();i++){
-            Element sitemap=root.addElement(&quot;sitemap&quot;);
-            Element loc=sitemap.addElement(&quot;loc&quot;);
-            loc.setText(childSitemaps.get(i));
-        }
-        try {
-            writeDocument(&quot;sitemap.xml&quot;,document);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }finally {
-            //清空根节点下的所有内容
-            if (document.hasContent())
-                document.clearContent();
-        }
-        return true;
-    }
-
-
-    public static   boolean createChoildSitemap(Document document ,String filename){
-        try {
-            writeDocument(filename,document);
-            childSitemaps.add(filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }finally {
-            //清空根节点下的所有内容
-            if (document.hasContent()&amp;&amp;document.getRootElement().hasContent())
-                document.getRootElement().clearContent();
-        }
-        return true;
-    }
-
-    /**
-     * 将document写入 filePath目录下的fileName文件里
-     * @param fileName
-     * @param document
-     * @throws IOException
-     */
-    private static   void writeDocument( String fileName,Document document) throws IOException {
-        File file=new File(filePath);
-        document.setXMLEncoding(encode);
-        recursionMkDir(file);
-        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(new FileOutputStream(new File(filePath+fileName)));
-        document.write(outputStreamWriter);
-        //如果outputStreamWriter未关闭，则关闭outputStreamWriter
-        if (outputStreamWriter!=null)
-        outputStreamWriter.close();
-    }
-
-    /**
-     * 创建子sitemap的节点，并将其挂载到root节点
-     * 例：&lt;url&gt;
-     * &lt;loc&gt;https://www.zulily.com/baby-boy-outerwear&lt;/loc&gt;
-     * &lt;changefreq&gt;daily&lt;/changefreq&gt; 值只能为always, hourly, daily, weekly, monthly, yearly及never
-     * &lt;priority&gt;0.4&lt;/priority&gt;数值为0到1.0，最高为1.0，一般首页的priority最高为1.0
-     * &lt;/url&gt;
-     * @param root
-     * @param url
-     * @param changefreq
-     * @param priority
-     */
-    private  static void createChildDom(Element root,String url,String changefreq ,String priority){
-        urlElement=root.addElement(&quot;url&quot;);
-        locElement=urlElement.addElement(&quot;loc&quot;);
-        freqElement=urlElement.addElement(&quot;changefreq&quot;);
-        priElement=urlElement.addElement(&quot;priority&quot;);
-        locElement.setText(url);
-        freqElement.setText(changefreq);
-        priElement.setText(priority);
-    }
-
-    //递归创建目录
-    private static void recursionMkDir(File file) {
-        if (file.getParentFile().exists()) {
-            file.mkdir();
-        } else {
-            recursionMkDir(file.getParentFile());
-            file.mkdir();
-        }
-    }
-
+function changeVerifyCode(img) {
+img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
@@ -717,7 +643,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/listNode/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/md5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -736,8 +662,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/21/listNode/" itemprop="url">
-                  【剑指offer】  输出倒数第k个结点以及逆转指针
+                <a class="post-title-link" href="/2018/08/28/md5/" itemprop="url">
+                  MD5加密工具
                 </a>
               
             
@@ -763,7 +689,7 @@
                 
               
 
-              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
+              <time title="创建于：2018-08-28 20:56:00" itemprop="dateCreated datePublished" datetime="2018-08-28T20:56:00+08:00">2018-08-28</time>
             
 
             
@@ -797,7 +723,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
 
                 
                 
@@ -812,8 +738,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/21/listNode/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/listNode/" itemprop="commentCount"></span>
+                <a href="/2018/08/28/md5/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/md5/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -821,7 +747,7 @@
 
           
           
-             <span id="/2018/08/21/listNode/" class="leancloud_visitors" data-flag-title="【剑指offer】  输出倒数第k个结点以及逆转指针">
+             <span id="/2018/08/28/md5/" class="leancloud_visitors" data-flag-title="MD5加密工具">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -854,84 +780,26 @@
       
         
           
-            <p>1、输入一个链表，输出该链表中倒数第k个结点。</p>
-<pre><code>public ListNode FindKthToTail(ListNode head,int k) {
-    ListNode tem=head;//缓根节点
-    while (k&gt;0&amp;tem!=null) { //tem 先行到k处
-        tem = tem.next;
-        k--;
-    }
-    if(k!=0)
-        return null;
-    while (tem!=null){//head和tem一起向下走，当tem是尾节点。head所在位置恰好与tem相差k
-        head=head.next;
-        tem=tem.next;
-    }
-    return head;
-}
-</code></pre><p>2、输入一个链表，反转链表后，输出新链表的表头。</p>
-<pre><code>public ListNode ReverseList(ListNode head) {
-    ListNode buf=head; //buf&gt;listNode&gt;      1》2,》3,》4
-    ListNode pre=buf;    //pre&gt;buf&gt;listNode&gt;    1》2,》3,》4
-      if (head==null)
-            return  null;
-      while (head.next!=null){ //判断节点是否还有下一个元素
-        buf=head.next; //  buf&gt;2&gt;3&gt;4
-          head.next=buf.next;//   listNode&gt;1&gt;3&gt;4
-        buf.next=pre;//buf&gt;2&gt;1&gt;3&gt;4
-        pre=buf;//pre&gt;2&gt;1&gt;3&gt;4
-    }
-    return buf;
-}
-</code></pre><p>3、输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。</p>
-<pre><code>  public static ListNode Merge(ListNode list1,ListNode list2) {
-    ListNode head=list1;//记录头部节点
-    ListNode tem;
-    ListNode node;
-    while (list2!=null){// 以list1为链表，将list2插入list1，故判断list2是否为空
-        if (list1.next==null){//当list1已到达尾节点时，避免空指针
-            if (list1.val&lt;=list2.val) {//list1值小于list2值，则list2后续节点皆大于list2。故可直接将所有节点插入，跳出循环
-                list1.next = list2;
-                break;
-            }
-            else {//否则将list2的值插入list1前
-                node=new ListNode(list1.val);
-                list1.next=node;
-                list1.val=list2.val;
-                list1=list1.next;
-                list2=list2.next;
-            }
-        }
-        if (list1.val&lt;=list2.val){
-            if (list1.next.val&gt;list2.val) {//判断是否合适插入点
-                tem = list1.next;
-                node = new ListNode(list2.val);
-                list1.next = node;
-                node.next = tem;
-                list1=list1.next;
-                list2 = list2.next;
-            }
-            else//否则继续寻找合适插入点
-                list1=list1.next;
-        }else {//互换值，确保list1&lt;list2  （尚可以优化，按 list1.next.val&lt;list2.val）
-            int num=list1.val;
-            list1.val=list2.val;
-            list2.val=num;
-        }
-
-    }
-    return head;
-}
-</code></pre><p>备注：</p>
-<pre><code>class ListNode {
-    int val;
-    ListNode next = null;
-    ListNode(int val) {
-        this.val = val;
-    }
-}
+            <pre><code>public static  String getMd5(String str) throws NoSuchAlgorithmException {
+       char hex[] = { //用于混淆 可自定义
+           &apos;1&apos;, &apos;2&apos;, &apos;o&apos;, &apos;3&apos;, &apos;h&apos;, &apos;w&apos;, &apos;s&apos;, &apos;2&apos;, &apos;2&apos;, &apos;q&apos;
+               , &apos;1&apos;, &apos;j&apos;, &apos;5&apos;, &apos;3&apos;, &apos;2&apos;, &apos;w&apos;, &apos;s&apos;, &apos;2&apos;, &apos;2&apos;, &apos;q&apos;,
+           &apos;b&apos;, &apos;l&apos;, &apos;e&apos;, &apos;j&apos;, &apos;s&apos;,&apos;a&apos;
+       };
+       MessageDigest messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);//获取MD5实例
+       messageDigest.update(str.getBytes());//利用str 的char数组 更新 MD5
+       byte []  digest= messageDigest.digest();//获取str 摘要
+       int len = digest.length;
+       char[]  chars = new char[len];
+       int k = 0;
+       for (int i = 0; i &lt; len; i++)
+       {
+           byte  num = digest[i];
+           chars[k++] = hex[ num&amp; 25]; //num &amp; 25 将 num压缩到25（小于hex的长度）以内，并以hex中的char替换混淆
+       }
+       return new String(chars);
+   }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-
           
         
       
@@ -1022,7 +890,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -1043,7 +911,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1090,7 +960,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -373,6 +373,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/10/22/mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/22/mysql/" itemprop="url">
+                  mysql使用指南
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-10-22 12:12:30 / 更新于：13:28:30" itemprop="dateCreated datePublished" datetime="2018-10-22T12:12:30+08:00">2018-10-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/笔记/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/22/mysql/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/10/22/mysql/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/10/22/mysql/" class="leancloud_visitors" data-flag-title="mysql使用指南">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、-mysql的yum安装"><a href="#一、-mysql的yum安装" class="headerlink" title="一、 mysql的yum安装"></a>一、 mysql的yum安装</h3><p>本文的mysql 安装基于 centos 7 系统，仅供参考</p>
+<ol>
+<li>执行安装mysql命令      <pre><code>yum install mysql mysql-server mysql-devel -y
+</code></pre>如果安装过程中有选择，选择 是或y即可</li>
+<li>启动和关闭mysql<br>启动 mysql命令                     <pre><code>systemctl start mysqld      (centos 7)
+service mysqld start        （centos 6)
+</code></pre>关闭mysql命令        <pre><code>systemctl stop mysqld      (centos 7)
+service mysqld stop        （centos 6)
+</code></pre>重启mysql  <pre><code>systemctl restart mysqld      (centos 7)
+service mysqld restart        （centos 6)
+</code></pre>加入开机自启动          <pre><code>systemctl enable mysqld      (centos 7)
+service mysqld enable        （centos 6)    
+</code></pre></li>
+</ol>
+<h3 id="二、配置mysql"><a href="#二、配置mysql" class="headerlink" title="二、配置mysql"></a>二、配置mysql</h3><ol>
+<li>设置密码     <pre><code>mysqladmin -u root password &apos;你的密码&apos;
+</code></pre></li>
+<li>检查密码设置<br>通过mysql -u root -p 命令登陆mysql 查看刚设置的密码是否生效<pre><code>mysql -u root -p
+</code></pre></li>
+<li>忘记密码，后重置密码<br>首先停止sql服务，具体命令查看mysql的yum安装部分<br>其次通过不检查权限形式启动mysql  ,此时mysql可以无密登陆   <pre><code>mysqld --skip-grant-tables
+</code></pre>登陆mysql，运行sql语句修改root密码<pre><code>mysql&gt; UPDATE mysql.user SET Password=PASSWORD(&apos;123456&apos;)  WHERE User=&apos;root&apos;;
+mysql&gt; FLUSH PRIVILEGES;   
+</code></pre>运行后，重启mysql服务器即可，密码已改为新设置密码。</li>
+<li>mysql配置文件my.ini 文件详解<br>文件详细配置不再详述，详情可<a href="https://www.cnblogs.com/SamWeb/p/7922490.html" target="_blank" rel="noopener">点击此处</a>     </li>
+</ol>
+<h3 id="三、mysql-语句"><a href="#三、mysql-语句" class="headerlink" title="三、mysql 语句"></a>三、mysql 语句</h3><ol>
+<li>表的创建</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/10/07/io/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -555,229 +761,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/18/listclone/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/18/listclone/" itemprop="url">
-                  【剑指offer】 复杂链表的赋值
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-09-18 18:45:27" itemprop="dateCreated datePublished" datetime="2018-09-18T18:45:27+08:00">2018-09-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/18/listclone/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/18/listclone/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/09/18/listclone/" class="leancloud_visitors" data-flag-title="【剑指offer】 复杂链表的赋值">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>####题目描述<br>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）<br>算法实现思路：虽然是复杂链表，但还是可以跟简单链表一个思路，先备份头结点，然后复制简单链表，最后根据原链表同步复制随机指针，为了便捷的找到指针，我采用hashmap用于查询节点，从而快速找到节点位置</p>
-<pre><code>public RandomListNode Clone(RandomListNode pHead) {
-    HashMap&lt;Integer,RandomListNode&gt;  data= new HashMap&lt;&gt;();//用于复制随机指针时快速定位到指针位置
-    if (pHead==null)
-        return null;
-    RandomListNode tempPHead=pHead;
-    RandomListNode head, tempHead, foot;
-    foot=new RandomListNode(pHead.label);
-    data.put(pHead.label,foot);
-    head=foot;
-    //拷贝简单的链表
-    while (pHead!=null){
-        pHead=pHead.next;
-        foot.next=new RandomListNode(pHead.label);
-        foot=foot.next;
-        data.put(pHead.label,foot);//保存复制出来的节点索引
-    }
-    tempHead=head;
-    //拷贝random
-    while (tempPHead!=null){
-        if (tempPHead.random!=null){
-            tempHead.random= data.get(tempPHead.random.label);//获取节点索引
-        }
-        tempHead=tempHead.next;
-        tempPHead=tempPHead.next;
-    }
-    return head;
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -826,7 +814,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -849,7 +837,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -898,7 +888,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

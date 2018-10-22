@@ -373,6 +373,241 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/19/printListFromTailToHead/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/19/printListFromTailToHead/" itemprop="url">
+                  【剑指offer】  从尾到头打印链表
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-08-19 14:02:42" itemprop="dateCreated datePublished" datetime="2018-08-19T14:02:42+08:00">2018-08-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/19/printListFromTailToHead/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/19/printListFromTailToHead/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/19/printListFromTailToHead/" class="leancloud_visitors" data-flag-title="【剑指offer】  从尾到头打印链表">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目：输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。"><a href="#题目：输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。" class="headerlink" title="题目：输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。"></a><a href="https://kangtian.coding.me/2018/08/19/printListFromTailToHead/">题目</a>：输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。</h4><hr>
+<p>1.利用递归实现</p>
+<pre><code> //递归实现
+public  ArrayList&lt;Integer&gt; printListFromTailToHead(ListNode listNode) {
+    if (listNode!=null){
+        this.printListFromTailToHead(listNode.next);//先递归到末尾元素
+        arrayList.add(listNode.val);//依次将元素添加进数组
+    }
+    return arrayList;
+}
+</code></pre><p>2.利用栈的先进后出实现</p>
+<pre><code>   //利用栈的先进后出
+public  ArrayList&lt;Integer&gt; printListFromTailToHead1(ListNode listNode) {
+    Stack&lt;Integer&gt; stack=new Stack&lt;Integer&gt;();
+    while (listNode!=null){ //利用栈的先进后出 将ListNode缓存进栈中
+        stack.push(listNode.val);
+        listNode=listNode.next;
+    }
+    while (!stack.isEmpty()){//当栈非空时
+        arrayList.add(stack.pop());//将元素出栈，并添加到数组里。
+    }
+    return arrayList;
+}
+</code></pre><p>3.先将指针逆转，再一次添加到链表</p>
+<pre><code> //逆转指针
+public static   ArrayList&lt;Integer&gt; printListFromTailToHead2(ListNode listNode) {//假有四个节点，方向1》2,》3,》4  listNode &gt;1
+  ListNode buf=listNode; //buf&gt;listNode&gt;      1》2,》3,》4
+  ListNode pre=buf;    //pre&gt;buf&gt;listNode&gt;    1》2,》3,》4
+  if (listNode==null)
+      return  arrayList;
+  while (listNode.next!=null){ //判断节点是否还有下一个元素
+      buf=listNode.next; //  buf&gt;2&gt;3&gt;4
+      listNode.next=buf.next;//   listNode&gt;1&gt;3&gt;4
+      buf.next=pre;//buf&gt;2&gt;1&gt;3&gt;4
+      pre=buf;//pre&gt;2&gt;1&gt;3&gt;4
+  }
+  //buf&gt;4&gt;3&gt;2&gt;1
+  while (buf!=null){
+      arrayList.add(buf.val);
+      buf=buf.next;
+  }
+  return arrayList;
+}
+
+&lt;center&gt;[Coding Blog](http://kangtian.coding.me)     &amp;nbsp;&amp;nbsp;&amp;nbsp;    [Github Blog  ](http://pankangtian.github.io/) &lt;/center&gt;
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/17/stringreplace/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -596,243 +831,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/16/arrayfind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/16/arrayfind/" itemprop="url">
-                  【剑指offer】 二维数组中的查找
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-16 21:45:20" itemprop="dateCreated datePublished" datetime="2018-08-16T21:45:20+08:00">2018-08-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/16/arrayfind/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/16/arrayfind/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/16/arrayfind/" class="leancloud_visitors" data-flag-title="【剑指offer】 二维数组中的查找">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题目： </p>
-<h5 id="在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。"><a href="#在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。" class="headerlink" title="在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。"></a>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</h5><hr>
-<p>1、在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 解题思路。由于是有序数组，所以左下角的数正好是一个很好的中间数，它的上都小于它，右都大于它，当target大于它时，令其右移，小于时左移。 </p>
-<pre><code>public boolean Find(int target, int [][] array) {
-    int colsize=array[0].length;
-    int row=array.length-1;
-    int col=0;
-    while (col&lt;colsize&amp;row&gt;=0){
-        if (target&gt;array[row][col]){  //如果大于，则右移
-            col++;
-        }else if (target&lt;array[row][col]){ //如果大于，则上移
-            row--;
-        }else {
-            return true;
-        }
-    }
-    return false;
-}
-</code></pre><p>2、<br> 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。<br> 解题思路： 由于是有序数组，所以可以从第一行开始使用二分查找遍历。</p>
-<pre><code>public boolean binFind(int target, int [][] array) {
-    int cols=array[0].length;
-    int rows=array.length;
-    int end=cols-1;
-    for (int i=0;i&lt;rows;i++){//循环没一行
-        int start=0;
-        while (start&lt;=end){ 对每一行进行二分查找
-            int mid=(start+end)/2;
-            if (target&lt;array[i][mid]){
-                end=mid-1;
-            }else if (target&gt;array[i][mid]){
-                start=mid+1;
-            }
-            else {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-
-&lt;center&gt;[Coding Blog](http://kangtian.coding.me)     &amp;nbsp;&amp;nbsp;&amp;nbsp;    [Github Blog  ](http://pankangtian.github.io/) &lt;/center&gt;
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -881,7 +884,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -904,7 +907,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -953,7 +958,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

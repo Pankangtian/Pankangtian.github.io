@@ -373,6 +373,233 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/18/printArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/18/printArray/" itemprop="url">
+                  【剑指offer】 顺时针打印二维数组
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-09-18 15:49:05" itemprop="dateCreated datePublished" datetime="2018-09-18T15:49:05+08:00">2018-09-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/18/printArray/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/18/printArray/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/18/printArray/" class="leancloud_visitors" data-flag-title="【剑指offer】 顺时针打印二维数组">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.</p>
+<p>思路：对于矩阵的瞬时针打印，我们可以认为其属于轮循的分别执行打印各边，从而降低问题的难度。</p>
+<pre><code>/**
+ * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：
+ *  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+ */
+public ArrayList&lt;Integer&gt; printMatrix(int [][] matrix) {
+    int rows=matrix.length;
+    int cols=matrix[0].length;
+    ArrayList&lt;Integer&gt; arrayList=new ArrayList&lt;&gt;(rows*cols);
+    int rowstart=0,rowend=rows-1,colstart=0,colend=cols-1;
+    if (rows==1) {
+        for (int i = 0; i &lt;= colend; i++)
+            arrayList.add(matrix[0][i]);
+        return arrayList;
+    }
+    if (cols==1) {
+        for (int i = 0; i &lt;= rowend; i++)
+            arrayList.add(matrix[i][0]);
+        return arrayList;
+    }
+    /**顺时针打印矩阵，即意味着可以将矩阵看为一圈又一圈数字组成。
+     * 一圈又分为四边，可以分为四个循环，注意各点边界
+     */
+    while (rowstart&lt;=rowend&amp;colstart&lt;=colend){
+        for (int i=colstart;i&lt;=colend;i++)//打印上边
+            arrayList.add(matrix[rowstart][i]);
+        for (int i=rowstart+1;i&lt;=rowend;i++)//打印右边
+            arrayList.add(matrix[i][colend]);
+        for (int i=colend-1;i&gt;=colstart&amp;rowstart!=rowend;i--)////打印右边  （当rows小于cols时，会出现重复打印。故需加上判断）
+            arrayList.add(matrix[rowend][i]);
+        for (int i=rowend-1;i&gt;rowstart;i--)//打印左边
+            arrayList.add(matrix[i][colstart]);
+        rowstart++;rowend--;colstart++;colend--;
+    }
+    return arrayList;
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/17/sortheap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -800,273 +1027,11 @@ public  class Heap {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/17/sortqm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/17/sortqm/" itemprop="url">
-                  JAVA排序算法--快速排序和归并排序
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-09-17 14:50:08" itemprop="dateCreated datePublished" datetime="2018-09-17T14:50:08+08:00">2018-09-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/排序算法/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/17/sortqm/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/17/sortqm/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/09/17/sortqm/" class="leancloud_visitors" data-flag-title="JAVA排序算法--快速排序和归并排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.快速排序算法    </p>
-<blockquote>
-<p>原理：  快速排序由C. A. R. Hoare在1962年提出。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
-</blockquote>
-<p>根据快排的原理，我们可以知道快排是一个不断将序列分为独立的两个序列的过程，其中一部分数据要比另外一部分小，快排的重点是找到这个poit点，从而是序列很好的切分开。具体算法如下，但可以通过排序点的选取对代码进一步优化</p>
-<pre><code> public static void sort(int[] arr){
-        sort(arr, 0, arr.length-1);
-}
-public static void sort(int[] arr,int s,int e){
-    if (s&lt;e) {
-        int p = getPoit(arr, s, e);
-        sort(arr, s, p - 1);
-        sort(arr, p + 1, e);
-    }
-}
-public static int getPoit(int[] arr,int start,int end){//s为start ，e为end缩写
-    int  tem=arr[start];//选取排序点
-    while (start&lt;end){//通过排序使start左边的值都大于tem，右边的值都大于tem
-        while (start&lt;end&amp;&amp;arr[end]&gt;=tem)//从右边开始查找，找到小于tem处位置
-            end--;
-        arr[start]=arr[end];//将其移到tem左边
-        while (start&lt;end&amp;&amp;arr[start]&lt;=tem)//从左边开始查找，找到大于tem处位置
-            start++;
-     arr[end]=arr[start];//将其移到tem的右边
-    }
-    arr[start]=tem;
-    return start;
-}
-</code></pre><p>2.归并排序   </p>
-<blockquote>
-<p>原理：归并排序（MERGE-SORT）是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。    </p>
-</blockquote>
-<p>算法实现，第一，现将序列递归为长度为2的有序序列，由于序列是有序的，故而其合并后的序列也是有序的。其算法复杂度为O（nlogn)级别的，此处仅实现二路归并排序，有想法的朋友可以优化一下。</p>
-<pre><code>public static void sort(int[] arr){
-    sort(arr,0,arr.length-1);
-}
-public static void sort(int[] arr,int start,int end){
-    int mid=(start+end)/2;
-    if (start&lt;end){
-        sort(arr,start,mid);//无限细分序列
-        sort(arr,mid+1,end);
-        merge(arr,start,mid,end);//合并序列（由于细分序列后的数组已是有序，归并后的数组故而也是有序的）
-    }
-}
-public static void merge(int[] arr,int start,int mid,int end){
-    int i=start,j=mid+1,k=0;
-    int len=end - start + 1;
-    int[] temp = new int[len];//辅助数组，利用空间换取移位的时间耗时
-    while (i&lt;=mid&amp;&amp;j&lt;=end){//由于序列不一定等长，故会存在其中一个序列没有合并完
-        if (arr[i]&lt;arr[j])//合并序列
-            temp[k++]=arr[i++];
-        else
-            temp[k++]=arr[j++];
-    }
-    while (i&lt;=mid)//如果i&lt;=mid即i到mid未合并完，合并该部分
-        temp[k++]=arr[i++];
-    while (j&lt;=end)//如果j&lt;=end即j到end未合并完，合并该部分
-        temp[k++]=arr[j++];
-    for ( i=0;i&lt;len;i++) //将有序数据复值到原数组中
-        arr[start++]=temp[i];
-}
-</code></pre><p>附:常见算法复杂度表     </p>
-<center><img src="/images/timg.jpg"> </center>
-
-
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1115,7 +1080,7 @@ public static void merge(int[] arr,int start,int mid,int end){
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -1138,7 +1103,9 @@ public static void merge(int[] arr,int start,int mid,int end){
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1187,7 +1154,9 @@ public static void merge(int[] arr,int start,int mid,int end){
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

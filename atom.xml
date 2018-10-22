@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kangtian.coding.me/"/>
-  <updated>2018-10-07T08:24:12.449Z</updated>
+  <updated>2018-10-22T05:28:30.801Z</updated>
   <id>http://kangtian.coding.me/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql使用指南</title>
+    <link href="http://kangtian.coding.me/2018/10/22/mysql/"/>
+    <id>http://kangtian.coding.me/2018/10/22/mysql/</id>
+    <published>2018-10-22T04:12:30.000Z</published>
+    <updated>2018-10-22T05:28:30.801Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;一、-mysql的yum安装&quot;&gt;&lt;a href=&quot;#一、-mysql的yum安装&quot; class=&quot;headerlink&quot; title=&quot;一、 mysql的yum安装&quot;&gt;&lt;/a&gt;一、 mysql的yum安装&lt;/h3&gt;&lt;p&gt;本文的mysql 安装基于 centos
+        
+      
+    
+    </summary>
+    
+      <category term="笔记" scheme="http://kangtian.coding.me/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="mysql" scheme="http://kangtian.coding.me/tags/mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>IO模式探究</title>
@@ -474,11 +500,11 @@ import
   </entry>
   
   <entry>
-    <title>【剑指offer】  树的遍历</title>
-    <link href="http://kangtian.coding.me/2018/08/21/treeTraver/"/>
-    <id>http://kangtian.coding.me/2018/08/21/treeTraver/</id>
+    <title>【剑指offer】 斐波那契数列问题</title>
+    <link href="http://kangtian.coding.me/2018/08/21/JumpFloor/"/>
+    <id>http://kangtian.coding.me/2018/08/21/JumpFloor/</id>
     <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.710Z</updated>
+    <updated>2018-10-07T08:55:38.469Z</updated>
     
     <summary type="html">
     
@@ -486,20 +512,16 @@ import
       
         
         
-          &lt;p&gt;1、利用递归的方式获取树的前序遍历结果&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; //获取树的前序遍历
-public static String preTraver(TreeNode root){
-    if (root!=null) {
-        re +=
+          &lt;p&gt;1、&lt;a href=&quot;https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/99145?fr=aladdin&quot; title=&quot;斐波那契数列&quot;
         
       
     
     </summary>
     
-      <category term="数据结构" scheme="http://kangtian.coding.me/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
     
     
-      <category term="tree" scheme="http://kangtian.coding.me/tags/tree/"/>
+      <category term="math" scheme="http://kangtian.coding.me/tags/math/"/>
     
   </entry>
   
@@ -527,32 +549,6 @@ public static String preTraver(TreeNode root){
     
     
       <category term="array" scheme="http://kangtian.coding.me/tags/array/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【剑指offer】 斐波那契数列问题</title>
-    <link href="http://kangtian.coding.me/2018/08/21/JumpFloor/"/>
-    <id>http://kangtian.coding.me/2018/08/21/JumpFloor/</id>
-    <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.469Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;1、&lt;a href=&quot;https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/99145?fr=aladdin&quot; title=&quot;斐波那契数列&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
-    
-    
-      <category term="math" scheme="http://kangtian.coding.me/tags/math/"/>
     
   </entry>
   

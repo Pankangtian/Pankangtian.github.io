@@ -373,6 +373,286 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/14/sortsb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/14/sortsb/" itemprop="url">
+                  JAVA排序算法--选择排序和冒泡排序
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-09-14 15:02:06" itemprop="dateCreated datePublished" datetime="2018-09-14T15:02:06+08:00">2018-09-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/排序算法/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/14/sortsb/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/14/sortsb/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/14/sortsb/" class="leancloud_visitors" data-flag-title="JAVA排序算法--选择排序和冒泡排序">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.选择排序算法<br>选择排序算法原理：选择排序算法就是在集合中选择最大或则最小的数，将其放在集合前列，然后循环剩下的集合数据，重复寻找最大或最小值。选择排序算法是不稳定的算法<br>我们可以简单的依次选择剩下元素中的最小值，将其跟i处的值交换，从而达到排序的效果，不管数据如何，对于选择排序而言，它总是需要轮循n+(n-1)+(n-2)+…+2+1次，即（n+1)*n/2，算法复杂度还是O（n<sup>2</sup>)。</p>
+<pre><code>public static void sortSimple(int [] arr){
+    int len=arr.length;  int tem=0;
+    for (int i=0;i&lt;len-1;i++){
+        int p=i; int m=i;
+        for (int j=len-1;j&gt;i;j--){//寻找剩下里面的最小值
+            if (arr[j]&lt;arr[p])
+                p=j;
+        }
+        tem=arr[p]; //将最小值交换到i处。
+        arr[p]=arr[i];
+        arr[i]=tem;
+    }
+}
+</code></pre><p> 我们可以对选择排序算法进行优化，在选取最小值的同时，选取最大值，将其分别放置在头部和尾部,再对其剩下的部分进行轮循，虽然算法复杂度还是O（n<sup>2</sup>)级别，但优化的效果还是可以的。                         </p>
+<pre><code>public static void sort(int [] arr){
+    int len=arr.length;
+    int tem=0;
+    for (int i=0;i&lt;len-1;i++){
+            int p=i;
+            int m=i;
+        for (int j=len-1;j&gt;i;j--){
+           if (arr[j]&lt;arr[p])//寻找剩下里面的最小值
+                p=j;
+            if (arr[j]&gt;arr[m])//寻找剩下里面的最大值
+                m=j;
+        }
+        tem=arr[p];//将最小值交换到i处。
+        arr[p]=arr[i];
+        arr[i]=tem;
+        if (p!=m) {//避免最后的重复交换导致顺序错乱
+            tem = arr[len - 1];//将最大值交换到len - 1处。
+            arr[len - 1] = arr[m];
+            arr[m] = tem;
+            len--;//没交换一次，len减1
+        }
+    }
+}
+</code></pre><p>2.冒泡排序算法<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;冒泡排序原理：冒泡排序算法是重复地访问未排序序列，依次比较其两个相邻的元素，如果顺序出现问题就交换其两者位置。每次轮训后，其len-i-1的值必定是未排序序列中的最大值或最小值。其算法复杂度为O（n<sup>2</sup>)   </p>
+<p>简单的排序算法算法如下         </p>
+<pre><code> public static void sort(int [] arr){
+    int len=arr.length;
+    int tem;
+    for (int i=0;i&lt;len-1;i++)
+        for (int j=0;j&lt;len-i-1;j++)
+           //通过不断的比较arr j j+1处位置大小， 把大的数往后挪，
+            // 每次都能保证将len-i个里的最大的挪到数组len-i处
+            //如1 4 2 3 5 2  第一次，4和2换，4和3换 5和最后一个2换 。得1 2 3 4 2 5
+            if (arr[j]&gt;arr[j+1]){
+                tem=arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=tem;
+            }
+
+}
+</code></pre><p>我们可以对冒泡排序算法进行一次优化，即在数组已经有序的情况下，避免不必要循环。</p>
+<pre><code> public static void sort(int [] arr){
+    int len=arr.length;
+    int tem,count=1;//初始化值为1，确保第一次能进入循环
+    for (int i=0;i&lt;len-1;i++) {
+        if (count &gt; 0) {//count大于0，说明上次轮循出现了交换，即序列可能是处于无序状态的
+            count=0;//赋值为零，进行下一次冒泡，并统计交换次数用于判断数组是否有序
+            for (int j = 0; j &lt; len - i - 1; j++) {
+                //通过不断的比较arr j j+1处位置大小， 把大的数往后挪，
+                // 每次都能保证将len-i个里的最大的挪到数组len-i处
+                //如1 4 2 3 5 2  第一次，4和2换，4和3换 5和最后一个2换 。得1 2 3 4 2 5
+                if (arr[j] &gt; arr[j + 1]) {
+                    count++;
+                    tem = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tem;
+                }
+            }
+        }else {
+            break;//数组已经有序，跳出循环
+        }
+    }
+}
+</code></pre><p>附:常见算法复杂度表     </p>
+<center><img src="/images/timg.jpg"> </center>
+
+
+
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/29/httpclient/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -957,261 +1237,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/fileutil/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/28/fileutil/" itemprop="url">
-                  文件处理类
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-28 20:56:00" itemprop="dateCreated datePublished" datetime="2018-08-28T20:56:00+08:00">2018-08-28</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/28/fileutil/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/fileutil/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/28/fileutil/" class="leancloud_visitors" data-flag-title="文件处理类">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.生成文件名，避免文件重复</p>
-<pre><code>public static String getRandomFileName() {
-    // 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
-    int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; // 获取随机数
-    String nowTimeStr = sDateFormat.format(new Date()); // 当前时间
-    return nowTimeStr + rannum;
-}
-</code></pre><p>2.删除文件或目录</p>
-<pre><code>public static void deleteFile(String storePath) {
-    File file = new File( storePath);
-    if (file.exists()) {
-        if (file.isDirectory()) {
-            File files[] = file.listFiles();
-            for (int i = 0; i &lt; files.length; i++) {
-                files[i].delete();
-            }
-        }
-        file.delete();
-    }
-}
-</code></pre><p>3.读取文件内容到string中</p>
-<pre><code>public static String readFileToStr(String path){
-    StringBuffer stringBuffer=new StringBuffer();
-    try {
-        BufferedReader in = new BufferedReader(new FileReader(path));
-    String line=    in.readLine();
-    while (line!=null){
-        stringBuffer.append(line);
-        line=in.readLine();
-    }
-    in.close();
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return stringBuffer.toString();
-}
-</code></pre><p>4.读取配置文件内容到map，可通过map读取对应配置</p>
-<pre><code> public static HashMap&lt;String, String&gt; readFiletoMap(String path) {
-    HashMap&lt;String, String&gt; propeMap = new HashMap&lt;String, String&gt;();
-    String[] tem;
-    String line=&quot;&quot;;
-    try {
-        BufferedReader in = new BufferedReader(new FileReader(path));
-        line = in.readLine();
-        while (line != null) {
-           tem=line.split(&quot;=&quot;);
-           if (tem.length&gt;1)
-            propeMap.put(tem[0],tem[1]);
-            line = in.readLine();
-        }
-        in.close();
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return propeMap;
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1260,7 +1290,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -1283,7 +1313,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1332,7 +1364,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -119,7 +119,7 @@
 <meta name="keywords" content="后端博客,Java,Spring,工具,linux,tomcat,算法,编程,nginx,maven,mybatis,mysql,freemark,Blog,博客,后端,服务器端开发,Web">
 <meta property="og:type" content="website">
 <meta property="og:title" content="FIRE Blog">
-<meta property="og:url" content="http://kangtian.coding.me/page/5/index.html">
+<meta property="og:url" content="http://kangtian.coding.me/page/15/index.html">
 <meta property="og:site_name" content="FIRE Blog">
 <meta property="og:description" content="description is 404">
 <meta property="og:locale" content="zh-Hans">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://kangtian.coding.me/page/5/"/>
+  <link rel="canonical" href="http://kangtian.coding.me/page/15/"/>
 
 
 
@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/17/sortqm/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/16/arrayfind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -392,8 +392,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/17/sortqm/" itemprop="url">
-                  JAVA排序算法--快速排序和归并排序
+                <a class="post-title-link" href="/2018/08/16/arrayfind/" itemprop="url">
+                  【剑指offer】 二维数组中的查找
                 </a>
               
             
@@ -419,7 +419,7 @@
                 
               
 
-              <time title="创建于：2018-09-17 14:50:08" itemprop="dateCreated datePublished" datetime="2018-09-17T14:50:08+08:00">2018-09-17</time>
+              <time title="创建于：2018-08-16 21:45:20" itemprop="dateCreated datePublished" datetime="2018-08-16T21:45:20+08:00">2018-08-16</time>
             
 
             
@@ -453,14 +453,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/排序算法/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
 
                 
                 
@@ -475,8 +468,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/17/sortqm/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/17/sortqm/" itemprop="commentCount"></span>
+                <a href="/2018/08/16/arrayfind/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/16/arrayfind/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -484,7 +477,7 @@
 
           
           
-             <span id="/2018/09/17/sortqm/" class="leancloud_visitors" data-flag-title="JAVA排序算法--快速排序和归并排序">
+             <span id="/2018/08/16/arrayfind/" class="leancloud_visitors" data-flag-title="【剑指offer】 二维数组中的查找">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -517,298 +510,49 @@
       
         
           
-            <p>1.快速排序算法    </p>
-<blockquote>
-<p>原理：  快速排序由C. A. R. Hoare在1962年提出。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
-</blockquote>
-<p>根据快排的原理，我们可以知道快排是一个不断将序列分为独立的两个序列的过程，其中一部分数据要比另外一部分小，快排的重点是找到这个poit点，从而是序列很好的切分开。具体算法如下，但可以通过排序点的选取对代码进一步优化</p>
-<pre><code> public static void sort(int[] arr){
-        sort(arr, 0, arr.length-1);
-}
-public static void sort(int[] arr,int s,int e){
-    if (s&lt;e) {
-        int p = getPoit(arr, s, e);
-        sort(arr, s, p - 1);
-        sort(arr, p + 1, e);
-    }
-}
-public static int getPoit(int[] arr,int start,int end){//s为start ，e为end缩写
-    int  tem=arr[start];//选取排序点
-    while (start&lt;end){//通过排序使start左边的值都大于tem，右边的值都大于tem
-        while (start&lt;end&amp;&amp;arr[end]&gt;=tem)//从右边开始查找，找到小于tem处位置
-            end--;
-        arr[start]=arr[end];//将其移到tem左边
-        while (start&lt;end&amp;&amp;arr[start]&lt;=tem)//从左边开始查找，找到大于tem处位置
-            start++;
-     arr[end]=arr[start];//将其移到tem的右边
-    }
-    arr[start]=tem;
-    return start;
-}
-</code></pre><p>2.归并排序   </p>
-<blockquote>
-<p>原理：归并排序（MERGE-SORT）是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。    </p>
-</blockquote>
-<p>算法实现，第一，现将序列递归为长度为2的有序序列，由于序列是有序的，故而其合并后的序列也是有序的。其算法复杂度为O（nlogn)级别的，此处仅实现二路归并排序，有想法的朋友可以优化一下。</p>
-<pre><code>public static void sort(int[] arr){
-    sort(arr,0,arr.length-1);
-}
-public static void sort(int[] arr,int start,int end){
-    int mid=(start+end)/2;
-    if (start&lt;end){
-        sort(arr,start,mid);//无限细分序列
-        sort(arr,mid+1,end);
-        merge(arr,start,mid,end);//合并序列（由于细分序列后的数组已是有序，归并后的数组故而也是有序的）
-    }
-}
-public static void merge(int[] arr,int start,int mid,int end){
-    int i=start,j=mid+1,k=0;
-    int len=end - start + 1;
-    int[] temp = new int[len];//辅助数组，利用空间换取移位的时间耗时
-    while (i&lt;=mid&amp;&amp;j&lt;=end){//由于序列不一定等长，故会存在其中一个序列没有合并完
-        if (arr[i]&lt;arr[j])//合并序列
-            temp[k++]=arr[i++];
-        else
-            temp[k++]=arr[j++];
-    }
-    while (i&lt;=mid)//如果i&lt;=mid即i到mid未合并完，合并该部分
-        temp[k++]=arr[i++];
-    while (j&lt;=end)//如果j&lt;=end即j到end未合并完，合并该部分
-        temp[k++]=arr[j++];
-    for ( i=0;i&lt;len;i++) //将有序数据复值到原数组中
-        arr[start++]=temp[i];
-}
-</code></pre><p>附:常见算法复杂度表     </p>
-<center><img src="/images/timg.jpg"> </center>
-
-
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/09/17/sortinsertshell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/17/sortinsertshell/" itemprop="url">
-                  JAVA排序算法--直接插入排序和希尔排序
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-09-17 10:39:31" itemprop="dateCreated datePublished" datetime="2018-09-17T10:39:31+08:00">2018-09-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/" itemprop="url" rel="index"><span itemprop="name">Java工具</span></a></span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java工具/排序算法/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/17/sortinsertshell/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/17/sortinsertshell/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/09/17/sortinsertshell/" class="leancloud_visitors" data-flag-title="JAVA排序算法--直接插入排序和希尔排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.直接插入排序算法<br>&nbsp;&nbsp;&nbsp;&nbsp;原理：<br>   插入排序就是将无序数列的第一个元素与有序数列的元素从后往前逐个进行比较，找出插入位置，将该元素插入到有序数列的合适位置中。<br>&nbsp;&nbsp;&nbsp;&nbsp;具体算法实现：<br>因此其具体算法实现即找到未排序的第一个数据（哨兵）。然后将其与前面的已排序值比较，找到插入的位置j,将j到哨兵间的元素后移一位，再将哨兵值赋给j处。<br>其实现如下：   </p>
-<pre><code> public static void sort(int[] arr){
-    int len=arr.length,tem=0,j=0;
-    for (int i=0;i&lt;len;i++){
-        tem=arr[i];
-        for ( j=i;j&gt;0&amp;&amp;arr[j-1]&gt;tem;j--){//查找i插入的位置j，即j-1处大tem
-                arr[j]=arr[j-1];//将j到i-1处的所有元素向后挪一位
+            <p>题目： </p>
+<h5 id="在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。"><a href="#在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。" class="headerlink" title="在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。"></a>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</h5><hr>
+<p>1、在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 解题思路。由于是有序数组，所以左下角的数正好是一个很好的中间数，它的上都小于它，右都大于它，当target大于它时，令其右移，小于时左移。 </p>
+<pre><code>public boolean Find(int target, int [][] array) {
+    int colsize=array[0].length;
+    int row=array.length-1;
+    int col=0;
+    while (col&lt;colsize&amp;row&gt;=0){
+        if (target&gt;array[row][col]){  //如果大于，则右移
+            col++;
+        }else if (target&lt;array[row][col]){ //如果大于，则上移
+            row--;
+        }else {
+            return true;
         }
-        arr[j]=tem;//将原来i处的值赋给j处
     }
+    return false;
 }
-</code></pre><p>2.希尔排序<br>&nbsp;&nbsp;&nbsp;&nbsp;希尔排序就是将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序， 待整个序列中的记录“基本有序”时，再对全体记录进行依次直接插入排序。从而减少挪位次数。<br>&nbsp;&nbsp;&nbsp;&nbsp;其算法实现是利用增量思想，逐渐增加排序范围。</p>
-<pre><code> public static void sort(int[] data) {
-    int j = 0;
-    int temp = 0;
-    for (int inc = data.length / 2; inc &gt; 0; inc /= 2)//每次讲增量变为原来一半
-        for (int i = inc; i &lt; data.length; i++) {//对每个小序列进行插入排序，当inc变为1时，对整体进行插入排序
-            temp = data[i];
-            for (j = i; j &gt;= inc&amp;&amp;temp &lt;data[j - inc]; j -= inc) {//查找插入位置i
-                data[j] = data[j - inc];//将元素后挪
+</code></pre><p>2、<br> 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。<br> 解题思路： 由于是有序数组，所以可以从第一行开始使用二分查找遍历。</p>
+<pre><code>public boolean binFind(int target, int [][] array) {
+    int cols=array[0].length;
+    int rows=array.length;
+    int end=cols-1;
+    for (int i=0;i&lt;rows;i++){//循环没一行
+        int start=0;
+        while (start&lt;=end){ 对每一行进行二分查找
+            int mid=(start+end)/2;
+            if (target&lt;array[i][mid]){
+                end=mid-1;
+            }else if (target&gt;array[i][mid]){
+                start=mid+1;
             }
-                data[j] = temp; //交换值
+            else {
+                return true;
+            }
         }
+    }
+    return false;
 }
-</code></pre><blockquote>
-<p>希尔排序算法的优劣：<br>&nbsp;&nbsp;&nbsp;&nbsp;不需要大量的辅助空间，和归并排序一样容易实现。希尔排序是基于插入排序的一种算法， 在此算法基础之上增加了一个新的特性，提高了效率。希尔排序的时间复杂度与增量序列的选取有关，例如希尔增量时间复杂度为O(n²)，而Hibbard增量的希尔排序的时间复杂度为O( n <sup>3/2</sup>)，希尔排序时间复杂度的下界是n*log2n。希尔排序没有快速排序算法快 O(n(logn))，因此中等大小规模表现良好，对规模非常大的数据排序不是最优选择。但是比O(  )复杂度的算法快得多。并且希尔排序非常容易实现，算法代码短而简单。 此外，希尔算法在最坏的情况下和平均情况下执行效率相差不是很多，与此同时快速排序在最坏的情况下执行的效率会非常差。专家们提倡，几乎任何排序工作在开始时都可以用希尔排序，若在实际使用中证明它不够快，再改成快速排序这样更高级的排序算法. 本质上讲，希尔排序算法是直接插入排序算法的一种改进，减少了其复制的次数，速度要快很多。 原因是，当n值很大时数据项每一趟排序需要移动的个数很少，但数据项的距离很长。当n值减小时每一趟需要移动的数据增多，此时已经接近于它们排序后的最终位置。 正是这两种情况的结合才使希尔排序效率比插入排序高很多。Shell算法的性能与所选取的分组长度序列有很大关系。只对特定的待排序记录序列，可以准确地估算关键词的比较次数和对象移动次数。想要弄清关键词比较次数和记录移动次数与增量选择之间的关系，并给出完整的数学分析，至今仍然是数学难题。</p>
-</blockquote>
-<p>附:常见算法复杂度表     </p>
-<center><img src="/images/timg.jpg"> </center>
 
+
+&lt;center&gt;[Coding Blog](http://kangtian.coding.me)     &amp;nbsp;&amp;nbsp;&amp;nbsp;    [Github Blog  ](http://pankangtian.github.io/) &lt;/center&gt;
+</code></pre>
           
         
       
@@ -850,7 +594,7 @@ public static void merge(int[] arr,int start,int mid,int end){
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span>
   </nav>
 
 

@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/19/minNumberInRotateArray/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/treeutil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -392,8 +392,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/19/minNumberInRotateArray/" itemprop="url">
-                  【剑指offer】 旋转数组的最小数字
+                <a class="post-title-link" href="/2018/08/21/treeutil/" itemprop="url">
+                  【剑指offer】  树问题
                 </a>
               
             
@@ -419,7 +419,7 @@
                 
               
 
-              <time title="创建于：2018-08-19 16:25:55" itemprop="dateCreated datePublished" datetime="2018-08-19T16:25:55+08:00">2018-08-19</time>
+              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
             
 
             
@@ -468,8 +468,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/19/minNumberInRotateArray/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/19/minNumberInRotateArray/" itemprop="commentCount"></span>
+                <a href="/2018/08/21/treeutil/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/treeutil/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -477,7 +477,7 @@
 
           
           
-             <span id="/2018/08/19/minNumberInRotateArray/" class="leancloud_visitors" data-flag-title="【剑指offer】 旋转数组的最小数字">
+             <span id="/2018/08/21/treeutil/" class="leancloud_visitors" data-flag-title="【剑指offer】  树问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -510,27 +510,55 @@
       
         
           
-            <blockquote>
-<p> 题目描述</p>
-<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</p>
-</blockquote>
-<hr>
-<p>####### 题目的要点在于判定数组从何处旋转，即array[start]&gt;array[start+1]处。只需循环到符合条件，便可认为其为最小值。该题目还需注意两个边界值，一是最大索引处即start+1要小于等于数组长度，一是为0时，直接返回0，1时直接返回1。</p>
-<pre><code> public int minNumberInRotateArray(int [] array) {
-       int start=0;
-    int end=array.length-1;
-    int mid;
-    if (end&lt;0)//长度为零直接返回0
-        return 0;
-    if (end==0)//长度为1直接返回array[0]处数值
-        return array[0];
-    while (start&lt;end){//循环数组
-        //当array[start]&gt;array[start+1] 由有序旋转数组定义可知，array[start+1]即为最小值。array[start]为最大值
-        if (array[start]&gt;array[start+1])
-            return array[start+1];
-        start++;
+            <p>1、输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+<pre><code> //如果root2为root1的子树，则root2的前序遍历字段必为root1的子串
+public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+    if (root1==null||root2==null)//如果为空，则不必判断
+        return false;
+        String str1=preTraver(root1);//root1的前序遍历字段
+        re=&quot;&quot;;//置空前序遍历方法的结果串
+        String str2=preTraver(root2);//root2的前序遍历字段
+        if (str1.contains(str2)) //str1包含str2，则root2为root1的子树
+            return true;
+        else
+            return false;
+}
+</code></pre><p>2、操作给定的二叉树，将其变换为源二叉树的镜像。</p>
+<pre><code>/**操作给定的二叉树，将其变换为源二叉树的镜像。
+ * 可以用递归的方法将所有的节点的左右节点换位即可
+ * @param root
+ */
+public static void Mirror(TreeNode root) {
+     if (root==null)
+         return;
+        tem=root.left;//缓存左子树
+        root.left=root.right;//将右子树赋值给左子树
+        root.right=tem;//将左子树赋值给右子树
+        if (root.left!=null)
+            Mirror(root.left);//递归左子树
+        if (root.right!=null)
+            Mirror(root.right);//递归右子树
+}
+</code></pre><p>备注：</p>
+<pre><code>TreeNode类：
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+    public TreeNode(int val) {
+        this.val = val;
+}
+
+    //获取树的前序遍历
+public static String preTraver(TreeNode root){
+    if (root!=null) {
+        re += root.val;
+        if (root.left != null)
+            preTraver(root.left);
+        if (root.right != null)
+            preTraver(root.right);
     }
-    return 0;
+    return re;
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
@@ -783,7 +811,7 @@ public int pop() {
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -832,7 +860,7 @@ public int pop() {
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">文章</span>
                   </a>
                 </div>
@@ -855,7 +883,9 @@ public int pop() {
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -904,7 +934,9 @@ public int pop() {
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

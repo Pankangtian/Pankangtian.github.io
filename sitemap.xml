@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kangtian.coding.me/2018/10/22/mysql/</loc>
+    
+    <lastmod>2018-10-22T05:28:30.801Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://kangtian.coding.me/tags/index.html</loc>
     
     <lastmod>2018-10-07T08:55:38.822Z</lastmod>

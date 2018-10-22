@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mysql使用指南]]></title>
+    <url>%2F2018%2F10%2F22%2Fmysql%2F</url>
+    <content type="text"><![CDATA[一、 mysql的yum安装本文的mysql 安装基于 centos 7 系统，仅供参考 执行安装mysql命令 yum install mysql mysql-server mysql-devel -y 如果安装过程中有选择，选择 是或y即可 启动和关闭mysql启动 mysql命令 systemctl start mysqld (centos 7) service mysqld start （centos 6) 关闭mysql命令 systemctl stop mysqld (centos 7) service mysqld stop （centos 6) 重启mysql systemctl restart mysqld (centos 7) service mysqld restart （centos 6) 加入开机自启动 systemctl enable mysqld (centos 7) service mysqld enable （centos 6) 二、配置mysql 设置密码 mysqladmin -u root password &apos;你的密码&apos; 检查密码设置通过mysql -u root -p 命令登陆mysql 查看刚设置的密码是否生效mysql -u root -p 忘记密码，后重置密码首先停止sql服务，具体命令查看mysql的yum安装部分其次通过不检查权限形式启动mysql ,此时mysql可以无密登陆 mysqld --skip-grant-tables 登陆mysql，运行sql语句修改root密码mysql&gt; UPDATE mysql.user SET Password=PASSWORD(&apos;123456&apos;) WHERE User=&apos;root&apos;; mysql&gt; FLUSH PRIVILEGES; 运行后，重启mysql服务器即可，密码已改为新设置密码。 mysql配置文件my.ini 文件详解文件详细配置不再详述，详情可点击此处 三、mysql 语句 表的创建]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[IO模式探究]]></title>
     <url>%2F2018%2F10%2F07%2Fio%2F</url>
     <content type="text"><![CDATA[IO模式探究 一、五种I/O模型 &nbsp;&nbsp;为什么IO操作要发起系统调用？&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;进程无法直接获取硬盘的数据，硬盘的数据只能通过内核获取。所谓的系统调用即是进程通知内核说我要磁盘中的数据，你帮我把数据读写了。 IO具体过程如下：&nbsp;&nbsp;&nbsp;&nbsp; ①进程向内核发起一个系统调用，&nbsp;&nbsp;&nbsp;&nbsp; ②内核接收到系统调用，知道是对文件的请求，于是告诉磁盘，把文件读取出来&nbsp;&nbsp;&nbsp;&nbsp; ③磁盘接收到来着内核的命令后，把文件载入到内核的内存空间里面&nbsp;&nbsp;&nbsp;&nbsp; ④内核的内存空间接收到数据之后，把数据copy到用户进程的内存空间(此过程是I/O发生的地方)&nbsp;&nbsp;&nbsp;&nbsp; ⑤进程内存空间得到数据后，给内核发送通知 &nbsp;&nbsp;&nbsp;&nbsp; ⑥内核把接收到的通知回复给进程，此过程为唤醒进程，然后进程得到数据，进行下一步操作 一、 IO五模型 阻塞I/0 当进程调用阻塞型IO时，进程必须等待系统完成所有调用才能进行自己的工作。在系统进行调用期间，进程只能让出cpu时间片，处于睡眠状态，直到系统通知进程唤醒。其图解如下： 非阻塞I/O 系统知道自己需要一定时间完成IO操作，所以就让进程发起调用后，先去做自己的事情，而不是阻塞等待。进程每隔一段时间后需要询问系统调用是否完成，如果未完成，系统会立即返回错误，如EWOULDBLOCK，直至系统调用完成，进程获取数据（忙等待） I/O复用 I/O复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态，比如调用select和poll函数，传入多个文件描述符（FileDescription，简称FD），如果有一个或多个文件描述符就绪，则返回，否则阻塞直到超时。得到就绪状态后，进行真正的操作可以在同一个线程里执行，也可以启动线程执行（比如使用线程池）。 事件(信号)驱动I/O (1)水平触发的事件驱动机制；内核通知进程来读取数据，进程没来读取数据，内核需要一次一次的通知进程；(2)边缘触发的事件驱动机制；内核只通知一次让进程来读取数据，进程可以在超时时间之内随时来读取数据。 异步I/O 当现线程遇到IO操作时，线程不去处理IO而是交由工作线程处理，不会处于阻塞状态，转而继续处理自己的事情，当IO操作完成后，工作线程会通知当前线程，由当前线程做出相应处理。 二、同步与异步，阻塞与非阻塞 同步阻塞IO：设备IO忙时，内核对发起IO请求的进程说：“现在设备忙，你别走开，在这里等吧，你看IO什么时候做完，做完了你把数据拿走就是了”发起IO请求的进程说：“好，那我在这等你” 同步非阻塞IO：设备IO忙时，内核对发起IO请求的进程说：“我已经知道你要IO了，但设备现在有点忙，你回家吧，我会记住你这个事的，我有记录呢，只要设备一空闲我就给你做IO的，做完了给你打电话让你过来拿数据”发起IO请求的进程说：“IO还没做完呢，我不走，我要不断的问我的IO什么时候完成，知道你把我的IO做完为止” 异步阻塞IO：设备IO忙时，内核对发起IO请求的进程说：“现在设备忙，你别走开，在这里等吧，你看IO什么时候做完，做完了你把数据拿走就是了”发起IO请求的进程说：“哦，您忙吧，我在这里排队等着呢，不过我排队时也无聊，就做做其他的事情吧，我会时不时就看看我的IO做完没有的” 异步非阻塞IO：设备IO忙时，内核对发起IO请求的进程说：“我已经知道你要IO了，但设备现在有点忙，你回家吧，我会记住你这个事的，我有记录呢，只要设备一空闲我就给你做IO的，做完了给你打电话让你过来拿数据”发起IO请求的进程说：“好吧，您看我事也挺多的，既然现在IO一时半会也完成不了，那我先回家去做做其他的事吧，谢谢啊” 总结：阻塞/非阻塞是内核级的，同步/异步是进程级的，同步非阻塞和异步阻塞一般不会采用，异步非阻塞一般效率比较高，他能够把cpu和io并行处理，当然，如果没有cpu和io并行的这种情况，那就用同步阻塞比较好，这样编程比较简单，且不用多次在内核空间和用户空间进行切换 [1] Partially Reproduced]]></content>
@@ -190,14 +201,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[【剑指offer】 树的遍历]]></title>
-    <url>%2F2018%2F08%2F21%2FtreeTraver%2F</url>
-    <content type="text"><![CDATA[1、利用递归的方式获取树的前序遍历结果 //获取树的前序遍历 public static String preTraver(TreeNode root){ if (root!=null) { re += root.val; if (root.left != null) preTraver(root.left); if (root.right != null) preTraver(root.right); } return re; } 2、 利用递归的方式获取树的中序遍历结果 //获取树的中序遍历 public static String medTraver(TreeNode root){ if (root!=null) { if (root.left != null) medTraver(root.left); re += root.val; if (root.right != null) medTraver(root.right); } return re; } 3、利用递归的方式获取树的后序遍历结果 //获取树的后序遍历 public static String aftTraver(TreeNode root){ if (root!=null) { if (root.left != null) preTraver(root.left); if (root.right != null) preTraver(root.right); re += root.val; } return re; } 4、利用队列实现层次遍历 //获取树的层次遍历 public static String levelTraver(TreeNode root){ Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;TreeNode&gt;(); TreeNode node; if (root!=null) queue.offer(root); while (!queue.isEmpty()){ node=queue.poll(); re+=node.val; if (node.left!=null) queue.offer(node.left); if (node.right!=null) queue.offer(node.right); } return re; } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
+    <title><![CDATA[【剑指offer】 斐波那契数列问题]]></title>
+    <url>%2F2018%2F08%2F21%2FJumpFloor%2F</url>
+    <content type="text"><![CDATA[1、斐波那契数列 （Fibonacci sequence），又称黄金分割数列、因数学家列昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列以如下被以递推的方法定义：F(1)=1，F(2)=1, F(n)=F(n-1)+F(n-2)（n&gt;=2，n∈N*） 代码实现如下： // 斐波那契数列的java实现 public static int Fibonacci(int n) { int last=1,latter=1,result=0; //用于缓存f(n-1) f(n-2) if (0==n) return 0; else if (1==n||2==n) return 1; else { for (int i=3;i&lt;=n;i++){ result=last+latter; //计算f(n) last=latter;//更新f(n-2) latter=result; //更新f(n-1) } return result; } } 2、一只青蛙一次可以跳上1级台阶，也可以跳上2级。 求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。 用递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2) public int JumpFloor(int n) { int last=1,latter=2,result=0; //用于缓存f(n-1) f(n-2) if (0==n) return 0; else if (1==n) return 1; else if(2==n) return 2; else { for (int i=3;i&lt;=n;i++){ result=last+latter; //计算f(n) last=latter;//更新f(n-2) latter=result; //更新f(n-1) } return result; } } 3、附加：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。 static int jumpFloorII(int number) {//罗列各项，寻找规律，可知f(n)=2的n-1次方 int result=1; return result&lt;&lt;(number-1);//将乘法优化为位运算 } 4、我们可以用21的小矩形横着或者竖着去覆盖更大的矩形。请问用n个21的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？罗列各项，寻找规律，递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2) int rectCover(int target) { int last=1,latter=2,result=0; //用于缓存f(n)=f(n-1)+f(n-2) if (1==target) return 1; else if (2==target) return 2; else { for (int i=3;i&lt;=target;i++){ result=last+latter; //计算f(n) last=latter; //更新f(n-2) latter=result; //更新f(n-1) } return result; } } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
       <categories>
-        <category>数据结构</category>
+        <category>剑指offer</category>
       </categories>
       <tags>
-        <tag>tree</tag>
+        <tag>math</tag>
       </tags>
   </entry>
   <entry>
@@ -209,17 +220,6 @@
       </categories>
       <tags>
         <tag>array</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[【剑指offer】 斐波那契数列问题]]></title>
-    <url>%2F2018%2F08%2F21%2FJumpFloor%2F</url>
-    <content type="text"><![CDATA[1、斐波那契数列 （Fibonacci sequence），又称黄金分割数列、因数学家列昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列以如下被以递推的方法定义：F(1)=1，F(2)=1, F(n)=F(n-1)+F(n-2)（n&gt;=2，n∈N*） 代码实现如下： // 斐波那契数列的java实现 public static int Fibonacci(int n) { int last=1,latter=1,result=0; //用于缓存f(n-1) f(n-2) if (0==n) return 0; else if (1==n||2==n) return 1; else { for (int i=3;i&lt;=n;i++){ result=last+latter; //计算f(n) last=latter;//更新f(n-2) latter=result; //更新f(n-1) } return result; } } 2、一只青蛙一次可以跳上1级台阶，也可以跳上2级。 求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。 用递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2) public int JumpFloor(int n) { int last=1,latter=2,result=0; //用于缓存f(n-1) f(n-2) if (0==n) return 0; else if (1==n) return 1; else if(2==n) return 2; else { for (int i=3;i&lt;=n;i++){ result=last+latter; //计算f(n) last=latter;//更新f(n-2) latter=result; //更新f(n-1) } return result; } } 3、附加：一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。 static int jumpFloorII(int number) {//罗列各项，寻找规律，可知f(n)=2的n-1次方 int result=1; return result&lt;&lt;(number-1);//将乘法优化为位运算 } 4、我们可以用21的小矩形横着或者竖着去覆盖更大的矩形。请问用n个21的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？罗列各项，寻找规律，递推可知其结果为斐波那契数列f(n)=f(n-1)+f(n-2) int rectCover(int target) { int last=1,latter=2,result=0; //用于缓存f(n)=f(n-1)+f(n-2) if (1==target) return 1; else if (2==target) return 2; else { for (int i=3;i&lt;=target;i++){ result=last+latter; //计算f(n) last=latter; //更新f(n-2) latter=result; //更新f(n-1) } return result; } } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>math</tag>
       </tags>
   </entry>
   <entry>
@@ -245,6 +245,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[【剑指offer】 树的遍历]]></title>
+    <url>%2F2018%2F08%2F21%2FtreeTraver%2F</url>
+    <content type="text"><![CDATA[1、利用递归的方式获取树的前序遍历结果 //获取树的前序遍历 public static String preTraver(TreeNode root){ if (root!=null) { re += root.val; if (root.left != null) preTraver(root.left); if (root.right != null) preTraver(root.right); } return re; } 2、 利用递归的方式获取树的中序遍历结果 //获取树的中序遍历 public static String medTraver(TreeNode root){ if (root!=null) { if (root.left != null) medTraver(root.left); re += root.val; if (root.right != null) medTraver(root.right); } return re; } 3、利用递归的方式获取树的后序遍历结果 //获取树的后序遍历 public static String aftTraver(TreeNode root){ if (root!=null) { if (root.left != null) preTraver(root.left); if (root.right != null) preTraver(root.right); re += root.val; } return re; } 4、利用队列实现层次遍历 //获取树的层次遍历 public static String levelTraver(TreeNode root){ Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;TreeNode&gt;(); TreeNode node; if (root!=null) queue.offer(root); while (!queue.isEmpty()){ node=queue.poll(); re+=node.val; if (node.left!=null) queue.offer(node.left); if (node.right!=null) queue.offer(node.right); } return re; } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【剑指offer】 树问题]]></title>
     <url>%2F2018%2F08%2F21%2Ftreeutil%2F</url>
     <content type="text"><![CDATA[1、输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构） //如果root2为root1的子树，则root2的前序遍历字段必为root1的子串 public boolean HasSubtree(TreeNode root1,TreeNode root2) { if (root1==null||root2==null)//如果为空，则不必判断 return false; String str1=preTraver(root1);//root1的前序遍历字段 re=&quot;&quot;;//置空前序遍历方法的结果串 String str2=preTraver(root2);//root2的前序遍历字段 if (str1.contains(str2)) //str1包含str2，则root2为root1的子树 return true; else return false; } 2、操作给定的二叉树，将其变换为源二叉树的镜像。 /**操作给定的二叉树，将其变换为源二叉树的镜像。 * 可以用递归的方法将所有的节点的左右节点换位即可 * @param root */ public static void Mirror(TreeNode root) { if (root==null) return; tem=root.left;//缓存左子树 root.left=root.right;//将右子树赋值给左子树 root.right=tem;//将左子树赋值给右子树 if (root.left!=null) Mirror(root.left);//递归左子树 if (root.right!=null) Mirror(root.right);//递归右子树 } 备注： TreeNode类： public class TreeNode { int val = 0; TreeNode left = null; TreeNode right = null; public TreeNode(int val) { this.val = val; } //获取树的前序遍历 public static String preTraver(TreeNode root){ if (root!=null) { re += root.val; if (root.left != null) preTraver(root.left); if (root.right != null) preTraver(root.right); } return re; } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
@@ -253,18 +264,6 @@
       </categories>
       <tags>
         <tag>tree</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[【剑指offer】 旋转数组的最小数字]]></title>
-    <url>%2F2018%2F08%2F19%2FminNumberInRotateArray%2F</url>
-    <content type="text"><![CDATA[题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 ####### 题目的要点在于判定数组从何处旋转，即array[start]&gt;array[start+1]处。只需循环到符合条件，便可认为其为最小值。该题目还需注意两个边界值，一是最大索引处即start+1要小于等于数组长度，一是为0时，直接返回0，1时直接返回1。 public int minNumberInRotateArray(int [] array) { int start=0; int end=array.length-1; int mid; if (end&lt;0)//长度为零直接返回0 return 0; if (end==0)//长度为1直接返回array[0]处数值 return array[0]; while (start&lt;end){//循环数组 //当array[start]&gt;array[start+1] 由有序旋转数组定义可知，array[start+1]即为最小值。array[start]为最大值 if (array[start]&gt;array[start+1]) return array[start+1]; start++; } return 0; } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>array</tag>
-        <tag>search</tag>
       </tags>
   </entry>
   <entry>
@@ -277,6 +276,18 @@
       <tags>
         <tag>stack</tag>
         <tag>queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【剑指offer】 旋转数组的最小数字]]></title>
+    <url>%2F2018%2F08%2F19%2FminNumberInRotateArray%2F</url>
+    <content type="text"><![CDATA[题目描述 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。 ####### 题目的要点在于判定数组从何处旋转，即array[start]&gt;array[start+1]处。只需循环到符合条件，便可认为其为最小值。该题目还需注意两个边界值，一是最大索引处即start+1要小于等于数组长度，一是为0时，直接返回0，1时直接返回1。 public int minNumberInRotateArray(int [] array) { int start=0; int end=array.length-1; int mid; if (end&lt;0)//长度为零直接返回0 return 0; if (end==0)//长度为1直接返回array[0]处数值 return array[0]; while (start&lt;end){//循环数组 //当array[start]&gt;array[start+1] 由有序旋转数组定义可知，array[start+1]即为最小值。array[start]为最大值 if (array[start]&gt;array[start+1]) return array[start+1]; start++; } return 0; } Coding Blog &nbsp;&nbsp;&nbsp; Github Blog]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>array</tag>
+        <tag>search</tag>
       </tags>
   </entry>
   <entry>

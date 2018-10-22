@@ -972,7 +972,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/codeutil/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/28/fileutil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -991,8 +991,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/28/codeutil/" itemprop="url">
-                  验证码生成工具
+                <a class="post-title-link" href="/2018/08/28/fileutil/" itemprop="url">
+                  文件处理类
                 </a>
               
             
@@ -1067,8 +1067,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/28/codeutil/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/codeutil/" itemprop="commentCount"></span>
+                <a href="/2018/08/28/fileutil/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/28/fileutil/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1076,7 +1076,7 @@
 
           
           
-             <span id="/2018/08/28/codeutil/" class="leancloud_visitors" data-flag-title="验证码生成工具">
+             <span id="/2018/08/28/fileutil/" class="leancloud_visitors" data-flag-title="文件处理类">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1109,85 +1109,65 @@
       
         
           
-            <p>本验证码生成采用的是Google提供的第三方KAPTCHA服务，使用及其方便，使用步骤分为以下三步：<br>1.添加依赖  在pom.xml文件中添加</p>
-<pre><code>&lt;dependency&gt;
-       &lt;groupId&gt;com.google.code.kaptcha&lt;/groupId&gt;
-       &lt;artifactId&gt;kaptcha&lt;/artifactId&gt;
-       &lt;version&gt;2.3&lt;/version&gt;
-   &lt;/dependency&gt;
-</code></pre><p>2.在web.xml中配置servlet,可根据注释酌情配置</p>
-<pre><code>    &lt;servlet&gt;
-    &lt;!-- 生成图片的Servlet --&gt;
-    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.google.code.kaptcha.servlet.KaptchaServlet&lt;/servlet-class&gt;
-
-    &lt;!-- 是否有边框 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.border&lt;/param-name&gt;
-        &lt;param-value&gt;no&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字体颜色 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.color&lt;/param-name&gt;
-        &lt;param-value&gt;red&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 图片宽度 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.image.width&lt;/param-name&gt;
-        &lt;param-value&gt;135&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 使用哪些字符生成验证码 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.char.string&lt;/param-name&gt;
-        &lt;param-value&gt;ACDEFHKPRSTWX345679&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 图片高度 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.image.height&lt;/param-name&gt;
-        &lt;param-value&gt;50&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字体大小 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.size&lt;/param-name&gt;
-        &lt;param-value&gt;43&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 干扰线的颜色 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.noise.color&lt;/param-name&gt;
-        &lt;param-value&gt;black&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 字符个数 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.char.length&lt;/param-name&gt;
-        &lt;param-value&gt;4&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;!-- 使用哪些字体 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;kaptcha.textproducer.font.names&lt;/param-name&gt;
-        &lt;param-value&gt;Arial&lt;/param-value&gt;
-    &lt;/init-param&gt;
-&lt;/servlet&gt;
-
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;Kaptcha&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/Kaptcha&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-</code></pre><p>3.为了方便使用，此处已经将判断验证码写成了方法。前端传进来的参数验证码key必须为verifyCodeActual</p>
-<pre><code>public static boolean checkVerifyCode(HttpServletRequest request) {
-    String verifyCodeExpected = (String) request.getSession().getAttribute(
-            com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-    String verifyCodeActual = request.getParameter(&quot;verifyCodeActual&quot;);
-    if (verifyCodeActual == null
-            || !verifyCodeActual.equalsIgnoreCase(verifyCodeExpected)) {
-        return false;
-    }
-    return true;
+            <p>1.生成文件名，避免文件重复</p>
+<pre><code>public static String getRandomFileName() {
+    // 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
+    int rannum = (int) (r.nextDouble() * (99999 - 10000 + 1)) + 10000; // 获取随机数
+    String nowTimeStr = sDateFormat.format(new Date()); // 当前时间
+    return nowTimeStr + rannum;
 }
-</code></pre><p>4.前端部分代码如下 (仍需自定义填写验证码的输入框，并将其参数以verifyCodeActual为key传给后端：  </p>
-<pre><code>&lt;img sr=&quot;/Kaptcha&quot;  /&gt; &lt;!-- src 为web.xml配置的拦截路径 --&gt;
-
-function changeVerifyCode(img) {
-img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
+</code></pre><p>2.删除文件或目录</p>
+<pre><code>public static void deleteFile(String storePath) {
+    File file = new File( storePath);
+    if (file.exists()) {
+        if (file.isDirectory()) {
+            File files[] = file.listFiles();
+            for (int i = 0; i &lt; files.length; i++) {
+                files[i].delete();
+            }
+        }
+        file.delete();
+    }
+}
+</code></pre><p>3.读取文件内容到string中</p>
+<pre><code>public static String readFileToStr(String path){
+    StringBuffer stringBuffer=new StringBuffer();
+    try {
+        BufferedReader in = new BufferedReader(new FileReader(path));
+    String line=    in.readLine();
+    while (line!=null){
+        stringBuffer.append(line);
+        line=in.readLine();
+    }
+    in.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return stringBuffer.toString();
+}
+</code></pre><p>4.读取配置文件内容到map，可通过map读取对应配置</p>
+<pre><code> public static HashMap&lt;String, String&gt; readFiletoMap(String path) {
+    HashMap&lt;String, String&gt; propeMap = new HashMap&lt;String, String&gt;();
+    String[] tem;
+    String line=&quot;&quot;;
+    try {
+        BufferedReader in = new BufferedReader(new FileReader(path));
+        line = in.readLine();
+        while (line != null) {
+           tem=line.split(&quot;=&quot;);
+           if (tem.length&gt;1)
+            propeMap.put(tem[0],tem[1]);
+            line = in.readLine();
+        }
+        in.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return propeMap;
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
@@ -1425,7 +1405,7 @@ img.src = &quot;../Kaptcha?&quot; + Math.floor(Math.random() * 100);
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>

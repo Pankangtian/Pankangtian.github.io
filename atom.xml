@@ -175,11 +175,11 @@
   </entry>
   
   <entry>
-    <title>JAVA排序算法--快速排序和归并排序</title>
-    <link href="http://kangtian.coding.me/2018/09/17/sortqm/"/>
-    <id>http://kangtian.coding.me/2018/09/17/sortqm/</id>
+    <title>JAVA排序算法--堆排序</title>
+    <link href="http://kangtian.coding.me/2018/09/17/sortheap/"/>
+    <id>http://kangtian.coding.me/2018/09/17/sortheap/</id>
     <published>2018-09-17T06:50:08.000Z</published>
-    <updated>2018-10-07T08:55:38.673Z</updated>
+    <updated>2018-10-07T08:55:38.656Z</updated>
     
     <summary type="html">
     
@@ -187,9 +187,9 @@
       
         
         
-          &lt;p&gt;1.快速排序算法    &lt;/p&gt;
+          &lt;p&gt;堆排序算法：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;原理：  快速排序由C. A. R.
+&lt;p&gt;堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能
         
       
     
@@ -207,11 +207,11 @@
   </entry>
   
   <entry>
-    <title>JAVA排序算法--堆排序</title>
-    <link href="http://kangtian.coding.me/2018/09/17/sortheap/"/>
-    <id>http://kangtian.coding.me/2018/09/17/sortheap/</id>
+    <title>JAVA排序算法--快速排序和归并排序</title>
+    <link href="http://kangtian.coding.me/2018/09/17/sortqm/"/>
+    <id>http://kangtian.coding.me/2018/09/17/sortqm/</id>
     <published>2018-09-17T06:50:08.000Z</published>
-    <updated>2018-10-07T08:55:38.656Z</updated>
+    <updated>2018-10-07T08:55:38.673Z</updated>
     
     <summary type="html">
     
@@ -219,9 +219,9 @@
       
         
         
-          &lt;p&gt;堆排序算法：&lt;/p&gt;
+          &lt;p&gt;1.快速排序算法    &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;堆排序的基本思想是：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根节点。将其与末尾元素进行交换，此时末尾就为最大值。然后将剩余n-1个元素重新构造成一个堆，这样会得到n个元素的次小值。如此反复执行，便能
+&lt;p&gt;原理：  快速排序由C. A. R.
         
       
     
@@ -325,6 +325,95 @@
   </entry>
   
   <entry>
+    <title>文件处理类</title>
+    <link href="http://kangtian.coding.me/2018/08/28/fileutil/"/>
+    <id>http://kangtian.coding.me/2018/08/28/fileutil/</id>
+    <published>2018-08-28T12:56:00.000Z</published>
+    <updated>2018-10-07T08:55:38.511Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1.生成文件名，避免文件重复&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public static String getRandomFileName() {
+    // 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
+    int
+        
+      
+    
+    </summary>
+    
+      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="文件" scheme="http://kangtian.coding.me/tags/%E6%96%87%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DES加密工具</title>
+    <link href="http://kangtian.coding.me/2018/08/28/desutil/"/>
+    <id>http://kangtian.coding.me/2018/08/28/desutil/</id>
+    <published>2018-08-28T12:56:00.000Z</published>
+    <updated>2018-10-07T08:55:38.501Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本工具采用的是DES SHA1PRNG 加密，如有兴趣，读者可由此自定义其他加密工具。具体可看代码注释&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import java.io.IOException;
+import
+        
+      
+    
+    </summary>
+    
+      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="加密" scheme="http://kangtian.coding.me/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>seo工具</title>
+    <link href="http://kangtian.coding.me/2018/08/28/sitemaputil/"/>
+    <id>http://kangtian.coding.me/2018/08/28/sitemaputil/</id>
+    <published>2018-08-28T12:56:00.000Z</published>
+    <updated>2018-10-07T08:55:38.648Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Sitemaps定义：&quot;&gt;&lt;a href=&quot;#Sitemaps定义：&quot; class=&quot;headerlink&quot; title=&quot;Sitemaps定义：&quot;&gt;&lt;/a&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="SEO" scheme="http://kangtian.coding.me/tags/SEO/"/>
+    
+  </entry>
+  
+  <entry>
     <title>验证码生成工具</title>
     <link href="http://kangtian.coding.me/2018/08/28/codeutil/"/>
     <id>http://kangtian.coding.me/2018/08/28/codeutil/</id>
@@ -385,100 +474,11 @@
   </entry>
   
   <entry>
-    <title>文件处理类</title>
-    <link href="http://kangtian.coding.me/2018/08/28/fileutil/"/>
-    <id>http://kangtian.coding.me/2018/08/28/fileutil/</id>
-    <published>2018-08-28T12:56:00.000Z</published>
-    <updated>2018-10-07T08:55:38.511Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;1.生成文件名，避免文件重复&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public static String getRandomFileName() {
-    // 生成随机文件名：当前年月日时分秒+五位随机数（为了在实际项目中防止文件同名而进行的处理）
-    int
-        
-      
-    
-    </summary>
-    
-      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="文件" scheme="http://kangtian.coding.me/tags/%E6%96%87%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>seo工具</title>
-    <link href="http://kangtian.coding.me/2018/08/28/sitemaputil/"/>
-    <id>http://kangtian.coding.me/2018/08/28/sitemaputil/</id>
-    <published>2018-08-28T12:56:00.000Z</published>
-    <updated>2018-10-07T08:55:38.648Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;Sitemaps定义：&quot;&gt;&lt;a href=&quot;#Sitemaps定义：&quot; class=&quot;headerlink&quot; title=&quot;Sitemaps定义：&quot;&gt;&lt;/a&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="SEO" scheme="http://kangtian.coding.me/tags/SEO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DES加密工具</title>
-    <link href="http://kangtian.coding.me/2018/08/28/desutil/"/>
-    <id>http://kangtian.coding.me/2018/08/28/desutil/</id>
-    <published>2018-08-28T12:56:00.000Z</published>
-    <updated>2018-10-07T08:55:38.501Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;本工具采用的是DES SHA1PRNG 加密，如有兴趣，读者可由此自定义其他加密工具。具体可看代码注释&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import java.io.IOException;
-import
-        
-      
-    
-    </summary>
-    
-      <category term="Java工具" scheme="http://kangtian.coding.me/categories/Java%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="工具" scheme="http://kangtian.coding.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="加密" scheme="http://kangtian.coding.me/tags/%E5%8A%A0%E5%AF%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【剑指offer】  树问题</title>
-    <link href="http://kangtian.coding.me/2018/08/21/treeutil/"/>
-    <id>http://kangtian.coding.me/2018/08/21/treeutil/</id>
+    <title>【剑指offer】  树的遍历</title>
+    <link href="http://kangtian.coding.me/2018/08/21/treeTraver/"/>
+    <id>http://kangtian.coding.me/2018/08/21/treeTraver/</id>
     <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.748Z</updated>
+    <updated>2018-10-07T08:55:38.710Z</updated>
     
     <summary type="html">
     
@@ -486,15 +486,17 @@ import
       
         
         
-          &lt;p&gt;1、输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; //如果root2为root1的子树，则root2的前序遍历字段必为root1的子串
-public boolean
+          &lt;p&gt;1、利用递归的方式获取树的前序遍历结果&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; //获取树的前序遍历
+public static String preTraver(TreeNode root){
+    if (root!=null) {
+        re +=
         
       
     
     </summary>
     
-      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
+      <category term="数据结构" scheme="http://kangtian.coding.me/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
       <category term="tree" scheme="http://kangtian.coding.me/tags/tree/"/>
@@ -502,11 +504,11 @@ public boolean
   </entry>
   
   <entry>
-    <title>【剑指offer】  输出倒数第k个结点以及逆转指针</title>
-    <link href="http://kangtian.coding.me/2018/08/21/listNode/"/>
-    <id>http://kangtian.coding.me/2018/08/21/listNode/</id>
+    <title>【剑指offer】  重排数组</title>
+    <link href="http://kangtian.coding.me/2018/08/21/reOrderArray/"/>
+    <id>http://kangtian.coding.me/2018/08/21/reOrderArray/</id>
     <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.530Z</updated>
+    <updated>2018-10-07T08:55:38.638Z</updated>
     
     <summary type="html">
     
@@ -514,10 +516,8 @@ public boolean
       
         
         
-          &lt;p&gt;1、输入一个链表，输出该链表中倒数第k个结点。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public ListNode FindKthToTail(ListNode head,int k) {
-    ListNode tem=head;//缓根节点
-    while
+          &lt;p&gt;1、输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public void reOrderArray(int []
         
       
     
@@ -527,6 +527,32 @@ public boolean
     
     
       <category term="array" scheme="http://kangtian.coding.me/tags/array/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【剑指offer】 斐波那契数列问题</title>
+    <link href="http://kangtian.coding.me/2018/08/21/JumpFloor/"/>
+    <id>http://kangtian.coding.me/2018/08/21/JumpFloor/</id>
+    <published>2018-08-21T11:16:15.000Z</published>
+    <updated>2018-10-07T08:55:38.469Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1、&lt;a href=&quot;https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/99145?fr=aladdin&quot; title=&quot;斐波那契数列&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
+    
+    
+      <category term="math" scheme="http://kangtian.coding.me/tags/math/"/>
     
   </entry>
   
@@ -548,32 +574,6 @@ public boolean
   int count=0;
   while (n!=0){
      
-        
-      
-    
-    </summary>
-    
-      <category term="剑指offer" scheme="http://kangtian.coding.me/categories/%E5%89%91%E6%8C%87offer/"/>
-    
-    
-      <category term="math" scheme="http://kangtian.coding.me/tags/math/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【剑指offer】 斐波那契数列问题</title>
-    <link href="http://kangtian.coding.me/2018/08/21/JumpFloor/"/>
-    <id>http://kangtian.coding.me/2018/08/21/JumpFloor/</id>
-    <published>2018-08-21T11:16:15.000Z</published>
-    <updated>2018-10-07T08:55:38.469Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;1、&lt;a href=&quot;https://baike.baidu.com/item/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/99145?fr=aladdin&quot; title=&quot;斐波那契数列&quot;
         
       
     

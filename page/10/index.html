@@ -373,222 +373,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/math/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/21/math/" itemprop="url">
-                  【剑指offer】  统计二进制1与指数的实现
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/21/math/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/math/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/21/math/" class="leancloud_visitors" data-flag-title="【剑指offer】  统计二进制1与指数的实现">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
-<pre><code>static   int  NumberOf1(int n) { //例如10101
-  int count=0;
-  while (n!=0){
-      count++;
-      n=n&amp;(n-1); //除去末尾1   10100&amp;10011=10000
-  }
-  return count;
-}
-</code></pre><p>2、给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
-<pre><code>public double Power(double base, int exponent) throws Exception {
-    int num=exponent;
-    double result=1;
-    if (exponent&lt;0) {//当指数为负数时，转为正数
-        exponent = -exponent;
-        if (base==0)
-            throw new Exception(&quot;base 不能等于0&quot;);
-    }
-    while (exponent!=0){
-        if ((exponent&amp;1)==1)//当末尾为零时
-            result*=base;
-        base*=base;//倍乘（二进制，每隔差一位为2倍，故应倍乘
-        exponent=exponent&gt;&gt;1;//乘或倍乘后右移一位，
-    }
-    return  num&gt;0?result:1/result; //当指数为负时，返回1/result。否则返回result
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/JumpFloor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -784,6 +568,222 @@ int last=1,latter=2,result=0; //用于缓存f(n-1) f(n-2)
         return result;
     }
 
+}
+</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/math/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/21/math/" itemprop="url">
+                  【剑指offer】  统计二进制1与指数的实现
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/21/math/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/math/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/21/math/" class="leancloud_visitors" data-flag-title="【剑指offer】  统计二进制1与指数的实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。</p>
+<pre><code>static   int  NumberOf1(int n) { //例如10101
+  int count=0;
+  while (n!=0){
+      count++;
+      n=n&amp;(n-1); //除去末尾1   10100&amp;10011=10000
+  }
+  return count;
+}
+</code></pre><p>2、给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。</p>
+<pre><code>public double Power(double base, int exponent) throws Exception {
+    int num=exponent;
+    double result=1;
+    if (exponent&lt;0) {//当指数为负数时，转为正数
+        exponent = -exponent;
+        if (base==0)
+            throw new Exception(&quot;base 不能等于0&quot;);
+    }
+    while (exponent!=0){
+        if ((exponent&amp;1)==1)//当末尾为零时
+            result*=base;
+        base*=base;//倍乘（二进制，每隔差一位为2倍，故应倍乘
+        exponent=exponent&gt;&gt;1;//乘或倍乘后右移一位，
+    }
+    return  num&gt;0?result:1/result; //当指数为负时，返回1/result。否则返回result
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
           
@@ -1021,7 +1021,7 @@ int last=1,latter=2,result=0; //用于缓存f(n-1) f(n-2)
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>

@@ -373,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/treeTraver/">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/treeutil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kangtian.poon">
@@ -392,251 +392,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/21/treeTraver/" itemprop="url">
-                  【剑指offer】  树的遍历
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/21/treeTraver/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/treeTraver/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/08/21/treeTraver/" class="leancloud_visitors" data-flag-title="【剑指offer】  树的遍历">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、利用递归的方式获取树的前序遍历结果</p>
-<pre><code> //获取树的前序遍历
-public static String preTraver(TreeNode root){
-    if (root!=null) {
-        re += root.val;
-        if (root.left != null)
-            preTraver(root.left);
-        if (root.right != null)
-            preTraver(root.right);
-    }
-    return re;
-}
-</code></pre><p>2、 利用递归的方式获取树的中序遍历结果</p>
-<pre><code>    //获取树的中序遍历
-public static String medTraver(TreeNode root){
-    if (root!=null) {
-        if (root.left != null)
-            medTraver(root.left);
-        re += root.val;
-        if (root.right != null)
-            medTraver(root.right);
-    }
-    return re;
-}
-</code></pre><p>3、利用递归的方式获取树的后序遍历结果</p>
-<pre><code>//获取树的后序遍历
-public static String aftTraver(TreeNode root){
-    if (root!=null) {
-        if (root.left != null)
-            preTraver(root.left);
-        if (root.right != null)
-            preTraver(root.right);
-        re += root.val;
-    }
-    return re;
-}
-</code></pre><p>4、利用队列实现层次遍历</p>
-<pre><code>//获取树的层次遍历
-public static String levelTraver(TreeNode root){
-    Queue&lt;TreeNode&gt; queue = new ArrayDeque&lt;TreeNode&gt;();
-    TreeNode node;
- if (root!=null)
-     queue.offer(root);
- while (!queue.isEmpty()){
-     node=queue.poll();
-     re+=node.val;
-     if (node.left!=null)
-         queue.offer(node.left);
-     if (node.right!=null)
-         queue.offer(node.right);
- }
-    return re;
-}
-</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/reOrderArray/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kangtian.poon">
-      <meta itemprop="description" content="description is 404">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FIRE Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/21/reOrderArray/" itemprop="url">
-                  【剑指offer】  重排数组
+                <a class="post-title-link" href="/2018/08/21/treeutil/" itemprop="url">
+                  【剑指offer】  树问题
                 </a>
               
             
@@ -711,8 +468,8 @@ public static String levelTraver(TreeNode root){
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/21/reOrderArray/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/reOrderArray/" itemprop="commentCount"></span>
+                <a href="/2018/08/21/treeutil/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/treeutil/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -720,7 +477,7 @@ public static String levelTraver(TreeNode root){
 
           
           
-             <span id="/2018/08/21/reOrderArray/" class="leancloud_visitors" data-flag-title="【剑指offer】  重排数组">
+             <span id="/2018/08/21/treeutil/" class="leancloud_visitors" data-flag-title="【剑指offer】  树问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -753,25 +510,324 @@ public static String levelTraver(TreeNode root){
       
         
           
-            <p>1、输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。</p>
-<pre><code>public void reOrderArray(int [] array) {
-    int len=array.length;
-    int[] arr=array.clone(); //拷贝一份数组
-    int p=0;
-    for (int i=0;i&lt;len;i++){//遍历拷贝数组，先插入奇数
-        if ((arr[i]&amp;1)==1){
-            array[p++]=arr[i];
-        }
+            <p>1、输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+<pre><code> //如果root2为root1的子树，则root2的前序遍历字段必为root1的子串
+public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+    if (root1==null||root2==null)//如果为空，则不必判断
+        return false;
+        String str1=preTraver(root1);//root1的前序遍历字段
+        re=&quot;&quot;;//置空前序遍历方法的结果串
+        String str2=preTraver(root2);//root2的前序遍历字段
+        if (str1.contains(str2)) //str1包含str2，则root2为root1的子树
+            return true;
+        else
+            return false;
+}
+</code></pre><p>2、操作给定的二叉树，将其变换为源二叉树的镜像。</p>
+<pre><code>/**操作给定的二叉树，将其变换为源二叉树的镜像。
+ * 可以用递归的方法将所有的节点的左右节点换位即可
+ * @param root
+ */
+public static void Mirror(TreeNode root) {
+     if (root==null)
+         return;
+        tem=root.left;//缓存左子树
+        root.left=root.right;//将右子树赋值给左子树
+        root.right=tem;//将左子树赋值给右子树
+        if (root.left!=null)
+            Mirror(root.left);//递归左子树
+        if (root.right!=null)
+            Mirror(root.right);//递归右子树
+}
+</code></pre><p>备注：</p>
+<pre><code>TreeNode类：
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+    public TreeNode(int val) {
+        this.val = val;
+}
+
+    //获取树的前序遍历
+public static String preTraver(TreeNode root){
+    if (root!=null) {
+        re += root.val;
+        if (root.left != null)
+            preTraver(root.left);
+        if (root.right != null)
+            preTraver(root.right);
     }
-    for (int i=0;i&lt;len;i++){//遍历拷贝数组，插入偶数
-        if ((arr[i]&amp;1)==0){
-            array[p++]=arr[i];
+    return re;
+}
+</code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kangtian.coding.me/2018/08/21/listNode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kangtian.poon">
+      <meta itemprop="description" content="description is 404">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FIRE Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/21/listNode/" itemprop="url">
+                  【剑指offer】  输出倒数第k个结点以及逆转指针
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建于：2018-08-21 19:16:15" itemprop="dateCreated datePublished" datetime="2018-08-21T19:16:15+08:00">2018-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-07 16:55:38" itemprop="dateModified" datetime="2018-10-07T16:55:38+08:00">2018-10-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/剑指offer/" itemprop="url" rel="index"><span itemprop="name">剑指offer</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/21/listNode/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/21/listNode/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/21/listNode/" class="leancloud_visitors" data-flag-title="【剑指offer】  输出倒数第k个结点以及逆转指针">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、输入一个链表，输出该链表中倒数第k个结点。</p>
+<pre><code>public ListNode FindKthToTail(ListNode head,int k) {
+    ListNode tem=head;//缓根节点
+    while (k&gt;0&amp;tem!=null) { //tem 先行到k处
+        tem = tem.next;
+        k--;
+    }
+    if(k!=0)
+        return null;
+    while (tem!=null){//head和tem一起向下走，当tem是尾节点。head所在位置恰好与tem相差k
+        head=head.next;
+        tem=tem.next;
+    }
+    return head;
+}
+</code></pre><p>2、输入一个链表，反转链表后，输出新链表的表头。</p>
+<pre><code>public ListNode ReverseList(ListNode head) {
+    ListNode buf=head; //buf&gt;listNode&gt;      1》2,》3,》4
+    ListNode pre=buf;    //pre&gt;buf&gt;listNode&gt;    1》2,》3,》4
+      if (head==null)
+            return  null;
+      while (head.next!=null){ //判断节点是否还有下一个元素
+        buf=head.next; //  buf&gt;2&gt;3&gt;4
+          head.next=buf.next;//   listNode&gt;1&gt;3&gt;4
+        buf.next=pre;//buf&gt;2&gt;1&gt;3&gt;4
+        pre=buf;//pre&gt;2&gt;1&gt;3&gt;4
+    }
+    return buf;
+}
+</code></pre><p>3、输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。</p>
+<pre><code>  public static ListNode Merge(ListNode list1,ListNode list2) {
+    ListNode head=list1;//记录头部节点
+    ListNode tem;
+    ListNode node;
+    while (list2!=null){// 以list1为链表，将list2插入list1，故判断list2是否为空
+        if (list1.next==null){//当list1已到达尾节点时，避免空指针
+            if (list1.val&lt;=list2.val) {//list1值小于list2值，则list2后续节点皆大于list2。故可直接将所有节点插入，跳出循环
+                list1.next = list2;
+                break;
+            }
+            else {//否则将list2的值插入list1前
+                node=new ListNode(list1.val);
+                list1.next=node;
+                list1.val=list2.val;
+                list1=list1.next;
+                list2=list2.next;
+            }
         }
-        if (p==len)//所有元素已经插入后，无需再继续遍历
-            break;
+        if (list1.val&lt;=list2.val){
+            if (list1.next.val&gt;list2.val) {//判断是否合适插入点
+                tem = list1.next;
+                node = new ListNode(list2.val);
+                list1.next = node;
+                node.next = tem;
+                list1=list1.next;
+                list2 = list2.next;
+            }
+            else//否则继续寻找合适插入点
+                list1=list1.next;
+        }else {//互换值，确保list1&lt;list2  （尚可以优化，按 list1.next.val&lt;list2.val）
+            int num=list1.val;
+            list1.val=list2.val;
+            list2.val=num;
+        }
+
+    }
+    return head;
+}
+</code></pre><p>备注：</p>
+<pre><code>class ListNode {
+    int val;
+    ListNode next = null;
+    ListNode(int val) {
+        this.val = val;
     }
 }
 </code></pre><center><a href="http://kangtian.coding.me">Coding Blog</a>     &nbsp;&nbsp;&nbsp;    <a href="http://pankangtian.github.io/" target="_blank" rel="noopener">Github Blog  </a> </center>
+
           
         
       

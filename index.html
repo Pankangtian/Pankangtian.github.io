@@ -419,12 +419,24 @@
                 
               
 
-              <time title="创建于：2018-10-22 12:12:30 / 更新于：13:28:30" itemprop="dateCreated datePublished" datetime="2018-10-22T12:12:30+08:00">2018-10-22</time>
+              <time title="创建于：2018-10-22 12:12:30" itemprop="dateCreated datePublished" datetime="2018-10-22T12:12:30+08:00">2018-10-22</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="更新于：2018-10-23 16:10:02" itemprop="dateModified" datetime="2018-10-23T16:10:02+08:00">2018-10-23</time>
               
             
           </span>
@@ -524,9 +536,22 @@ mysql&gt; FLUSH PRIVILEGES;
 <li>mysql配置文件my.ini 文件详解<br>文件详细配置不再详述，详情可<a href="https://www.cnblogs.com/SamWeb/p/7922490.html" target="_blank" rel="noopener">点击此处</a>     </li>
 </ol>
 <h3 id="三、mysql-语句"><a href="#三、mysql-语句" class="headerlink" title="三、mysql 语句"></a>三、mysql 语句</h3><ol>
-<li>表的创建</li>
+<li>表的创建<br>每一张表必须拥有主键，每一个字段尽量不要存储null，数据库对null值的处理成本相对是比较高的，对于每个字段可相应给于默认值。字段的命名要体现处字段的含义，字段名字不应该太长两到三个单词内最好，命名最好遵循驼峰规则。<pre><code>DROP TABLE
+IF EXISTS `user`;
+CREATE TABLE `USER` (
+    `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT &apos;主键&apos;,
+    `name` VARCHAR (20) NOT NULL DEFAULT &apos;&apos; COMMENT &apos;姓名&apos;,
+    `sex` enum (&apos;男&apos;, &apos;女&apos;) NOT NULL DEFAULT &apos;男&apos; COMMENT &apos;男 0 女 1 &apos;,
+    `job_id` INT NOT NULL DEFAULT 0 COMMENT &apos;工作，默认为0 即无职业&apos;,
+    `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &apos;创建时间&apos;,
+    `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &apos;更新时间&apos;,
+    `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT &apos;是否已删除， 0未 ，1 是&apos;,
+    INDEX (NAME),             #  UNIQUE
+    CONSTRAINT user_job FOREIGN KEY (job_id) REFERENCES JOB (id) #on delete cascade
+) ENGINE = INNODB CHARSET = utf8;
+</code></pre></li>
 </ol>
-
+<h3 id="四、-mysql优化建议"><a href="#四、-mysql优化建议" class="headerlink" title="四、 mysql优化建议"></a>四、 mysql优化建议</h3>
           
         
       

@@ -436,7 +436,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="更新于：2018-10-23 16:31:19" itemprop="dateModified" datetime="2018-10-23T16:31:19+08:00">2018-10-23</time>
+                <time title="更新于：2018-10-23 19:14:25" itemprop="dateModified" datetime="2018-10-23T19:14:25+08:00">2018-10-23</time>
               
             
           </span>
@@ -551,6 +551,24 @@ CREATE TABLE `USER` (
 ) ENGINE = INNODB CHARSET = utf8;
 </code></pre></li>
 </ol>
+<ol start="2">
+<li>查询<br>mysql 的基本查询格式如下      <pre><code>select 查询内容  
+  from 表名
+  where 表达式  
+  group by 字段名
+  having 表达式
+  order by 字段名
+  limit 记录数                    
+</code></pre>简单查询语句有     <pre><code>select * from user;  或        select name,age from user;
+select * from user where  age between 5 and 12;  #条件查询
+select * from user where  age &gt; 5 and age&lt; 12;  
+select * from user where age is NOT NULL; #非空查询
+select name from user where name like &apos;11__&apos;; #模糊查询
+select age from user where age not in (14,46); #in  / not in
+</code></pre>分组查询<br>select 查询内容 from 表名    group by 分组依据 [having表达式条件]  <pre><code>select NAME from user group by job_id having age&gt;18;
+</code></pre></li>
+</ol>
+<p>where 与 having：<br>    where 与 having关键字都用于设置条件表达式对查询结果进行过滤，区别是having后面可以跟聚合<br>    函数，而where不能，通常having关键字都与group by 一起使用，表示对分组后的数据进行过滤<br>order by用于排序， 排序条件 asc/desc，asc表示升序 desc表示降序<br>limit 用于限制 查询 具体返回哪几条记录</p>
 <h3 id="四、-mysql优化建议"><a href="#四、-mysql优化建议" class="headerlink" title="四、 mysql优化建议"></a>四、 mysql优化建议</h3>
           
         

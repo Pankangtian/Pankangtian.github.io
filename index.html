@@ -436,7 +436,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="更新于：2018-10-23 16:10:02" itemprop="dateModified" datetime="2018-10-23T16:10:02+08:00">2018-10-23</time>
+                <time title="更新于：2018-10-23 16:31:19" itemprop="dateModified" datetime="2018-10-23T16:31:19+08:00">2018-10-23</time>
               
             
           </span>
@@ -536,7 +536,7 @@ mysql&gt; FLUSH PRIVILEGES;
 <li>mysql配置文件my.ini 文件详解<br>文件详细配置不再详述，详情可<a href="https://www.cnblogs.com/SamWeb/p/7922490.html" target="_blank" rel="noopener">点击此处</a>     </li>
 </ol>
 <h3 id="三、mysql-语句"><a href="#三、mysql-语句" class="headerlink" title="三、mysql 语句"></a>三、mysql 语句</h3><ol>
-<li>表的创建<br>每一张表必须拥有主键，每一个字段尽量不要存储null，数据库对null值的处理成本相对是比较高的，对于每个字段可相应给于默认值。字段的命名要体现处字段的含义，字段名字不应该太长两到三个单词内最好，命名最好遵循驼峰规则。<pre><code>DROP TABLE
+<li>表的创建<br>必要：<br>每一张表必须拥有主键，主键最好采用int型，而企业级数据较大，采用bigint最好。字段的命名要体现处字段的含义，字段名字不应该太长两到三个单词内最好，命名最好遵循驼峰规则。字段属性应该根据存值的不同采用不同的类型，如果存储固定值的最好存为枚举或直接存为tinyint，字符串可采用varchar，尽量不要使用text blog等。数据库字段必须要有注释，这时一个很好的习惯。对于表的索引一定要酌情建立，不必要的索引坚决不要建立，索引的维护会增加数据库的负担。<br>建议：<br>每一个字段尽量不要存储null，数据库对null值的处理成本相对是比较高的，对于每个字段可相应给于默认值。每一张表可酌情添加create_time 、update_time 字段，并将其值交由数据库自行赋值（可参考面语句），数据尽量不要直接删除，最好使用软删除，即添加删除is_deleted标记字段。表之间可以用外键，但最好还是在应用级实现控制，尽量不要定义外键。<pre><code>DROP TABLE
 IF EXISTS `user`;
 CREATE TABLE `USER` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT &apos;主键&apos;,

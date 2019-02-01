@@ -1,0 +1,715 @@
+/**
+ * @authors sunwenxiu (sunwenxiu@fang.com)
+ * @date    2017-05-16
+ * @version $1.0$
+ */
+(function(window, $) {
+    // 统计
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (/micromessenger|qq\/|qzone\//.test(ua)) {
+        $.getScript('//static.soufunimg.com/common_m/m_public/jslib/weixin/2.0.0/weixinshare.js', function() {
+            new Weixin(wxconfig);
+        });
+    }
+    // 调用 点赞，人气，说一说
+    if (false === /debug/.test(window.location.href)) {
+        $.getScript('//static.soufunimg.com/count/load.min.js', function() {
+            window.dianping(window.pageConfig);
+        });
+    }
+})(window || this, jQuery);
+
+(function(window) {
+    var $ = window.jQuery;
+    // 网络协议
+    var protocol = location.protocol;
+    // 后台接口地址
+    var jkUrl;
+    var url;
+    /**
+     * 如果是https，则接口地址需要修改
+     * https://m.fang.com/public/img360/index.php?action=info&jsonpcallback=jQuery3110013513939685426024_1495694341653&_=1495694341654
+     * action 分别是 info pv message savemessage 其它参数不变
+     */
+    if (protocol === 'https:') {
+        jkUrl = protocol + '//m.fang.com/public/img360/index.php?action=';
+        url = {
+            // 人气
+            pv: jkUrl + 'pv',
+            // 点赞
+            up: jkUrl + 'up',
+            // 提交说一说
+            savemessage: jkUrl + 'savemessage',
+            // 获取说一说
+            message: jkUrl + 'message',
+            // 获取用户信息
+            user: jkUrl + 'info'
+        };
+    } else {
+        jkUrl = protocol + '//jk.adupload.fang.com/api';
+        url = {
+            // 人气
+            pv: jkUrl + '/hits/pv',
+            // 点赞
+            up: jkUrl + '/hits/up',
+            // 提交说一说
+            savemessage: jkUrl + '/comment/savemessage',
+            // 获取说一说
+            message: jkUrl + '/comment/message',
+            // 获取用户信息
+            user: jkUrl + '/user/info'
+        };
+    }
+    var krpano = null;
+    // 是否隐藏评论标识
+    var hidePl = false;
+    // // 点赞数 和人气数
+    // pageConfig.up = 0, pageConfig.pv = 0;
+    // // 全景id
+    // pageConfig.panoid = '';
+
+    /**
+     * 隐藏评论弹框
+     */
+    function hidePlBox () {
+        document.getElementById('plBoxDiv').style.visibility = 'hidden';
+    }
+
+    // 当前正在编辑的的评论热点数据
+    var editingHotspot = {
+        spotid: '',
+        ath: 0,
+        atv: 0
+    };
+    var page = {
+        current: 1,
+        totalcount: 0,
+        totalpage: 0,
+        commentList: {}
+    };
+    // 图片地址 存在img360上的media文件夹
+    var imgBaseUrl = protocol + '//img360.fang.com/2017/02/15/bj/720/31ec6fbb305540d2b7e6ae0d69258d96/html/media/';
+    var avatarUrl = protocol + '//imgtx.3g.fang.com/getavatar.api?userid=';
+    var user = {
+        userid: '',
+        username: '',
+        avatar: imgBaseUrl + 'tx.jpg'
+    };
+    // 场景id
+    var sceneid = -1;
+    var sfut = '';
+
+    function commonAjax (url, data, func) {
+        $.ajax({
+            async: false,
+            url: url,
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp: 'jsonpcallback',
+            data: data,
+            timeout: 5000,
+            success: func
+        });
+    }
+
+    function getUser () {
+        commonAjax(url.user, {}, function(json) {
+            if (json) {
+                if (json.result === 'success' && json.userid) {
+                    user.userid = json.userid;
+                    user.username = json.username;
+                    user.avatar = protocol + '//imgtx.3g.fang.com/getavatar.api?userid=' + user.userid;
+                } else {
+                    // showAlertBox(json.msg);
+                }
+            }
+        });
+    }
+
+    // 样式
+    var style = 'body,html{height:100%}@-ms-viewport{width:device-width}@media only screen and (min-device-width:800px){html' + '{overflow:hidden}}body{overflow:hidden;margin:0;padding:0}ol,ul{padding-left:0;list-style:none}._2tZ8vdL81Hi8k_vB{top:45%;' + 'bottom:110px;left:50%;margin-right:-50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);position:absolute;' + 'z-index:4300;height:179px;padding:12px 15px;background-color:rgba(51,51,51,.7);color:#fff}._3Q52RDP-PiRPJN4t{margin-bottom:10px;' + 'font-size:16px}._1nv3m88YNX23q57U{width:17px;margin-right:10px}._1nv3m88YNX23q57U,.wsYAB2Uco3Nqk09K{display:inline-block;vertical-align:top;' + 'height:16px}.wsYAB2Uco3Nqk09K{width:16px}._238G1-AW4GbX3YFv{display:inline-block;vertical-align:top;width:16px;height:15px}._1KlZ2pvMAVyHVzC5' + '{display:inline-block;margin-right:5px}._1YDFiBYWKfQzp-oA{width:100%;height:80px;padding:10px;line-height:20px;border:1px solid #eee;' + 'background-color:#f7f7f7}.wc0Zih2tDz8dV-h8{right:95px;bottom:12px;position:absolute}._21eDdiAQD2s7yfwV{right:15px;bottom:12px;position:absolute}' + '._5cMRKclg9Ajvu63L{bottom:20px;left:15px;position:absolute;margin-left:-30px}.list-inline{font-size:0}.list-inline li{display:inline-block;' + 'font-size:14px}a{color:inherit;text-decoration:none;background-color:transparent}._1E-DV_W2nNcnwisL:hover,._3-lvQf1dlCCGGM4_:hover{' + 'text-decoration:underline}.click{cursor:not-allowed;opacity:.5!important}.nlELEZuelbSSoPWl{display:inline-block;border-width:1px;' + 'border-style:solid;text-align:center}._1rJ5ij0CnHRxGqFd{margin-left:20px}._1uDqy-5_y5fqdK9G{display:inline-block;vertical-align:middle;' + 'margin-left:5px}._1VuAw-rD8lnXRaEb li{margin-left:30px;font-size:12px;line-height:30px}.msg{position:fixed;left:50%;top:50%;z-index:1999;' + 'text-align:center;width:10rem;background:rgba(0,0,0,.6);padding:1rem .5rem;margin-left:-3rem;transform:translateY(-50%);border-radius:.4rem;' + 'color:#fff;font-size:14px}.J_OcP4fTRlHvZejZ{z-index:10000000001}._3HAUwI3Cy2xzYFYl{position:relative;padding:30px 20px;background-color:#efefef;' + 'text-align:center}@media (max-width:767px){.J_OcP4fTRlHvZejZ{width:80%}._3HAUwI3Cy2xzYFYl{padding-right:0}._3XPu1Nv62xLBPhSf{border-right:0}}' + '._3qSjuwEJMh159fW{padding:30px 60px;line-height:24px}._3qSjuwEJMh159fW span{white-space:normal}._3gw2JoH0xbhOZbwR{font-size:21px;' + 'margin-bottom:20px}.SBEf22oUHK7YnP2R{margin-bottom:10px;color:red;text-align:left}._2OdRevpyuI9hP8iO,.wq1GUPh00ZMCmzlT{margin-bottom:10px;' + 'border-color:#ccc;background-color:#fff}._2OdRevpyuI9hP8iO{display:inline-block;width:100%;height:35px;color:#333}._7jhHUiDpVT0VZsk8:after{' + 'content:"";display:block;clear:both}._7jhHUiDpVT0VZsk8{padding-right:40px;padding-left:40px}._27mscGvPYCU6nXm3{float:left}._1iq8m1nyCCD32Dz-{' + 'cursor:pointer}._1eGTNIFSfMXZ9rtg{margin-right:5px}._3-lvQf1dlCCGGM4_{float:right}._3dN-o2faX6Tf1Lmt{top:75px;left:340px;position:absolute;' + 'text-align:left;line-height:20px}@media (max-width:767px){._3dN-o2faX6Tf1Lmt{display:none}}._1E-DV_W2nNcnwisL{color:#00a3d8}._35j2Fylfooh3kBZi{' + 'margin-top:40px}._31pcQX5280a4qkpq{display:inline-block;width:30px;height:30px;margin-right:10px;vertical-align:middle}._3P8q4fbf_fbgABDm{' + 'text-align:left}._2J-LkPIpzfj0dzCo{display:inline-block;float:right;margin-top:5px}.wq1GUPh00ZMCmzlT{display:inline-block;width:140px;' + 'height:35px;color:#333}._3g2xKfm-aVd79Eys{display:inline-block;float:right}.Gx6SzU9O6XChcn12{top:50%;left:50%;margin-right:-50%;' + '-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);position:fixed;z-index:10000000000;max-height:100%;' + 'background-color:#fff;color:#333;border:1px solid #000}.PRmIn4KmunO5ciUS{padding:10px 20px;background-color:#2d2d2d;color:#fff}._2uFTGcIdigyP5TdO{' + 'width:100%;height:100%}._1njVKeeUvduFBLRs{top:0;right:0;position:absolute;width:34px;height:34px;font-size:28px;line-height:34px;' + 'text-align:center;color:#aaa}._1njVKeeUvduFBLRs:hover{color:#fff}._2Kds9oxdzncx2kL4{top:0;right:0;bottom:0;left:0;position:fixed;' + 'z-index:4400;background-color:rgba(0,0,0,.7)}._1deZcZZk-zplzm4C{background-color:#2d2d2d;height:65px;padding-top:15px;text-align:center}' + '@media screen and (max-width:600px){._plWidth{width: 85%;}._dlWidth{width: 80%;}}@media screen and (min-width:600px){._plWidth{' + 'width: 400px;}._dlWidth{width: 500px;}}';
+    $(document.getElementsByTagName('style')[0]).append(style);
+    // 评论弹框
+    var plBox = '<div id="plBoxDiv" style="visibility: hidden">' + '<div class="_2tZ8vdL81Hi8k_vB _plWidth">' + '<div class="_3Q52RDP-PiRPJN4t"><img src="' + imgBaseUrl + 'title.png" class="_1nv3m88YNX23q57U">' + '<span class="_1KlZ2pvMAVyHVzC5">说一说</span></div>' + '<textarea class="_1YDFiBYWKfQzp-oA" maxlength="20" id="pubText" type="text" placeholder="随便说点吧！（20字以内，恶意留言将被封号！）"></textarea>' + '<a href="javascript: void 0;" id="pubBtn" class="nlELEZuelbSSoPWl wc0Zih2tDz8dV-h8 click"' + 'style="width: 20%; height: 35px; padding-left: 0px; padding-right: 0px; line-height: 33px; color: rgb(255, 255, 255);' + 'border-color: rgb(0, 163, 216); background-color: rgb(0, 163, 216);"">发表</a>' + '<a href="javascript: void 0;" id="cancle" class="nlELEZuelbSSoPWl _21eDdiAQD2s7yfwV"' + 'style="width: 70px; height: 35px; padding-left: 0px; padding-right: 0px; line-height: 33px;' + 'color: rgb(221, 221, 221); border-color: rgb(221, 221, 221); background-color: transparent;">取消</a>' + '<ul class="_5cMRKclg9Ajvu63L list-inline">' + '<li class="_1rJ5ij0CnHRxGqFd"><a id="hideBtn" href="javascript:void(0)">' + '<img src="' + imgBaseUrl + 'yc.png" class="wsYAB2Uco3Nqk09K">' + '<span class="_1uDqy-5_y5fqdK9G">隐 藏</span></a></li>' + '<li class="_1rJ5ij0CnHRxGqFd"><a id="changeBtn" href="javascript:void(0);">' + '<img src="' + imgBaseUrl + 'hyh.png" class="_238G1-AW4GbX3YFv">' + '<span class="_1uDqy-5_y5fqdK9G">换一批</span></a></li> </ul> </div> </div>';
+    var $root = $('#root');
+    $root.prepend(plBox);
+    // 说说已隐藏弹框
+    var alertBox = '<div id="msg" class="msg fromTop" style="display: none"><p></p></div>';
+    $root.append(alertBox);
+    // 登录弹框
+    var loginBox = '<div id="loginBox" style="display:none"><div class="Gx6SzU9O6XChcn12 J_OcP4fTRlHvZejZ _dlWidth"><div class="_2uFTGcIdigyP5TdO">' + '<div><div class="PRmIn4KmunO5ciUS"><!-- react-text: 62 -->登录房天下<!-- /react-text --><a id="closeLogin" href="javascript: void 0">' + '<div class="_1njVKeeUvduFBLRs">×</div></a></div>' + '<div class="_3HAUwI3Cy2xzYFYl">' + '<div class="_3gw2JoH0xbhOZbwR">请先登录房天下</div>' + '<div class="_3XPu1Nv62xLBPhSf">' + '<a href="javascript: void 0;" id="cancelLog" class="nlELEZuelbSSoPWl"' + 'style="width: 80px; height: 30px; padding-left: 0px; padding-right: 0px;' + 'line-height: 28px; color: rgb(255, 255, 255); border-color: rgb(0, 163, 216);' + 'background-color: rgb(0, 163, 216);">取消</a> <a href="#" id="login" class="nlELEZuelbSSoPWl"' + 'style="width: 80px; height: 30px; padding-left: 0px; padding-right: 0px;margin-left: 10px;' + 'line-height: 28px; color: rgb(255, 255, 255); border-color: rgb(0, 163, 216);' + 'background-color: rgb(0, 163, 216);">登录</a></div> </div> </div> </div> </div>' + '<div class="_2Kds9oxdzncx2kL4"></div></div>';
+    $root.append(loginBox);
+    $loginBox = $('#loginBox');
+
+    /**
+     * 移动热点位置时同步热点坐标
+     * @param ath
+     * @param atv
+     */
+    function synCoordinate (ath, atv) {
+        editingHotspot.ath = Number(ath).toFixed(2);
+        editingHotspot.atv = Number(atv).toFixed(2);
+    }
+
+    // 拖拽方法
+    var dragHotspot = 'spheretoscreen(ath, atv, hotspotcenterx, hotspotcentery, "l");' + 'sub(drag_adjustx, mouse.stagex, hotspotcenterx);' + 'sub(drag_adjusty, mouse.stagey, hotspotcentery);' + 'asyncloop(pressed,sub(dx, mouse.stagex, drag_adjustx);' + 'sub(dy, mouse.stagey, drag_adjusty);screentosphere(dx, dy, ath, atv);js("synCoordinate(get(ath), get(atv))"););';
+    // 添加评论内容
+    var addPlPlugin = 'set(plugin[get(tooltipname)].';
+    var addPlText = 'txtadd(tooltipname, "tooltip_", get(name));' + 'addplugin(get(tooltipname));' + 'txtadd(plugin[get(tooltipname)].parent, "hotspot[", get(name), "]");' + addPlPlugin + 'url,"%SWFPATH%/plugins/textfield.swf");' + addPlPlugin + 'align,center);' + addPlPlugin + 'edge,left);' + addPlPlugin + 'x,25);' + addPlPlugin + 'y,0);' + addPlPlugin + 'autowidth,true);' + addPlPlugin + 'autoheight,true);' + addPlPlugin + 'vcenter,true);' + addPlPlugin + 'background,true);' + addPlPlugin + 'backgroundcolor,0x000000);' + addPlPlugin + 'roundedge,5);' + addPlPlugin + 'backgroundalpha,0.6);' + addPlPlugin + 'padding,6 10);' + addPlPlugin + 'border,false);' + addPlPlugin + 'glow,0);' + addPlPlugin + 'glowcolor,0xFFFFFF);' + addPlPlugin + 'css,"text-align:center; color:#FFFFFF; font-family:STXihei;  font-size:14px;");' + 'if(device.mobile,' + addPlPlugin + 'css,"text-align:center; color:#FFFFFF; font-family:STXihei;  font-size:14px;"););' + addPlPlugin + 'textshadow,0);' + addPlPlugin + 'textshadowrange,6.0);' + addPlPlugin + 'textshadowangle,90);' + 'if(text == "" OR text === null,copy(plugin[get(tooltipname)].html,scene[get(linkedscene)].title),copy(plugin[get(tooltipname)].html,text));' + addPlPlugin + 'enabled,false);';
+    var $msg = $('#msg');
+
+    function getCookie (name) {
+        var arr, reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
+        if (arr = document.cookie.match(reg)) {
+            var str;
+            try {
+                str = decodeURIComponent(arr[2]);
+            } catch (e) {
+                str = unescape(arr[2]);
+            }
+            return str;
+        }
+        return '';
+    }
+
+    function setCookie (name, value, days) {
+        if (days === 0) {
+            document.cookie = name + '=' + encodeURIComponent(value);
+            return;
+        }
+        var exp = new Date();
+        isNaN(days) && (days = 3);
+        exp.setTime(exp.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + encodeURIComponent(value) + '; path=/; domain=fang.com;expires=' + exp.toGMTString();
+    }
+
+    function getGUID () {
+        var i = 0;
+        var result = '';
+        var pattern = '0123456789abcdefghijklmnopqrstuvwxyz';
+        for (i = 0; i < 25; i++) {
+            result += pattern.charAt(Math.round(Math.random() * 36));
+        }
+        var time = new Date().getTime();
+        var str = '00000000' + time.toString(16).toLocaleLowerCase();
+        var len = str.length;
+        result += str.substring(len - 10);
+        return result;
+    }
+
+    /**
+     * 显示评论弹框
+     */
+    function showPlBox () {
+        if (plBoxDiv.style.visibility === 'visible') {
+            // 如果已经显示了不做处理
+            return;
+        }
+        // 清空评论弹框输入框内容
+        document.getElementById('pubText').value = '';
+        plBoxDiv.style.visibility = 'visible';
+        if (hidePl === true) {
+            hidePl = false;
+            // 更新说一说图标
+            krpano.call('set(layer[counttext].url,' + imgBaseUrl + 'sys.png));');
+            // 调取评论弹框时 重新调取评论数据 显示
+            getData(sceneid);
+            // 各个场景添加切换监听 加载评论内容
+            for (var i = 0; i < sceneLen; i++) {
+                if (i !== +sceneid) {
+                    krpano.call('callwhen(scene[get(xml.scene)].index == ' + i + ', js(loadHotspot(' + i + ')));');
+                }
+            }
+        }
+        // 获取当前视角的坐标位置
+        var mouseAth = Number(krpano.get('view.hlookat')).toFixed(2);
+        var mouseAtv = Number(krpano.get('view.vlookat') - 10).toFixed(2);
+        editingHotspot.ath = mouseAth;
+        editingHotspot.atv = mouseAtv;
+        // 随机生成一个热点id
+        var spotname = 'spot1' + Math.round(Math.random() * 1000);
+        editingHotspot.spotid = spotname;
+        var str = '';
+        var headImg = user.avatar;
+        var a = 'set(hotspot[' + spotname + '].';
+        str += 'addhotspot(' + spotname + ');';
+        str += a + 'url,' + headImg + ');';
+        str += a + 'keep_view,0);';
+        str += a + 'ath,' + mouseAth + ');';
+        str += a + 'atv,' + mouseAtv + ');';
+        str += a + 'width,30px);';
+        str += a + 'height,30px);';
+        str += a + 'text,随便说点吧！（20字以内，恶意留言将被封号！）);';
+        str += a + 'onloaded,' + addPlText + ');';
+        // 设置可拖拽
+        str += a + 'ondown,' + dragHotspot + ');';
+        krpano.call(str);
+    }
+
+    /**
+     * 获取说一说列表
+     * @param index 场景id
+     */
+    function getData (index) {
+        // 初始化用户评论热点
+        commonAjax(url.message, {
+            panoid: pageConfig.panoid,
+            page: editingHotspot.current,
+            scene: sceneid
+        }, function(json) {
+            if (json) {
+                if (json.result === 'success') {
+                    editingHotspot.current = json.current;
+                    editingHotspot.totalcount = json.totalcount;
+                    editingHotspot.totalpage = json.totalpage;
+                    var list = json.list;
+                    if (list && list.length > 0) {
+                        for (var i = 0; i < list.length; i++) {
+                            renderHotspot(list[i], index);
+                        }
+                    }
+                } else {
+                    // showAlertBox(json.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 场景切换监听方法
+     * @param index 场景id
+     */
+    function loadHotspot (index) {
+        if (hidePl || sceneid === index) {
+            // 评论隐藏时 不加载评论内容
+            return;
+        }
+        if (plBoxDiv.style.visibility === 'visible') {
+            // 切换场景时 如果评论弹框还在显示将其隐藏
+            hidePlBox();
+        }
+        if (sceneid !== -1) {
+            krpano.call('callwhen(scene[get(xml.scene)].index == ' + sceneid + ', js(loadHotspot(' + sceneid + ')));');
+        }
+        sceneid = index;
+        // 获取评论数据以及头像
+        getData(index);
+    }
+
+    // 渲染评论头像和内容
+    /**
+     *
+     * @param data 数据
+     * @param index 对应场景id
+     */
+    function renderHotspot (data, index) {
+        var spotname = 'spot1' + Math.round(Math.random() * 1000);
+        var str = '';
+        var a = 'set(hotspot[' + spotname + '].';
+        str += 'addhotspot(' + spotname + ');';
+        str += a + 'url,' + avatarUrl + data.userid + ');'; // 拼avatar地址，调用头像。
+
+        str += a + 'keep_view,0);';
+        str += a + 'panoindex,' + index + ');';
+        str += a + 'ath,' + data.ath + ');';
+        str += a + 'atv,' + data.atv + ');';
+        str += a + 'width,30px);';
+        str += a + 'height,30px);';
+        str += a + 'text,"");';
+        // 标识评论类型的热点
+        str += a + 'pvType, true);';
+        str += a + 'onloaded,' + addPlText + ');updateobject(true,true);';
+        krpano.call(str);
+        krpano.call(a + 'text,' + data.message + ');');
+    }
+
+    /**
+     * 提醒弹框
+     * @param text 提醒内容
+     */
+    function showAlertBox (text) {
+        $msg.find('p').text(text);
+        $msg.fadeIn();
+        setTimeout(function() {
+            $msg.fadeOut();
+        }, 1000);
+    }
+
+    /**
+     * 点赞方法
+     */
+    function getDz () {
+        if (localStorage.getItem('hasDz') === 'true') {
+            // 用户已经点过赞 不做处理
+            showAlertBox('您已经点过赞了！');
+            return;
+        }
+        commonAjax(url.up, {
+            panoid: pageConfig.panoid,
+            up: true
+        }, function(json) {
+            if (json) {
+                if (json.result === 'success') {
+                    pageConfig.up = json.up;
+                    krpano.call('set(layer[dzdztext].html,' + pageConfig.up + ');');
+                    krpano.call('set(layer[dz].url,' + imgBaseUrl + 'dz2.png));');
+                    // document.cookie = user.userid + '=' + 'true';
+                    localStorage.setItem('hasDz', 'true');
+                } else {
+                    // showAlertBox(json.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新点赞图标 标识为已经点过赞
+     */
+    function showHasDz () {
+        if (localStorage.getItem('hasDz') === 'true') {
+            // 用户已经点过赞 设置为已经点过赞图标
+            krpano.call('set(layer[dz].url,' + imgBaseUrl + 'dz2.png));');
+        }
+    }
+
+    window.synCoordinate = synCoordinate;
+    window.showPlBox = showPlBox;
+    window.loadHotspot = loadHotspot;
+    window.showHasDz = showHasDz;
+    window.getDz = getDz;
+    /**
+     * [dianping description]
+     * @return {[type]} [description]
+     */
+    window.dianping = function(pageConfig) {
+        krpano = document.getElementById('krpanoSWFObject');
+        // 页面初始化判断是否有sfut
+        sfut = getCookie('sfut');
+        if (sfut) {
+            getUser();
+        }
+        if (!getCookie('global_cookie')) {
+            setCookie('global_cookie', getGUID(), 1);
+        }
+        // 页面初始化 人气 和 加载点赞数
+        var pvup = {
+            pv: 0,
+            up: 0
+        };
+        // 当前场景的个数
+        var sceneLen = krpano.get('scene').getArray().length;
+        var hasIntro = false;
+        function addlayers () {
+            // 懒加载图标 与默认分组/详情等内容的显示时间保持一致
+            var lazyLoad = 'if(hotspot[hotspot_0],callwhen(hotspot[hotspot_0].loaded, wait(0.5);set(layer[get(name)].visible, true);jscall("showHasDz()")), ' + 'wait(5.5);set(layer[get(name)].visible, true);jscall("showHasDz()"))';
+            var setValueStr = '';
+            if (pageConfig.pv) {
+                // 添加人气按钮
+                var renqi = '';
+                setValueStr = 'set(layer[renqi].';
+                renqi += 'addlayer(renqi);';
+                renqi += setValueStr + 'url,plugin/textfield.swf);';
+                renqi += setValueStr + 'align,lefttop);';
+                renqi += setValueStr + 'backgroundalpha,0);';
+                renqi += setValueStr + 'visible,false);';
+                renqi += setValueStr + 'keep,true);';
+                renqi += setValueStr + 'preload,true);';
+                renqi += setValueStr + 'css,font-family:STXihei; font-size:16px;color:#fff);';
+                renqi += setValueStr + 'html,人气：' + pvup.pv + ');';
+                renqi += setValueStr + 'embeddedfonts,true);';
+                renqi += setValueStr + 'padding,10 150);';
+                renqi += setValueStr + 'onloaded,' + lazyLoad + ');';
+                krpano.call(renqi);
+            }
+
+            // 标识是否有简介图标
+            hasIntro = hasIntroIcon(krpano, hasIntro);
+            if (pageConfig.message) {
+                // 添加说一说图片按钮
+                var sys = '';
+                setValueStr = 'set(layer[counttext].';
+                sys += 'addlayer(counttext);';
+                sys += setValueStr + 'url,' + imgBaseUrl + 'sys.png);';
+                sys += setValueStr + 'align,rightbottom);';
+                sys += setValueStr + 'x,20px);';
+                if (hasIntro) {
+                    sys += setValueStr + 'x,65px);';
+                }
+                // sys += setValueStr + 'y,3.8%);';
+                sys += setValueStr + 'y,30);';
+                sys += setValueStr + 'visible,false);';
+                sys += setValueStr + 'keep,true);';
+                sys += setValueStr + 'preload,true);';
+                sys += setValueStr + 'width,36px);';
+                sys += setValueStr + 'height,36px);';
+                sys += setValueStr + 'onclick,jscall("showPlBox()"));';
+                sys += setValueStr + 'onloaded,' + lazyLoad + ');';
+                krpano.call(sys);
+                // 添加说一说文字
+                var sysText = '';
+                setValueStr = 'set(layer[systext].';
+                sysText += 'addlayer(systext);';
+                sysText += setValueStr + 'url,plugin/textfield.swf);';
+                sysText += setValueStr + 'align,rightbottom);';
+                sysText += setValueStr + 'backgroundalpha,0);';
+                sysText += setValueStr + 'x,20px);';
+                if (hasIntro) {
+                    sysText += setValueStr + 'x,64px);';
+                }
+                // sysText += setValueStr + 'y,0.7%);';
+                sysText += setValueStr + 'y,10);';
+                sysText += setValueStr + 'visible,false);';
+                sysText += setValueStr + 'keep,true);';
+                sysText += setValueStr + 'preload,false);';
+                sysText += setValueStr + 'css,font-family:STXihei; font-size:1.2rem;color:#fff);';
+                sysText += setValueStr + 'html,说一说);';
+                sysText += setValueStr + 'embeddedfonts,true);';
+                sysText += setValueStr + 'onloaded,' + lazyLoad + ');';
+                krpano.call(sysText);
+                // 各个场景添加切换监听 加载评论内容
+                for (var i = 0; i < sceneLen; i++) {
+                    krpano.call('callwhen(scene[get(xml.scene)].index == ' + i + ', js(loadHotspot(' + i + ')));');
+                }
+            }
+            if (pageConfig.up) {
+                // 添加点赞图片按钮
+                var dz = '';
+                setValueStr = 'set(layer[dz].';
+                dz += 'addlayer(dz);';
+                dz += setValueStr + 'url,' + imgBaseUrl + 'dz.png);';
+                dz += setValueStr + 'align,rightbottom);';
+                dz += setValueStr + 'style,rightbottom);';
+                dz += setValueStr + 'x,65px);';
+                if (hasIntro) {
+                    dz += setValueStr + 'x,115px);';
+                }
+                dz += setValueStr + 'y,30);';
+                dz += setValueStr + 'visible,false);';
+                dz += setValueStr + 'keep,true);';
+                dz += setValueStr + 'preload,true);';
+                dz += setValueStr + 'width,36px);';
+                dz += setValueStr + 'height,36px);';
+                dz += setValueStr + 'onclick,jscall("getDz()"));';
+                dz += setValueStr + 'onloaded,' + lazyLoad + ');';
+                krpano.call(dz);
+                // 添加点赞文字
+                var dzdztext = '';
+                setValueStr = 'set(layer[dzdztext].';
+                dzdztext += 'addlayer(dzdztext);';
+                dzdztext += setValueStr + 'url,plugin/textfield.swf);';
+                dzdztext += setValueStr + 'align,rightbottom);';
+                dzdztext += setValueStr + 'backgroundalpha,0);';
+                dzdztext += setValueStr + 'x,74px);';
+                if (hasIntro) {
+                    dzdztext += setValueStr + 'x,124px);';
+                }
+                dzdztext += setValueStr + 'y,10);';
+                dzdztext += setValueStr + 'visible,false);';
+                dzdztext += setValueStr + 'keep,true);';
+                dzdztext += setValueStr + 'preload,true);';
+                dzdztext += setValueStr + 'css,font-family:STXihei;text-align:center; font-size:1.2rem;color:#fff);';
+                dzdztext += setValueStr + 'html,' + pvup.up + ');';
+                dzdztext += setValueStr + 'embeddedfonts,true);';
+                dzdztext += setValueStr + 'onloaded,' + lazyLoad + ');';
+                krpano.call(dzdztext);
+            }
+        }
+        // 评论内容输入框
+        var $pubText = $('#pubText');
+        // 发表评论按钮
+        var $pubBtn = $('#pubBtn');
+        // 登陆取消
+        $('#cancelLog').on('click', function() {
+            $loginBox.hide();
+        });
+        // 关闭登陆弹框
+        $('#closeLogin').on('click', function() {
+            $loginBox.hide();
+        });
+        // 获取人气及点赞值
+        commonAjax(url.pv, {
+            panoid: pageConfig.panoid
+        }, function(json) {
+            if (json) {
+                if (json.result === 'success') {
+                    pvup.up = json.up || 0;
+                    pvup.pv = json.pv || 0;
+                    // setTimeout(function() {
+                    //     krpano.call('set(layer[renqi].html,人气：' + pvup.pv + ');');
+                    //     krpano.call('set(layer[dzdztext].html,' + pvup.up + ');');
+                    // }, 5000);
+                }
+            }
+            addlayers();
+        });
+        // 如果没有判断到简介，再判断一次。
+        setTimeout(function() {
+            if (!hasIntro) {
+                hasIntro = hasIntroIcon(krpano, hasIntro);
+                if (hasIntro) {
+                    krpano.call('set(layer[counttext].x,65px);');
+                    krpano.call('set(layer[systext].x,64px);');
+                    krpano.call('set(layer[dz].x,115px);');
+                    krpano.call('set(layer[dzdztext].x,124px);');
+                }
+            }
+        }, 6000);
+
+        //
+        function hasIntroIcon (krpano, hasIntro) {
+            if (!hasIntro) {
+                var layerElems = krpano.get('layer');
+                for (var k = 0; k < layerElems.count; k++) {
+                    var item = layerElems.getItem(k);
+                    if (item.name === 'intro_layer') {
+                        // 遍历查找页面中是否有简介图标
+                        hasIntro = true;
+                        break;
+                    }
+                }
+            }
+            return hasIntro;
+        }
+
+        /**
+         * true为PC端，false为手机端
+         * @returns {boolean}
+         * @constructor
+         */
+        function IsPC () {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ['Android', 'iPhone',
+                'SymbianOS', 'Windows Phone',
+                'iPad', 'iPod'
+            ];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        // 用户登录
+        $('#login').on('click', function() {
+            if (IsPC()) {
+                location.href = 'https://passport.fang.com/?backurl=' + location.href;
+            } else {
+                location.href = 'https://m.fang.com/passport/login.aspx?burl=' + location.href;
+            }
+        });
+
+        /**
+         * 评论框获取焦点的时候校验是否登录
+         */
+        $pubText.on('focus', function() {
+            if (!sfut) {
+                // 用户未登录 显示登录页
+                $loginBox.show();
+                $pubText.blur();
+            }
+        });
+
+        /**
+         * 评论弹框输入处理
+         */
+        $pubText.on('input', function() {
+            var value = $(this).val();
+            if (value) {
+                // 输入评论内容时实时更新热点内容
+                krpano.call('set(hotspot[' + editingHotspot.spotid + '].text,' + value + ');');
+                krpano.call('set(plugin[tooltip_' + editingHotspot.spotid + '].html,' + value + ');');
+                // 输入内容后才能点击发表按钮
+                $pubBtn.removeClass('click');
+            }
+        });
+        // 隐藏评论内容
+        function hidePL () {
+            hidePl = true;
+            var hideStr = 'for(set(i,0),i LT hotspot.count,inc(i),' + 'if(hotspot[get(i)].pvType === true AND hotspot[get(i)].visible,' + 'set(hotspot[get(i)].visible,false);' + 'set(hotspot[get(i)].qr,true);););';
+            krpano.call(hideStr);
+            krpano.call('set(layer[counttext].url,' + imgBaseUrl + 'sys2.png));');
+            krpano.call('removehotspot(' + editingHotspot.spotid + ');removeplugin(tooltip_' + editingHotspot.spotid + ')');
+        }
+
+        // 点击取消关闭评论弹框
+        $('#cancle').on('click', function() {
+            hidePlBox();
+            krpano.call('removehotspot(' + editingHotspot.spotid + ');removeplugin(tooltip_' + editingHotspot.spotid + ')');
+        });
+
+        // 发表评论
+        $pubBtn.on('click', function() {
+            var pubText = $pubText.val();
+            if (!pubText) {
+                return;
+            }
+            commonAjax(url.savemessage, {
+                panoid: pageConfig.panoid,
+                content: pubText,
+                scene: sceneid,
+                ath: editingHotspot.ath,
+                atv: editingHotspot.atv,
+                userid: user.userid,
+                avatar: user.avatar
+            }, function(json) {
+                if (json) {
+                    if (json.result === 'success') {
+                        // 添加成功之后禁止可拖拽
+                        krpano.call('set(hotspot[' + editingHotspot.spotid + '].ondown,"");');
+                        // 标识评论类型的热点
+                        krpano.call('set(hotspot[' + editingHotspot.spotid + '].pvType, true);');
+                        hidePlBox();
+                        $pubBtn.addClass('click');
+                    } else {
+                        // showAlertBox(json.msg);
+                    }
+                }
+            });
+        });
+        // 隐藏评论
+        $('#hideBtn').on('click', function() {
+            // 各个场景添加切换监听 加载评论内容
+            for (var i = 0; i < sceneLen; i++) {
+                if (i !== +sceneid) {
+                    krpano.call('callwhen(scene[get(xml.scene)].index == ' + i + ', js(loadHotspot(' + i + ')));');
+                }
+            }
+            hidePl = true;
+            hidePL();
+            hidePlBox();
+            // 显示说说已隐藏弹框
+            showAlertBox('说说已隐藏');
+        });
+        // 换一换评论
+        $('#changeBtn').on('click', function() {
+            editingHotspot.current++;
+            if (editingHotspot.current > editingHotspot.totalpage) {
+                // 控制循环加载评论
+                editingHotspot.current = 1;
+            }
+            this.commonAjax(url.message, {
+                panoid: pageConfig.panoid,
+                page: editingHotspot.current,
+                scene: sceneid
+            }, function(json) {
+                if (json) {
+                    if (json.result === 'success') {
+                        editingHotspot.current = json.current;
+                        editingHotspot.totalcount = json.totalcount;
+                        editingHotspot.totalpage = json.totalpage;
+                        hidePL();
+                        var list = json.list;
+                        for (var i = 0; i < list.length; i++) {
+                            renderHotspot(list[i]);
+                        }
+                    } else {
+                        // showAlertBox(json.msg);
+                    }
+                }
+            });
+        });
+    };
+})(window || this);
